@@ -22,7 +22,7 @@ RUN cd /tmp && \
     ldconfig && \
     rm -rf /tmp/lz4-*
 
-RUN ldd /usr/bin/xtrabackup | grep lz4 && \
+RUN ldd /usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup | grep lz4 && \
     ls -la /usr/lib64/liblz4.so*
 
 USER mysql

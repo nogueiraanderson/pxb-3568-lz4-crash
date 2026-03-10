@@ -196,7 +196,7 @@ main() {
 
     # Record xtrabackup version
     docker exec lz4-pxc-node1 bash -c \
-        "xtrabackup --version 2>&1; echo '---'; ldd /usr/bin/xtrabackup | grep lz4; echo '---'; rpm -q lz4-libs" \
+        "/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup --version 2>&1; echo '---'; ldd /usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup | grep lz4; echo '---'; rpm -q lz4-libs" \
         > "$EVIDENCE/before/xtrabackup-version.txt" 2>&1 || true
 
     before_crashed=false
@@ -249,7 +249,7 @@ main() {
 
     # Record xtrabackup version
     docker exec lz4-pxc-node1 bash -c \
-        "xtrabackup --version 2>&1; echo '---'; ldd /usr/bin/xtrabackup | grep lz4; echo '---'; rpm -q lz4-libs" \
+        "/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup --version 2>&1; echo '---'; ldd /usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup | grep lz4; echo '---'; rpm -q lz4-libs" \
         > "$EVIDENCE/after/xtrabackup-version.txt" 2>&1 || true
 
     after_crashed=false

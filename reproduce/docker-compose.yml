@@ -8,6 +8,28 @@
 x-pxc-common: &pxc-common
   image: ${PXC_IMAGE:-percona/percona-xtradb-cluster:8.0.45}
   privileged: true
+  entrypoint:
+    - /bin/bash
+    - -c
+    - |
+      # Write config before the PXC entrypoint runs (must be early
+      # enough to disable cluster encryption before SSL cert generation)
+      cat > /etc/percona-xtradb-cluster.conf.d/lab.cnf <<'CNF'
+      [mysqld]
+      pxc_encrypt_cluster_traffic=OFF
+      innodb_buffer_pool_size=256M
+      innodb_log_file_size=128M
+      innodb_flush_log_at_trx_commit=0
+      wsrep_sst_method=xtrabackup-v2
+
+      [sst]
+      encrypt=0
+
+      [xtrabackup]
+      compress=lz4
+      compress-chunk-size=65534
+      CNF
+      exec /entrypoint.sh mysqld
   networks:
     - pxc-net
 
@@ -23,7 +45,6 @@ services:
       CLUSTER_NAME: lz4-test
       CLUSTER_JOIN:
     volumes:
-      - ./my.cnf:/etc/percona-xtradb-cluster.conf.d/lz4.cnf:ro
       - node1-data:/var/lib/mysql
       - node1-logs:/var/log
 
@@ -38,7 +59,6 @@ services:
       CLUSTER_NAME: lz4-test
       CLUSTER_JOIN: lz4-pxc-node1
     volumes:
-      - ./my.cnf:/etc/percona-xtradb-cluster.conf.d/lz4.cnf:ro
       - node2-data:/var/lib/mysql
       - node2-logs:/var/log
 
@@ -53,7 +73,6 @@ services:
       CLUSTER_NAME: lz4-test
       CLUSTER_JOIN: lz4-pxc-node1
     volumes:
-      - ./my.cnf:/etc/percona-xtradb-cluster.conf.d/lz4.cnf:ro
       - node3-data:/var/lib/mysql
       - node3-logs:/var/log
 
