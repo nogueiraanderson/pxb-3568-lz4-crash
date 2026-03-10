@@ -1,0 +1,318 @@
+2026-03-10T21:43:32.404572-00:00 0 [Note] [MY-011825] [Xtrabackup] recognized server arguments: --datadir=/var/lib/mysql --innodb_flush_log_at_trx_commit=2 --innodb_flush_method=O_DIRECT --innodb_file_per_table=1 
+2026-03-10T21:43:32.404698-00:00 0 [Note] [MY-011825] [Xtrabackup] recognized client arguments: --socket=/tmp/mysql.sock --backup=1 --user=root --password=* --compress=lz4 --compress-chunk-size=65534 --target-dir=/tmp/backup-lz4 --no-server-version-check=1 
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup version 8.0.35-35 based on MySQL server 8.0.35 Linux (aarch64) (revision id: c9efec73)
+Can't locate English.pm in @INC (you may need to install the English module) (@INC contains: /usr/local/lib64/perl5/5.32 /usr/local/share/perl5/5.32 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at - line 3.
+BEGIN failed--compilation aborted at - line 3.
+2026-03-10T21:43:32.422991-00:00 0 [Note] [MY-011825] [Xtrabackup] Connecting to MySQL server host: localhost, user: root, password: set, port: not set, socket: /tmp/mysql.sock
+2026-03-10T21:43:32.518742-00:00 0 [Note] [MY-011825] [Xtrabackup] Using server version 8.0.45-36.1
+2026-03-10T21:43:32.532011-00:00 0 [Note] [MY-011825] [Xtrabackup] Executing LOCK TABLES FOR BACKUP ...
+2026-03-10T21:43:32.610015-00:00 0 [Note] [MY-011825] [Xtrabackup] uses posix_fadvise().
+2026-03-10T21:43:32.610052-00:00 0 [Note] [MY-011825] [Xtrabackup] cd to /var/lib/mysql
+2026-03-10T21:43:32.610281-00:00 0 [Note] [MY-011825] [Xtrabackup] open files limit requested 0, set to 1048576
+2026-03-10T21:43:32.616475-00:00 0 [Note] [MY-011825] [Xtrabackup] using the following InnoDB configuration:
+2026-03-10T21:43:32.616502-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_data_home_dir = .
+2026-03-10T21:43:32.616505-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_data_file_path = ibdata1:12M:autoextend
+2026-03-10T21:43:32.617610-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_group_home_dir = ./
+2026-03-10T21:43:32.617645-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_files_in_group = 2
+2026-03-10T21:43:32.617662-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_file_size = 134217728
+2026-03-10T21:43:32.617720-00:00 0 [Note] [MY-011825] [Xtrabackup] using O_DIRECT
+2026-03-10T21:43:32.632112-00:00 0 [Note] [MY-011825] [Xtrabackup] inititialize_service_handles suceeded
+2026-03-10T21:43:32.848342-00:00 0 [Note] [MY-011825] [Xtrabackup] Connecting to MySQL server host: localhost, user: root, password: set, port: not set, socket: /tmp/mysql.sock
+2026-03-10T21:43:32.855743-00:00 0 [Note] [MY-011825] [Xtrabackup] Redo Log Archiving is not set up.
+2026-03-10T21:43:32.978420-00:00 0 [Note] [MY-011825] [Xtrabackup] Starting to parse redo log at lsn = 19095078
+2026-03-10T21:43:32.980516-00:00 0 [Note] [MY-012564] [InnoDB] Recovery parsing buffer extended to 4194304.
+2026-03-10T21:43:32.982260-00:00 0 [Note] [MY-012564] [InnoDB] Recovery parsing buffer extended to 8388608.
+2026-03-10T21:43:33.188610-00:00 1 [Note] [MY-011825] [Xtrabackup] >> log scanned up to (168491387)
+2026-03-10T21:43:33.190855-00:00 0 [Note] [MY-012953] [InnoDB] Disabling background ibuf IO read threads.
+2026-03-10T21:43:33.391923-00:00 0 [Note] [MY-011825] [Xtrabackup] Generating a list of tablespaces
+2026-03-10T21:43:33.391997-00:00 0 [Note] [MY-012204] [InnoDB] Scanning './'
+2026-03-10T21:43:33.395273-00:00 0 [Note] [MY-012208] [InnoDB] Completed space ID check of 2 files.
+2026-03-10T21:43:33.395801-00:00 0 [Warning] [MY-012091] [InnoDB] Allocated tablespace ID 5 for pxb3568/t, old maximum was 0
+2026-03-10T21:43:33.396927-00:00 0 [Note] [MY-013252] [InnoDB] Using undo tablespace './undo_001'.
+2026-03-10T21:43:33.397348-00:00 0 [Note] [MY-013252] [InnoDB] Using undo tablespace './undo_002'.
+2026-03-10T21:43:33.397975-00:00 0 [Note] [MY-012910] [InnoDB] Opened 2 existing undo tablespaces.
+2026-03-10T21:43:33.398545-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./ibdata1 to /tmp/backup-lz4/ibdata1.lz4
+2026-03-10T21:43:33.421579-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./ibdata1 to /tmp/backup-lz4/ibdata1.lz4
+2026-03-10T21:43:33.424542-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./sys/sys_config.ibd to /tmp/backup-lz4/sys/sys_config.ibd.lz4
+2026-03-10T21:43:33.425492-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./sys/sys_config.ibd to /tmp/backup-lz4/sys/sys_config.ibd.lz4
+2026-03-10T21:43:33.428135-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./mysql/wsrep_cluster.ibd to /tmp/backup-lz4/mysql/wsrep_cluster.ibd.lz4
+2026-03-10T21:43:33.428608-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./mysql/wsrep_cluster.ibd to /tmp/backup-lz4/mysql/wsrep_cluster.ibd.lz4
+2026-03-10T21:43:33.430658-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./mysql/wsrep_cluster_members.ibd to /tmp/backup-lz4/mysql/wsrep_cluster_members.ibd.lz4
+2026-03-10T21:43:33.431040-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./mysql/wsrep_cluster_members.ibd to /tmp/backup-lz4/mysql/wsrep_cluster_members.ibd.lz4
+2026-03-10T21:43:33.433733-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./mysql/wsrep_streaming_log.ibd to /tmp/backup-lz4/mysql/wsrep_streaming_log.ibd.lz4
+2026-03-10T21:43:33.434070-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./mysql/wsrep_streaming_log.ibd to /tmp/backup-lz4/mysql/wsrep_streaming_log.ibd.lz4
+2026-03-10T21:43:33.436258-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./pxb3568/t.ibd to /tmp/backup-lz4/pxb3568/t.ibd.lz4
+2026-03-10T21:43:33.523618-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./pxb3568/t.ibd to /tmp/backup-lz4/pxb3568/t.ibd.lz4
+2026-03-10T21:43:33.527535-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./mysql.ibd to /tmp/backup-lz4/mysql.ibd.lz4
+2026-03-10T21:43:33.571177-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./mysql.ibd to /tmp/backup-lz4/mysql.ibd.lz4
+2026-03-10T21:43:33.595484-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./undo_002 to /tmp/backup-lz4/undo_002.lz4
+2026-03-10T21:43:33.616369-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./undo_002 to /tmp/backup-lz4/undo_002.lz4
+2026-03-10T21:43:33.618763-00:00 2 [Note] [MY-011825] [Xtrabackup] Compressing ./undo_001 to /tmp/backup-lz4/undo_001.lz4
+2026-03-10T21:43:33.643145-00:00 2 [Note] [MY-011825] [Xtrabackup] Done: Compressing ./undo_001 to /tmp/backup-lz4/undo_001.lz4
+2026-03-10T21:43:34.190198-00:00 1 [Note] [MY-011825] [Xtrabackup] >> log scanned up to (168491841)
+2026-03-10T21:43:34.398787-00:00 0 [Note] [MY-011825] [Xtrabackup] Starting to backup non-InnoDB tables and files
+2026-03-10T21:43:34.402615-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing mysql/general_log.CSV to /tmp/backup-lz4/mysql/general_log.CSV.lz4
+2026-03-10T21:43:34.402639-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing mysql/general_log.CSV to /tmp/backup-lz4/mysql/general_log.CSV.lz4
+2026-03-10T21:43:34.406783-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing mysql/slow_log_227.sdi to /tmp/backup-lz4/mysql/slow_log_227.sdi.lz4
+2026-03-10T21:43:34.407299-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing mysql/slow_log_227.sdi to /tmp/backup-lz4/mysql/slow_log_227.sdi.lz4
+2026-03-10T21:43:34.413496-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing mysql/general_log.CSM to /tmp/backup-lz4/mysql/general_log.CSM.lz4
+2026-03-10T21:43:34.413685-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing mysql/general_log.CSM to /tmp/backup-lz4/mysql/general_log.CSM.lz4
+2026-03-10T21:43:34.415855-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing mysql/slow_log.CSM to /tmp/backup-lz4/mysql/slow_log.CSM.lz4
+2026-03-10T21:43:34.416154-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing mysql/slow_log.CSM to /tmp/backup-lz4/mysql/slow_log.CSM.lz4
+2026-03-10T21:43:34.418681-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing mysql/slow_log.CSV to /tmp/backup-lz4/mysql/slow_log.CSV.lz4
+2026-03-10T21:43:34.418697-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing mysql/slow_log.CSV to /tmp/backup-lz4/mysql/slow_log.CSV.lz4
+2026-03-10T21:43:34.420836-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing mysql/general_log_226.sdi to /tmp/backup-lz4/mysql/general_log_226.sdi.lz4
+2026-03-10T21:43:34.421015-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing mysql/general_log_226.sdi to /tmp/backup-lz4/mysql/general_log_226.sdi.lz4
+2026-03-10T21:43:34.423747-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/file_summary_by__103.sdi to /tmp/backup-lz4/performance_schema/file_summary_by__103.sdi.lz4
+2026-03-10T21:43:34.423909-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/file_summary_by__103.sdi to /tmp/backup-lz4/performance_schema/file_summary_by__103.sdi.lz4
+2026-03-10T21:43:34.425840-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_139.sdi to /tmp/backup-lz4/performance_schema/events_statement_139.sdi.lz4
+2026-03-10T21:43:34.426067-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_139.sdi to /tmp/backup-lz4/performance_schema/events_statement_139.sdi.lz4
+2026-03-10T21:43:34.427730-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_stages_hi_122.sdi to /tmp/backup-lz4/performance_schema/events_stages_hi_122.sdi.lz4
+2026-03-10T21:43:34.427914-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_stages_hi_122.sdi to /tmp/backup-lz4/performance_schema/events_stages_hi_122.sdi.lz4
+2026-03-10T21:43:34.430423-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_transacti_146.sdi to /tmp/backup-lz4/performance_schema/events_transacti_146.sdi.lz4
+2026-03-10T21:43:34.430836-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_transacti_146.sdi to /tmp/backup-lz4/performance_schema/events_transacti_146.sdi.lz4
+2026-03-10T21:43:34.432672-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/processlist_109.sdi to /tmp/backup-lz4/performance_schema/processlist_109.sdi.lz4
+2026-03-10T21:43:34.433040-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/processlist_109.sdi to /tmp/backup-lz4/performance_schema/processlist_109.sdi.lz4
+2026-03-10T21:43:34.435757-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/table_handles_167.sdi to /tmp/backup-lz4/performance_schema/table_handles_167.sdi.lz4
+2026-03-10T21:43:34.436111-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/table_handles_167.sdi to /tmp/backup-lz4/performance_schema/table_handles_167.sdi.lz4
+2026-03-10T21:43:34.439313-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_sum_99.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_99.sdi.lz4
+2026-03-10T21:43:34.439782-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_sum_99.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_99.sdi.lz4
+2026-03-10T21:43:34.441774-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/binary_log_trans_198.sdi to /tmp/backup-lz4/performance_schema/binary_log_trans_198.sdi.lz4
+2026-03-10T21:43:34.442035-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/binary_log_trans_198.sdi to /tmp/backup-lz4/performance_schema/binary_log_trans_198.sdi.lz4
+2026-03-10T21:43:34.443991-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/socket_summary_b_158.sdi to /tmp/backup-lz4/performance_schema/socket_summary_b_158.sdi.lz4
+2026-03-10T21:43:34.444193-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/socket_summary_b_158.sdi to /tmp/backup-lz4/performance_schema/socket_summary_b_158.sdi.lz4
+2026-03-10T21:43:34.445811-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/log_status_183.sdi to /tmp/backup-lz4/performance_schema/log_status_183.sdi.lz4
+2026-03-10T21:43:34.446018-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/log_status_183.sdi to /tmp/backup-lz4/performance_schema/log_status_183.sdi.lz4
+2026-03-10T21:43:34.447980-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/host_cache_105.sdi to /tmp/backup-lz4/performance_schema/host_cache_105.sdi.lz4
+2026-03-10T21:43:34.448117-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/host_cache_105.sdi to /tmp/backup-lz4/performance_schema/host_cache_105.sdi.lz4
+2026-03-10T21:43:34.450769-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/keyring_keys_161.sdi to /tmp/backup-lz4/performance_schema/keyring_keys_161.sdi.lz4
+2026-03-10T21:43:34.451059-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/keyring_keys_161.sdi to /tmp/backup-lz4/performance_schema/keyring_keys_161.sdi.lz4
+2026-03-10T21:43:34.452597-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/account_failed_l_203.sdi to /tmp/backup-lz4/performance_schema/account_failed_l_203.sdi.lz4
+2026-03-10T21:43:34.452777-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/account_failed_l_203.sdi to /tmp/backup-lz4/performance_schema/account_failed_l_203.sdi.lz4
+2026-03-10T21:43:34.455187-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_appl_175.sdi to /tmp/backup-lz4/performance_schema/replication_appl_175.sdi.lz4
+2026-03-10T21:43:34.455730-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_appl_175.sdi to /tmp/backup-lz4/performance_schema/replication_appl_175.sdi.lz4
+2026-03-10T21:43:34.458085-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/session_connect__159.sdi to /tmp/backup-lz4/performance_schema/session_connect__159.sdi.lz4
+2026-03-10T21:43:34.458201-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/session_connect__159.sdi to /tmp/backup-lz4/performance_schema/session_connect__159.sdi.lz4
+2026-03-10T21:43:34.460004-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_appl_174.sdi to /tmp/backup-lz4/performance_schema/replication_appl_174.sdi.lz4
+2026-03-10T21:43:34.460140-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_appl_174.sdi to /tmp/backup-lz4/performance_schema/replication_appl_174.sdi.lz4
+2026-03-10T21:43:34.461968-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_appl_177.sdi to /tmp/backup-lz4/performance_schema/replication_appl_177.sdi.lz4
+2026-03-10T21:43:34.462082-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_appl_177.sdi to /tmp/backup-lz4/performance_schema/replication_appl_177.sdi.lz4
+2026-03-10T21:43:34.465244-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/setup_actors_111.sdi to /tmp/backup-lz4/performance_schema/setup_actors_111.sdi.lz4
+2026-03-10T21:43:34.465530-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/setup_actors_111.sdi to /tmp/backup-lz4/performance_schema/setup_actors_111.sdi.lz4
+2026-03-10T21:43:34.467167-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_sum_97.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_97.sdi.lz4
+2026-03-10T21:43:34.467402-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_sum_97.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_97.sdi.lz4
+2026-03-10T21:43:34.469286-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_errors_su_149.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_149.sdi.lz4
+2026-03-10T21:43:34.469439-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_errors_su_149.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_149.sdi.lz4
+2026-03-10T21:43:34.471580-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_appl_179.sdi to /tmp/backup-lz4/performance_schema/replication_appl_179.sdi.lz4
+2026-03-10T21:43:34.471747-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_appl_179.sdi to /tmp/backup-lz4/performance_schema/replication_appl_179.sdi.lz4
+2026-03-10T21:43:34.474258-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/table_io_waits_s_116.sdi to /tmp/backup-lz4/performance_schema/table_io_waits_s_116.sdi.lz4
+2026-03-10T21:43:34.474447-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/table_io_waits_s_116.sdi to /tmp/backup-lz4/performance_schema/table_io_waits_s_116.sdi.lz4
+2026-03-10T21:43:34.476530-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_conn_171.sdi to /tmp/backup-lz4/performance_schema/replication_conn_171.sdi.lz4
+2026-03-10T21:43:34.477239-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_conn_171.sdi to /tmp/backup-lz4/performance_schema/replication_conn_171.sdi.lz4
+2026-03-10T21:43:34.479480-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/global_status_190.sdi to /tmp/backup-lz4/performance_schema/global_status_190.sdi.lz4
+2026-03-10T21:43:34.479649-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/global_status_190.sdi to /tmp/backup-lz4/performance_schema/global_status_190.sdi.lz4
+2026-03-10T21:43:34.481533-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/status_by_user_189.sdi to /tmp/backup-lz4/performance_schema/status_by_user_189.sdi.lz4
+2026-03-10T21:43:34.481626-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/status_by_user_189.sdi to /tmp/backup-lz4/performance_schema/status_by_user_189.sdi.lz4
+2026-03-10T21:43:34.483472-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/keyring_componen_202.sdi to /tmp/backup-lz4/performance_schema/keyring_componen_202.sdi.lz4
+2026-03-10T21:43:34.483904-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/keyring_componen_202.sdi to /tmp/backup-lz4/performance_schema/keyring_componen_202.sdi.lz4
+2026-03-10T21:43:34.485734-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/mutex_instances_106.sdi to /tmp/backup-lz4/performance_schema/mutex_instances_106.sdi.lz4
+2026-03-10T21:43:34.485823-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/mutex_instances_106.sdi to /tmp/backup-lz4/performance_schema/mutex_instances_106.sdi.lz4
+2026-03-10T21:43:34.487891-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/status_by_accoun_186.sdi to /tmp/backup-lz4/performance_schema/status_by_accoun_186.sdi.lz4
+2026-03-10T21:43:34.488030-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/status_by_accoun_186.sdi to /tmp/backup-lz4/performance_schema/status_by_accoun_186.sdi.lz4
+2026-03-10T21:43:34.490188-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_sum_98.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_98.sdi.lz4
+2026-03-10T21:43:34.490295-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_sum_98.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_98.sdi.lz4
+2026-03-10T21:43:34.491824-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_136.sdi to /tmp/backup-lz4/performance_schema/events_statement_136.sdi.lz4
+2026-03-10T21:43:34.492058-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_136.sdi to /tmp/backup-lz4/performance_schema/events_statement_136.sdi.lz4
+2026-03-10T21:43:34.493623-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_appl_180.sdi to /tmp/backup-lz4/performance_schema/replication_appl_180.sdi.lz4
+2026-03-10T21:43:34.493790-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_appl_180.sdi to /tmp/backup-lz4/performance_schema/replication_appl_180.sdi.lz4
+2026-03-10T21:43:34.494932-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/metadata_locks_168.sdi to /tmp/backup-lz4/performance_schema/metadata_locks_168.sdi.lz4
+2026-03-10T21:43:34.495153-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/metadata_locks_168.sdi to /tmp/backup-lz4/performance_schema/metadata_locks_168.sdi.lz4
+2026-03-10T21:43:34.496791-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_stages_su_125.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_125.sdi.lz4
+2026-03-10T21:43:34.496984-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_stages_su_125.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_125.sdi.lz4
+2026-03-10T21:43:34.498123-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/file_instances_102.sdi to /tmp/backup-lz4/performance_schema/file_instances_102.sdi.lz4
+2026-03-10T21:43:34.498229-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/file_instances_102.sdi to /tmp/backup-lz4/performance_schema/file_instances_102.sdi.lz4
+2026-03-10T21:43:34.499410-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/setup_threads_115.sdi to /tmp/backup-lz4/performance_schema/setup_threads_115.sdi.lz4
+2026-03-10T21:43:34.499527-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/setup_threads_115.sdi to /tmp/backup-lz4/performance_schema/setup_threads_115.sdi.lz4
+2026-03-10T21:43:34.500708-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_errors_su_151.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_151.sdi.lz4
+2026-03-10T21:43:34.500817-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_errors_su_151.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_151.sdi.lz4
+2026-03-10T21:43:34.502130-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_his_95.sdi to /tmp/backup-lz4/performance_schema/events_waits_his_95.sdi.lz4
+2026-03-10T21:43:34.502258-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_his_95.sdi to /tmp/backup-lz4/performance_schema/events_waits_his_95.sdi.lz4
+2026-03-10T21:43:34.503616-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_133.sdi to /tmp/backup-lz4/performance_schema/events_statement_133.sdi.lz4
+2026-03-10T21:43:34.503784-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_133.sdi to /tmp/backup-lz4/performance_schema/events_statement_133.sdi.lz4
+2026-03-10T21:43:34.505235-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_stages_su_126.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_126.sdi.lz4
+2026-03-10T21:43:34.505380-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_stages_su_126.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_126.sdi.lz4
+2026-03-10T21:43:34.506732-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/memory_summary_b_163.sdi to /tmp/backup-lz4/performance_schema/memory_summary_b_163.sdi.lz4
+2026-03-10T21:43:34.507026-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/memory_summary_b_163.sdi to /tmp/backup-lz4/performance_schema/memory_summary_b_163.sdi.lz4
+2026-03-10T21:43:34.508788-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/setup_consumers_112.sdi to /tmp/backup-lz4/performance_schema/setup_consumers_112.sdi.lz4
+2026-03-10T21:43:34.508910-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/setup_consumers_112.sdi to /tmp/backup-lz4/performance_schema/setup_consumers_112.sdi.lz4
+2026-03-10T21:43:34.510261-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_transacti_143.sdi to /tmp/backup-lz4/performance_schema/events_transacti_143.sdi.lz4
+2026-03-10T21:43:34.510428-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_transacti_143.sdi to /tmp/backup-lz4/performance_schema/events_transacti_143.sdi.lz4
+2026-03-10T21:43:34.511608-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/performance_time_108.sdi to /tmp/backup-lz4/performance_schema/performance_time_108.sdi.lz4
+2026-03-10T21:43:34.511716-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/performance_time_108.sdi to /tmp/backup-lz4/performance_schema/performance_time_108.sdi.lz4
+2026-03-10T21:43:34.512914-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/file_summary_by__104.sdi to /tmp/backup-lz4/performance_schema/file_summary_by__104.sdi.lz4
+2026-03-10T21:43:34.513040-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/file_summary_by__104.sdi to /tmp/backup-lz4/performance_schema/file_summary_by__104.sdi.lz4
+2026-03-10T21:43:34.514607-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/user_variables_b_185.sdi to /tmp/backup-lz4/performance_schema/user_variables_b_185.sdi.lz4
+2026-03-10T21:43:34.514731-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/user_variables_b_185.sdi to /tmp/backup-lz4/performance_schema/user_variables_b_185.sdi.lz4
+2026-03-10T21:43:34.515738-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/session_account__160.sdi to /tmp/backup-lz4/performance_schema/session_account__160.sdi.lz4
+2026-03-10T21:43:34.516059-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/session_account__160.sdi to /tmp/backup-lz4/performance_schema/session_account__160.sdi.lz4
+2026-03-10T21:43:34.517641-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_stages_su_123.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_123.sdi.lz4
+2026-03-10T21:43:34.517735-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_stages_su_123.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_123.sdi.lz4
+2026-03-10T21:43:34.518838-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/threads_119.sdi to /tmp/backup-lz4/performance_schema/threads_119.sdi.lz4
+2026-03-10T21:43:34.519002-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/threads_119.sdi to /tmp/backup-lz4/performance_schema/threads_119.sdi.lz4
+2026-03-10T21:43:34.520323-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/table_io_waits_s_117.sdi to /tmp/backup-lz4/performance_schema/table_io_waits_s_117.sdi.lz4
+2026-03-10T21:43:34.520487-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/table_io_waits_s_117.sdi to /tmp/backup-lz4/performance_schema/table_io_waits_s_117.sdi.lz4
+2026-03-10T21:43:34.521535-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_132.sdi to /tmp/backup-lz4/performance_schema/events_statement_132.sdi.lz4
+2026-03-10T21:43:34.521708-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_132.sdi to /tmp/backup-lz4/performance_schema/events_statement_132.sdi.lz4
+2026-03-10T21:43:34.522911-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_asyn_181.sdi to /tmp/backup-lz4/performance_schema/replication_asyn_181.sdi.lz4
+2026-03-10T21:43:34.522991-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_asyn_181.sdi to /tmp/backup-lz4/performance_schema/replication_asyn_181.sdi.lz4
+2026-03-10T21:43:34.524074-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/data_lock_waits_170.sdi to /tmp/backup-lz4/performance_schema/data_lock_waits_170.sdi.lz4
+2026-03-10T21:43:34.524190-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/data_lock_waits_170.sdi to /tmp/backup-lz4/performance_schema/data_lock_waits_170.sdi.lz4
+2026-03-10T21:43:34.525184-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_129.sdi to /tmp/backup-lz4/performance_schema/events_statement_129.sdi.lz4
+2026-03-10T21:43:34.525342-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_129.sdi to /tmp/backup-lz4/performance_schema/events_statement_129.sdi.lz4
+2026-03-10T21:43:34.526404-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/setup_objects_114.sdi to /tmp/backup-lz4/performance_schema/setup_objects_114.sdi.lz4
+2026-03-10T21:43:34.526482-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/setup_objects_114.sdi to /tmp/backup-lz4/performance_schema/setup_objects_114.sdi.lz4
+2026-03-10T21:43:34.527487-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_sum_100.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_100.sdi.lz4
+2026-03-10T21:43:34.527580-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_sum_100.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_100.sdi.lz4
+2026-03-10T21:43:34.528625-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/prepared_stateme_184.sdi to /tmp/backup-lz4/performance_schema/prepared_stateme_184.sdi.lz4
+2026-03-10T21:43:34.528787-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/prepared_stateme_184.sdi to /tmp/backup-lz4/performance_schema/prepared_stateme_184.sdi.lz4
+2026-03-10T21:43:34.529817-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_cur_93.sdi to /tmp/backup-lz4/performance_schema/events_waits_cur_93.sdi.lz4
+2026-03-10T21:43:34.529956-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_cur_93.sdi to /tmp/backup-lz4/performance_schema/events_waits_cur_93.sdi.lz4
+2026-03-10T21:43:34.531858-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_137.sdi to /tmp/backup-lz4/performance_schema/events_statement_137.sdi.lz4
+2026-03-10T21:43:34.532165-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_137.sdi to /tmp/backup-lz4/performance_schema/events_statement_137.sdi.lz4
+2026-03-10T21:43:34.533653-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/session_status_191.sdi to /tmp/backup-lz4/performance_schema/session_status_191.sdi.lz4
+2026-03-10T21:43:34.533825-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/session_status_191.sdi to /tmp/backup-lz4/performance_schema/session_status_191.sdi.lz4
+2026-03-10T21:43:34.535011-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_134.sdi to /tmp/backup-lz4/performance_schema/events_statement_134.sdi.lz4
+2026-03-10T21:43:34.535354-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_134.sdi to /tmp/backup-lz4/performance_schema/events_statement_134.sdi.lz4
+2026-03-10T21:43:34.536676-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_131.sdi to /tmp/backup-lz4/performance_schema/events_statement_131.sdi.lz4
+2026-03-10T21:43:34.537102-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_131.sdi to /tmp/backup-lz4/performance_schema/events_statement_131.sdi.lz4
+2026-03-10T21:43:34.538164-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_stages_hi_121.sdi to /tmp/backup-lz4/performance_schema/events_stages_hi_121.sdi.lz4
+2026-03-10T21:43:34.538325-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_stages_hi_121.sdi to /tmp/backup-lz4/performance_schema/events_stages_hi_121.sdi.lz4
+2026-03-10T21:43:34.539618-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_130.sdi to /tmp/backup-lz4/performance_schema/events_statement_130.sdi.lz4
+2026-03-10T21:43:34.540169-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_130.sdi to /tmp/backup-lz4/performance_schema/events_statement_130.sdi.lz4
+2026-03-10T21:43:34.541386-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_stages_su_127.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_127.sdi.lz4
+2026-03-10T21:43:34.541570-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_stages_su_127.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_127.sdi.lz4
+2026-03-10T21:43:34.542825-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/rwlock_instances_110.sdi to /tmp/backup-lz4/performance_schema/rwlock_instances_110.sdi.lz4
+2026-03-10T21:43:34.543285-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/rwlock_instances_110.sdi to /tmp/backup-lz4/performance_schema/rwlock_instances_110.sdi.lz4
+2026-03-10T21:43:34.544644-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_asyn_182.sdi to /tmp/backup-lz4/performance_schema/replication_asyn_182.sdi.lz4
+2026-03-10T21:43:34.544834-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_asyn_182.sdi to /tmp/backup-lz4/performance_schema/replication_asyn_182.sdi.lz4
+2026-03-10T21:43:34.546282-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_errors_su_148.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_148.sdi.lz4
+2026-03-10T21:43:34.546627-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_errors_su_148.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_148.sdi.lz4
+2026-03-10T21:43:34.547824-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/data_locks_169.sdi to /tmp/backup-lz4/performance_schema/data_locks_169.sdi.lz4
+2026-03-10T21:43:34.548174-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/data_locks_169.sdi to /tmp/backup-lz4/performance_schema/data_locks_169.sdi.lz4
+2026-03-10T21:43:34.550020-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_transacti_140.sdi to /tmp/backup-lz4/performance_schema/events_transacti_140.sdi.lz4
+2026-03-10T21:43:34.550323-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_transacti_140.sdi to /tmp/backup-lz4/performance_schema/events_transacti_140.sdi.lz4
+2026-03-10T21:43:34.552500-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_sum_101.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_101.sdi.lz4
+2026-03-10T21:43:34.552669-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_sum_101.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_101.sdi.lz4
+2026-03-10T21:43:34.555067-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/malloc_stats_201.sdi to /tmp/backup-lz4/performance_schema/malloc_stats_201.sdi.lz4
+2026-03-10T21:43:34.555259-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/malloc_stats_201.sdi to /tmp/backup-lz4/performance_schema/malloc_stats_201.sdi.lz4
+2026-03-10T21:43:34.556782-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/status_by_thread_188.sdi to /tmp/backup-lz4/performance_schema/status_by_thread_188.sdi.lz4
+2026-03-10T21:43:34.557105-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/status_by_thread_188.sdi to /tmp/backup-lz4/performance_schema/status_by_thread_188.sdi.lz4
+2026-03-10T21:43:34.558709-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/session_variable_194.sdi to /tmp/backup-lz4/performance_schema/session_variable_194.sdi.lz4
+2026-03-10T21:43:34.558902-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/session_variable_194.sdi to /tmp/backup-lz4/performance_schema/session_variable_194.sdi.lz4
+2026-03-10T21:43:34.560530-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_stages_su_124.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_124.sdi.lz4
+2026-03-10T21:43:34.560957-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_stages_su_124.sdi to /tmp/backup-lz4/performance_schema/events_stages_su_124.sdi.lz4
+2026-03-10T21:43:34.562329-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/accounts_154.sdi to /tmp/backup-lz4/performance_schema/accounts_154.sdi.lz4
+2026-03-10T21:43:34.562565-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/accounts_154.sdi to /tmp/backup-lz4/performance_schema/accounts_154.sdi.lz4
+2026-03-10T21:43:34.563893-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/cond_instances_91.sdi to /tmp/backup-lz4/performance_schema/cond_instances_91.sdi.lz4
+2026-03-10T21:43:34.564016-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/cond_instances_91.sdi to /tmp/backup-lz4/performance_schema/cond_instances_91.sdi.lz4
+2026-03-10T21:43:34.565019-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/socket_summary_b_157.sdi to /tmp/backup-lz4/performance_schema/socket_summary_b_157.sdi.lz4
+2026-03-10T21:43:34.565294-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/socket_summary_b_157.sdi to /tmp/backup-lz4/performance_schema/socket_summary_b_157.sdi.lz4
+2026-03-10T21:43:34.566581-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_transacti_147.sdi to /tmp/backup-lz4/performance_schema/events_transacti_147.sdi.lz4
+2026-03-10T21:43:34.566783-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_transacti_147.sdi to /tmp/backup-lz4/performance_schema/events_transacti_147.sdi.lz4
+2026-03-10T21:43:34.568637-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/socket_instances_156.sdi to /tmp/backup-lz4/performance_schema/socket_instances_156.sdi.lz4
+2026-03-10T21:43:34.569055-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/socket_instances_156.sdi to /tmp/backup-lz4/performance_schema/socket_instances_156.sdi.lz4
+2026-03-10T21:43:34.570476-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_transacti_142.sdi to /tmp/backup-lz4/performance_schema/events_transacti_142.sdi.lz4
+2026-03-10T21:43:34.571398-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_transacti_142.sdi to /tmp/backup-lz4/performance_schema/events_transacti_142.sdi.lz4
+2026-03-10T21:43:34.572928-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/persisted_variab_196.sdi to /tmp/backup-lz4/performance_schema/persisted_variab_196.sdi.lz4
+2026-03-10T21:43:34.573193-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/persisted_variab_196.sdi to /tmp/backup-lz4/performance_schema/persisted_variab_196.sdi.lz4
+2026-03-10T21:43:34.575146-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/users_153.sdi to /tmp/backup-lz4/performance_schema/users_153.sdi.lz4
+2026-03-10T21:43:34.575375-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/users_153.sdi to /tmp/backup-lz4/performance_schema/users_153.sdi.lz4
+2026-03-10T21:43:34.576884-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_transacti_144.sdi to /tmp/backup-lz4/performance_schema/events_transacti_144.sdi.lz4
+2026-03-10T21:43:34.577083-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_transacti_144.sdi to /tmp/backup-lz4/performance_schema/events_transacti_144.sdi.lz4
+2026-03-10T21:43:34.578412-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/memory_summary_g_162.sdi to /tmp/backup-lz4/performance_schema/memory_summary_g_162.sdi.lz4
+2026-03-10T21:43:34.578617-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/memory_summary_g_162.sdi to /tmp/backup-lz4/performance_schema/memory_summary_g_162.sdi.lz4
+2026-03-10T21:43:34.579783-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/variables_info_195.sdi to /tmp/backup-lz4/performance_schema/variables_info_195.sdi.lz4
+2026-03-10T21:43:34.579994-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/variables_info_195.sdi to /tmp/backup-lz4/performance_schema/variables_info_195.sdi.lz4
+2026-03-10T21:43:34.581185-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/pxc_cluster_view_204.sdi to /tmp/backup-lz4/performance_schema/pxc_cluster_view_204.sdi.lz4
+2026-03-10T21:43:34.581381-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/pxc_cluster_view_204.sdi to /tmp/backup-lz4/performance_schema/pxc_cluster_view_204.sdi.lz4
+2026-03-10T21:43:34.582645-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_grou_178.sdi to /tmp/backup-lz4/performance_schema/replication_grou_178.sdi.lz4
+2026-03-10T21:43:34.582856-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_grou_178.sdi to /tmp/backup-lz4/performance_schema/replication_grou_178.sdi.lz4
+2026-03-10T21:43:34.584161-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_errors_su_150.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_150.sdi.lz4
+2026-03-10T21:43:34.584382-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_errors_su_150.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_150.sdi.lz4
+2026-03-10T21:43:34.585795-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/memory_summary_b_164.sdi to /tmp/backup-lz4/performance_schema/memory_summary_b_164.sdi.lz4
+2026-03-10T21:43:34.585972-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/memory_summary_b_164.sdi to /tmp/backup-lz4/performance_schema/memory_summary_b_164.sdi.lz4
+2026-03-10T21:43:34.587365-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_138.sdi to /tmp/backup-lz4/performance_schema/events_statement_138.sdi.lz4
+2026-03-10T21:43:34.587524-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_138.sdi to /tmp/backup-lz4/performance_schema/events_statement_138.sdi.lz4
+2026-03-10T21:43:34.588828-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_128.sdi to /tmp/backup-lz4/performance_schema/events_statement_128.sdi.lz4
+2026-03-10T21:43:34.589003-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_128.sdi to /tmp/backup-lz4/performance_schema/events_statement_128.sdi.lz4
+2026-03-10T21:43:34.590045-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_conn_173.sdi to /tmp/backup-lz4/performance_schema/replication_conn_173.sdi.lz4
+2026-03-10T21:43:34.590162-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_conn_173.sdi to /tmp/backup-lz4/performance_schema/replication_conn_173.sdi.lz4
+2026-03-10T21:43:34.591178-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/setup_instrument_113.sdi to /tmp/backup-lz4/performance_schema/setup_instrument_113.sdi.lz4
+2026-03-10T21:43:34.591262-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/setup_instrument_113.sdi to /tmp/backup-lz4/performance_schema/setup_instrument_113.sdi.lz4
+2026-03-10T21:43:34.592341-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/error_log_92.sdi to /tmp/backup-lz4/performance_schema/error_log_92.sdi.lz4
+2026-03-10T21:43:34.592427-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/error_log_92.sdi to /tmp/backup-lz4/performance_schema/error_log_92.sdi.lz4
+2026-03-10T21:43:34.593347-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/malloc_stats_tot_200.sdi to /tmp/backup-lz4/performance_schema/malloc_stats_tot_200.sdi.lz4
+2026-03-10T21:43:34.593433-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/malloc_stats_tot_200.sdi to /tmp/backup-lz4/performance_schema/malloc_stats_tot_200.sdi.lz4
+2026-03-10T21:43:34.594486-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_his_94.sdi to /tmp/backup-lz4/performance_schema/events_waits_his_94.sdi.lz4
+2026-03-10T21:43:34.594630-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_his_94.sdi to /tmp/backup-lz4/performance_schema/events_waits_his_94.sdi.lz4
+2026-03-10T21:43:34.595967-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/variables_by_thr_192.sdi to /tmp/backup-lz4/performance_schema/variables_by_thr_192.sdi.lz4
+2026-03-10T21:43:34.596048-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/variables_by_thr_192.sdi to /tmp/backup-lz4/performance_schema/variables_by_thr_192.sdi.lz4
+2026-03-10T21:43:34.597471-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/memory_summary_b_166.sdi to /tmp/backup-lz4/performance_schema/memory_summary_b_166.sdi.lz4
+2026-03-10T21:43:34.597582-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/memory_summary_b_166.sdi to /tmp/backup-lz4/performance_schema/memory_summary_b_166.sdi.lz4
+2026-03-10T21:43:34.598917-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/table_lock_waits_118.sdi to /tmp/backup-lz4/performance_schema/table_lock_waits_118.sdi.lz4
+2026-03-10T21:43:34.599060-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/table_lock_waits_118.sdi to /tmp/backup-lz4/performance_schema/table_lock_waits_118.sdi.lz4
+2026-03-10T21:43:34.600288-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_transacti_145.sdi to /tmp/backup-lz4/performance_schema/events_transacti_145.sdi.lz4
+2026-03-10T21:43:34.600413-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_transacti_145.sdi to /tmp/backup-lz4/performance_schema/events_transacti_145.sdi.lz4
+2026-03-10T21:43:34.601576-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_errors_su_152.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_152.sdi.lz4
+2026-03-10T21:43:34.601688-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_errors_su_152.sdi to /tmp/backup-lz4/performance_schema/events_errors_su_152.sdi.lz4
+2026-03-10T21:43:34.602738-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_grou_172.sdi to /tmp/backup-lz4/performance_schema/replication_grou_172.sdi.lz4
+2026-03-10T21:43:34.602845-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_grou_172.sdi to /tmp/backup-lz4/performance_schema/replication_grou_172.sdi.lz4
+2026-03-10T21:43:34.603992-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/tls_channel_stat_199.sdi to /tmp/backup-lz4/performance_schema/tls_channel_stat_199.sdi.lz4
+2026-03-10T21:43:34.604107-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/tls_channel_stat_199.sdi to /tmp/backup-lz4/performance_schema/tls_channel_stat_199.sdi.lz4
+2026-03-10T21:43:34.605295-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_stages_cu_120.sdi to /tmp/backup-lz4/performance_schema/events_stages_cu_120.sdi.lz4
+2026-03-10T21:43:34.605401-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_stages_cu_120.sdi to /tmp/backup-lz4/performance_schema/events_stages_cu_120.sdi.lz4
+2026-03-10T21:43:34.606657-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_waits_sum_96.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_96.sdi.lz4
+2026-03-10T21:43:34.606752-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_waits_sum_96.sdi to /tmp/backup-lz4/performance_schema/events_waits_sum_96.sdi.lz4
+2026-03-10T21:43:34.607740-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/user_defined_fun_197.sdi to /tmp/backup-lz4/performance_schema/user_defined_fun_197.sdi.lz4
+2026-03-10T21:43:34.607849-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/user_defined_fun_197.sdi to /tmp/backup-lz4/performance_schema/user_defined_fun_197.sdi.lz4
+2026-03-10T21:43:34.609080-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/status_by_host_187.sdi to /tmp/backup-lz4/performance_schema/status_by_host_187.sdi.lz4
+2026-03-10T21:43:34.609162-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/status_by_host_187.sdi to /tmp/backup-lz4/performance_schema/status_by_host_187.sdi.lz4
+2026-03-10T21:43:34.610122-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/hosts_155.sdi to /tmp/backup-lz4/performance_schema/hosts_155.sdi.lz4
+2026-03-10T21:43:34.610255-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/hosts_155.sdi to /tmp/backup-lz4/performance_schema/hosts_155.sdi.lz4
+2026-03-10T21:43:34.611307-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/replication_appl_176.sdi to /tmp/backup-lz4/performance_schema/replication_appl_176.sdi.lz4
+2026-03-10T21:43:34.611453-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/replication_appl_176.sdi to /tmp/backup-lz4/performance_schema/replication_appl_176.sdi.lz4
+2026-03-10T21:43:34.612613-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/memory_summary_b_165.sdi to /tmp/backup-lz4/performance_schema/memory_summary_b_165.sdi.lz4
+2026-03-10T21:43:34.612715-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/memory_summary_b_165.sdi to /tmp/backup-lz4/performance_schema/memory_summary_b_165.sdi.lz4
+2026-03-10T21:43:34.613821-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/objects_summary__107.sdi to /tmp/backup-lz4/performance_schema/objects_summary__107.sdi.lz4
+2026-03-10T21:43:34.613925-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/objects_summary__107.sdi to /tmp/backup-lz4/performance_schema/objects_summary__107.sdi.lz4
+2026-03-10T21:43:34.614983-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_statement_135.sdi to /tmp/backup-lz4/performance_schema/events_statement_135.sdi.lz4
+2026-03-10T21:43:34.615102-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_statement_135.sdi to /tmp/backup-lz4/performance_schema/events_statement_135.sdi.lz4
+2026-03-10T21:43:34.616186-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/events_transacti_141.sdi to /tmp/backup-lz4/performance_schema/events_transacti_141.sdi.lz4
+2026-03-10T21:43:34.616311-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/events_transacti_141.sdi to /tmp/backup-lz4/performance_schema/events_transacti_141.sdi.lz4
+2026-03-10T21:43:34.617439-00:00 3 [Note] [MY-011825] [Xtrabackup] Compressing performance_schema/global_variables_193.sdi to /tmp/backup-lz4/performance_schema/global_variables_193.sdi.lz4
+2026-03-10T21:43:34.617523-00:00 3 [Note] [MY-011825] [Xtrabackup] Done: Compressing performance_schema/global_variables_193.sdi to /tmp/backup-lz4/performance_schema/global_variables_193.sdi.lz4
+2026-03-10T21:43:34.704536-00:00 0 [Note] [MY-011825] [Xtrabackup] Finished backing up non-InnoDB tables and files
+2026-03-10T21:43:34.704562-00:00 0 [Note] [MY-011825] [Xtrabackup] Executing FLUSH NO_WRITE_TO_BINLOG BINARY LOGS
+2026-03-10T21:43:34.711949-00:00 0 [Note] [MY-011825] [Xtrabackup] Selecting LSN and binary log position from p_s.log_status
+2026-03-10T21:43:34.728961-00:00 0 [Note] [MY-011825] [Xtrabackup] Compressing /var/lib/mysql/binlog.000002 to /tmp/backup-lz4/binlog.000002.lz4 up to position 157
+2026-03-10T21:43:34.729048-00:00 0 [Note] [MY-011825] [Xtrabackup] Done: Compressing /var/lib/mysql/binlog.000002 to /tmp/backup-lz4/binlog.000002.lz4
+2026-03-10T21:43:34.730725-00:00 0 [Note] [MY-011825] [Xtrabackup] Compressing /tmp/backup-lz4/binlog.index.lz4
+2026-03-10T21:43:34.730782-00:00 0 [Note] [MY-011825] [Xtrabackup] Done: Compressing file /tmp/backup-lz4/binlog.index.lz4
+2026-03-10T21:43:34.732854-00:00 0 [Note] [MY-011825] [Xtrabackup] Compressing /tmp/backup-lz4/xtrabackup_binlog_info.lz4
+2026-03-10T21:43:34.732910-00:00 0 [Note] [MY-011825] [Xtrabackup] Done: Compressing file /tmp/backup-lz4/xtrabackup_binlog_info.lz4
+2026-03-10T21:43:34.734081-00:00 0 [Note] [MY-011825] [Xtrabackup] Executing FLUSH NO_WRITE_TO_BINLOG ENGINE LOGS...
+2026-03-10T21:43:34.736006-00:00 0 [Note] [MY-011825] [Xtrabackup] The latest check point (for incremental): '34279023'
+2026-03-10T21:43:34.736017-00:00 0 [Note] [MY-011825] [Xtrabackup] Stopping log copying thread at LSN 168491841
+2026-03-10T21:43:34.754266-00:00 0 [Note] [MY-011825] [Xtrabackup] Executing UNLOCK TABLES
+2026-03-10T21:43:34.754408-00:00 0 [Note] [MY-011825] [Xtrabackup] All tables unlocked
+2026-03-10T21:43:34.754521-00:00 0 [Note] [MY-011825] [Xtrabackup] Compressing ib_buffer_pool to /tmp/backup-lz4/ib_buffer_pool.lz4
+2026-03-10T21:43:34.754743-00:00 0 [Note] [MY-011825] [Xtrabackup] Done: Compressing ib_buffer_pool to /tmp/backup-lz4/ib_buffer_pool.lz4
+2026-03-10T21:43:34.756030-00:00 0 [Note] [MY-011825] [Xtrabackup] Backup created in directory '/tmp/backup-lz4/'
+2026-03-10T21:43:34.756044-00:00 0 [Note] [MY-011825] [Xtrabackup] MySQL binlog position: filename 'binlog.000002', position '157'
+2026-03-10T21:43:34.756655-00:00 0 [Note] [MY-011825] [Xtrabackup] Compressing /tmp/backup-lz4/backup-my.cnf.lz4
+2026-03-10T21:43:34.756711-00:00 0 [Note] [MY-011825] [Xtrabackup] Done: Compressing file /tmp/backup-lz4/backup-my.cnf.lz4
+2026-03-10T21:43:34.759337-00:00 0 [Note] [MY-011825] [Xtrabackup] Compressing /tmp/backup-lz4/xtrabackup_info.lz4
+2026-03-10T21:43:34.759407-00:00 0 [Note] [MY-011825] [Xtrabackup] Done: Compressing file /tmp/backup-lz4/xtrabackup_info.lz4
+2026-03-10T21:43:35.765280-00:00 0 [Note] [MY-011825] [Xtrabackup] Transaction log of lsn (19095188) to (168491851) was copied.
+2026-03-10T21:43:35.986560-00:00 0 [Note] [MY-011825] [Xtrabackup] completed OK!
+EXIT_STATUS=0
