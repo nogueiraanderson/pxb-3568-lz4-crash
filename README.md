@@ -57,12 +57,13 @@ Fixed source: [`fixes/ds_compress_lz4_fixed.cc`](fixes/ds_compress_lz4_fixed.cc)
 
 ### Isolation Experiments (rebuilt XtraBackup from source)
 
-| Experiment | Compiler | LTO | Assertions | Result | Conclusion |
-|-----------|----------|-----|-----------|--------|------------|
-| Stock PXC 8.0.45 | GCC 11.5 (rpm) | ON | ON | **CRASH** | Baseline |
-| GCC 11 + LTO OFF | GCC 11.5 | **OFF** | ON | **SUCCESS** | LTO is the root cause |
-| GCC 11 + no assertions | GCC 11.5 | ON | **OFF** | **SUCCESS** | Assertions trigger the abort |
-| GCC 12 + LTO ON | GCC 12 (toolset) | ON | ON | **CRASH** | Not GCC-version-specific |
+| Experiment | Compiler | LTO | Assertions | Patch | Result | Conclusion |
+|-----------|----------|-----|-----------|-------|--------|------------|
+| Stock PXC 8.0.45 | GCC 11.5 (rpm) | ON | ON | none | **CRASH** | Baseline |
+| GCC 11 + LTO OFF | GCC 11.5 | **OFF** | ON | none | **SUCCESS** | LTO is the root cause |
+| GCC 11 + no assertions | GCC 11.5 | ON | **OFF** | none | **SUCCESS** | Assertions trigger the abort |
+| GCC 12 + LTO ON | GCC 12 (toolset) | ON | ON | none | **CRASH** | Not GCC-version-specific |
+| GCC 12 + `.data()` fix | GCC 12 (toolset) | ON | ON | **.data()** | **SUCCESS** (5/5) | **Fix validated** |
 
 Key findings:
 - **LTO is the root cause**: Disabling LTO eliminates the crash entirely
