@@ -9,17 +9,19 @@ This repo reproduces the crash, identifies the root cause, and provides a fix.
 
 ## Root Cause
 
-The crash is a **false-positive `_GLIBCXX_ASSERTIONS` bounds check** in
-`std::vector::operator[]` inside `compress_write()` (`ds_compress_lz4.cc`).
-
-GCC 11.5.0 on aarch64 with Link-Time Optimization (LTO, `-flto`) generates
-incorrect code for the `operator[]` bounds check. The assertion
-`__n < this->size()` fires even when the index is valid (e.g., i=1 with
-size=923). EL9 enables `_GLIBCXX_ASSERTIONS` by default via redhat-rpm-config.
+GCC 11/12 on aarch64 with Link-Time Optimization (LTO, `-flto`) generates
+an incorrect element stride in the `compress_write()` loop that traverses
+`std::vector<comp_thread_ctxt_t>`. The binary contains `mov x1, #0x9038`
+(stride 36920) where `sizeof(comp_thread_ctxt_t)` = 40 is expected.
+This causes out-of-bounds writes starting at iteration 1, corrupting heap
+memory. EL9 enables `_GLIBCXX_ASSERTIONS` by default (via redhat-rpm-config),
+and the resulting bounds checks detect the corruption and call `abort()`.
 
 Key evidence:
-- GDB register analysis: `x20=1` (index), `contexts.size()=923` (valid access)
-- Assembly shows LTO-generated stride 0x9038 (36920) instead of 0x28 (40 bytes)
+- Assembly shows LTO-generated stride 0x9038 (36920) instead of 0x28 (40)
+  in 3 locations within `compress_write`
+- GDB registers at crash: `x20=1` (index i), `x22=0x9038` (stride),
+  `x23=129` (n_chunks)
 - Standalone test with same struct/vector pattern does NOT crash (requires full
   program LTO context)
 - The zstd datasink uses raw buffers (no `std::vector`), which is why it works
@@ -67,13 +69,19 @@ Fixed source: [`fixes/ds_compress_lz4_fixed.cc`](fixes/ds_compress_lz4_fixed.cc)
 
 Key findings:
 - **LTO is the root cause**: Disabling LTO eliminates the crash entirely
-  (with assertions still enabled, proving it is not a false-positive assertion)
-- **Disabling assertions masks the crash** (but the wrong stride still exists,
-  silently corrupting backup data via out-of-bounds memory access)
+  (with assertions still enabled)
+- **Disabling assertions masks the crash** (the wrong stride still exists;
+  backup data integrity was not validated for this build)
 - **GCC 12 reproduces the same bug**, ruling out a GCC 11-specific regression
 - Both GCC 11 and GCC 12 binaries contain the wrong stride constant 0x9038 (36920)
   when built with LTO. The non-LTO binary uses the correct 0x28 (40) stride for
   element access.
+
+Caveats:
+- Experiment rebuilds used branch HEAD (revision `c9efec73`), not the stock
+  revision (`be447639`). This introduces a source confound.
+- No `--prepare`, restore, or checksum validation was performed on any backup.
+- Patched binary disassembly was not checked to confirm correct stride.
 
 The crash requires concurrent database writes (redo log activity) to trigger
 the LZ4 compression path through `Redo_Log_Writer::write_buffer`.

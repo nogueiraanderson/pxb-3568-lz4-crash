@@ -9,20 +9,28 @@ The LTO optimizer generates **36920 (0x9038)** as the element stride for iterati
 over `std::vector<comp_thread_ctxt_t>`. The correct stride is **40 (0x28)** bytes
 (sizeof(comp_thread_ctxt_t) = 5 fields x 8 bytes).
 
-36920 = 923 x 40 = `n_chunks * sizeof(element)`. The compiler confused the **total
-array byte size** with the **per-element stride** during LTO optimization.
+36920 = 923 x 40 = `contexts.capacity() * sizeof(element)` (NOT `n_chunks`,
+which is 129 at crash time). The stride is a compile-time constant embedded in the
+binary. The correlation with the runtime contexts capacity may indicate the LTO
+optimizer confused a size-expression with a stride-expression, or may be coincidental.
+The exact LTO optimization error cannot be determined without inspecting GCC's
+intermediate representation.
 
 ### Crash Mechanism
 
 1. **Iteration 0** (i=0): byte offset = 0. Accesses `contexts[0]` correctly.
-2. **Iteration 1** (i=1): byte offset = 36920. This is ONE PAST the end of a
-   923-element array (which occupies exactly 36920 bytes). Writes corrupt adjacent
-   memory.
-3. If `std::vector<std::future<void>> tasks` is stored adjacent to contexts, its
-   internal pointers (_M_start, _M_finish, _M_end_of_storage) get overwritten.
-4. **Tasks bounds check** at `0x7f9e3c` compares `i` against corrupted `tasks.size()`.
-   GDB showed tasks.size()=129 (corrupted) vs contexts.size()=923 (uncorrupted).
-5. Bounds check fails, `std::__replacement_assert` fires, `abort()` called.
+2. **Iteration 1** (i=1): byte offset = 36920. With contexts at 923 capacity
+   (36920 bytes), this writes at exactly `contexts.end()`, corrupting heap
+   metadata (malloc chunk header) and adjacent heap allocations.
+3. The struct members `tasks` and `contexts` are adjacent in `ds_compress_file_t`
+   (offsets 40 and 64), but their heap data buffers are 81KB apart. The wrong
+   stride corrupts heap memory past contexts' allocation, NOT the tasks vector
+   struct metadata directly.
+4. An assertion fires (exact trigger path unclear due to prior corruption),
+   `std::__replacement_assert` calls `abort()`.
+5. GDB showed tasks.size()=129 and contexts.size()=923. The contexts size does
+   not match the current n_chunks=129; the mismatch may be due to LTO-reordered
+   resize, prior corruption, or different calling context.
 
 ### Why It Needs Concurrent Writes
 
