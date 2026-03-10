@@ -1,0 +1,644 @@
+================================================================================
+PXB-3568 GDB Forensic Evidence
+Captured: 2026-03-10T19:26:03 UTC
+Container: lz4-pxc-node1
+Binary: /usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup 8.0.35-35
+Architecture: aarch64 (ELF64 little-endian)
+Reproduction: --compress=lz4 --compress-chunk-size=65534 with concurrent writes
+================================================================================
+
+==============================================================================
+PART 1: BINARY ANALYSIS - datasink_compress_lz4 VTABLE
+==============================================================================
+
+Binary is stripped but has .gnu_debugdata (mini-debuginfo).
+Dynamic symbols found for datasink structures:
+
+  datasink_compress_lz4 at 0x2e9b828 (48 bytes)
+  datasink_compress     at 0x2e9b7f8 (48 bytes)
+
+=== datasink_compress_lz4 raw bytes (48 bytes at 0x2e9b828) ===
+
+ 2e9b828 b08d7f00 00000000 30a88000 00000000  ........0.......
+ 2e9b838 809c7f00 00000000 00000000 00000000  ................
+ 2e9b848 00f07e00 00000000 600a7f00 00000000  ..~.....`.......
+
+=== Decoded function pointers (little-endian aarch64) ===
+
+  [0] init:      0x007f8db0
+  [1] open:      0x0080a830
+  [2] write:     0x007f9c80  <-- compress_write for LZ4
+  [3] close:     0x00000000
+  [4] deinit:    0x007ef000
+  [5] size:      0x007f0a60
+
+=== datasink_compress (ZSTD) raw bytes for comparison ===
+
+ 2e9b7f8 008d7f00 00000000 50a68000 00000000  ........P.......
+ 2e9b808 40967f00 00000000 00000000 00000000  @...............
+ 2e9b818 f0ed7e00 00000000 30097f00 00000000  ..~.....0.......
+
+==============================================================================
+PART 2: FULL DISASSEMBLY OF compress_write (LZ4) at 0x7f9c80
+==============================================================================
+
+Function: compress_write(ds_file_t*, void const*, unsigned long) [clone .lto_priv.1]
+Address range: 0x7f9c80 - ~0x7fa540
+Total size: ~2240 bytes
+
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup:     file format elf64-littleaarch64
+
+Disassembly of section .text:
+
+00000000007f9c80 <ds_write_sparse@@Base+0x13e0>:
+  7f9c80:	d10383ff 	sub	sp, sp, #0xe0
+  7f9c84:	d00134a3 	adrp	x3, 2e8f000
+  7f9c88:	a9087bfd 	stp	x29, x30, [sp, #128]
+  7f9c8c:	910203fd 	add	x29, sp, #0x80
+  7f9c90:	f947bc63 	ldr	x3, [x3, #3960]
+  7f9c94:	a90d73fb 	stp	x27, x28, [sp, #208]
+  7f9c98:	b00151fb 	adrp	x27, 3236000
+  7f9c9c:	a90953f3 	stp	x19, x20, [sp, #144]
+  7f9ca0:	aa0103fc 	mov	x28, x1
+  7f9ca4:	f9400013 	ldr	x19, [x0]
+  7f9ca8:	a90c6bf9 	stp	x25, x26, [sp, #192]
+  7f9cac:	aa0203f9 	mov	x25, x2
+  7f9cb0:	f9423f62 	ldr	x2, [x27, #1144]
+  7f9cb4:	a90a5bf5 	stp	x21, x22, [sp, #160]
+  7f9cb8:	52afc000 	mov	w0, #0x7e000000
+  7f9cbc:	f9400261 	ldr	x1, [x19]
+  7f9cc0:	f9000fe1 	str	x1, [sp, #24]
+  7f9cc4:	a90b63f7 	stp	x23, x24, [sp, #176]
+  7f9cc8:	9ac20b37 	udiv	x23, x25, x2
+  7f9ccc:	f9400061 	ldr	x1, [x3]
+  7f9cd0:	f9003fe1 	str	x1, [sp, #120]
+  7f9cd4:	d2800001 	mov	x1, #0x0
+  7f9cd8:	f9400663 	ldr	x3, [x19, #8]
+  7f9cdc:	f90003e3 	str	x3, [sp]
+  7f9ce0:	9b177c41 	mul	x1, x2, x23
+  7f9ce4:	6b00005f 	cmp	w2, w0
+  7f9ce8:	54002228 	b.hi	7fa12c
+  7f9cec:	52901035 	mov	w21, #0x8081
+  7f9cf0:	72b01015 	movk	w21, #0x8080, lsl #16
+  7f9cf4:	9b357c55 	smull	x21, w2, w21
+  7f9cf8:	d360feb5 	lsr	x21, x21, #32
+  7f9cfc:	0b0202b5 	add	w21, w21, w2
+  7f9d00:	13077eb5 	asr	w21, w21, #7
+  7f9d04:	4b827eb5 	sub	w21, w21, w2, asr #31
+  7f9d08:	0b0202b5 	add	w21, w21, w2
+  7f9d0c:	110042b5 	add	w21, w21, #0x10
+  7f9d10:	93407eb5 	sxtw	x21, w21
+  7f9d14:	eb01033f 	cmp	x25, x1
+  7f9d18:	54000040 	b.eq	7f9d20
+  7f9d1c:	910006f7 	add	x23, x23, #0x1
+  7f9d20:	f9401260 	ldr	x0, [x19, #32]
+  7f9d24:	9b177ea2 	mul	x2, x21, x23
+  7f9d28:	eb02001f 	cmp	x0, x2
+  7f9d2c:	540000c2 	b.cs	7f9d44
+  7f9d30:	f9400e61 	ldr	x1, [x19, #24]
+  7f9d34:	52800903 	mov	w3, #0x48
+  7f9d38:	52800000 	mov	w0, #0x0
+  7f9d3c:	9439ae1d 	bl	16655b0
+  7f9d40:	f9000e60 	str	x0, [x19, #24]
+  7f9d44:	f9401662 	ldr	x2, [x19, #40]
+  7f9d48:	9100a260 	add	x0, x19, #0x28
+  7f9d4c:	f9400401 	ldr	x1, [x0, #8]
+  7f9d50:	cb020021 	sub	x1, x1, x2
+  7f9d54:	9344fc21 	asr	x1, x1, #4
+  7f9d58:	eb17003f 	cmp	x1, x23
+  7f9d5c:	54001fe3 	b.cc	7fa158
+  7f9d60:	f9402264 	ldr	x4, [x19, #64]
+  7f9d64:	b202e7e2 	mov	x2, #0xcccccccccccccccc
+  7f9d68:	f9402663 	ldr	x3, [x19, #72]
+  7f9d6c:	f29999a2 	movk	x2, #0xcccd
+  7f9d70:	91010260 	add	x0, x19, #0x40
+  7f9d74:	cb040061 	sub	x1, x3, x4
+  7f9d78:	9343fc21 	asr	x1, x1, #3
+  7f9d7c:	9b027c22 	mul	x2, x1, x2
+  7f9d80:	eb17005f 	cmp	x2, x23
+  7f9d84:	54002543 	b.cc	7fa22c
+  7f9d88:	f9423f7a 	ldr	x26, [x27, #1144]
+  7f9d8c:	d2800018 	mov	x24, #0x0
+  7f9d90:	d2800016 	mov	x22, #0x0
+  7f9d94:	d2800014 	mov	x20, #0x0
+  7f9d98:	b4002a57 	cbz	x23, 7fa2e0
+  7f9d9c:	b0000081 	adrp	x1, 80a000
+  7f9da0:	b0ffffa0 	adrp	x0, 7ee000
+  7f9da4:	913c0021 	add	x1, x1, #0xf00
+  7f9da8:	9111c000 	add	x0, x0, #0x470
+  7f9dac:	a90083e1 	stp	x1, x0, [sp, #8]
+  7f9db0:	d29776e1 	mov	x1, #0xbbb7
+  7f9db4:	a9440264 	ldp	x4, x0, [x19, #64]
+  7f9db8:	f2b49f01 	movk	x1, #0xa4f8, lsl #16
+  7f9dbc:	f9423f63 	ldr	x3, [x27, #1144]
+  7f9dc0:	f2c901c1 	movk	x1, #0x480e, lsl #32
+  7f9dc4:	f2efcd61 	movk	x1, #0x7e6b, lsl #48
+  7f9dc8:	cb040000 	sub	x0, x0, x4
+  7f9dcc:	9b147c62 	mul	x2, x3, x20
+  7f9dd0:	9343fc00 	asr	x0, x0, #3
+  7f9dd4:	9b017c00 	mul	x0, x0, x1
+  7f9dd8:	cb020321 	sub	x1, x25, x2
+  7f9ddc:	eb03003f 	cmp	x1, x3
+  7f9de0:	9a839021 	csel	x1, x1, x3, ls
+  7f9de4:	eb14001f 	cmp	x0, x20
+  7f9de8:	540023e9 	b.ls	7fa264
+  7f9dec:	f94003e0 	ldr	x0, [sp]
+  7f9df0:	8b160083 	add	x3, x4, x22
+  7f9df4:	f9400e65 	ldr	x5, [x19, #24]
+  7f9df8:	8b020382 	add	x2, x28, x2
+  7f9dfc:	f8366882 	str	x2, [x4, x22]
+  7f9e00:	910103fa 	add	x26, sp, #0x40
+  7f9e04:	8b1800a2 	add	x2, x5, x24
+  7f9e08:	9100c3e8 	add	x8, sp, #0x30
+  7f9e0c:	f9400000 	ldr	x0, [x0]
+  7f9e10:	a9008861 	stp	x1, x2, [x3, #8]
+  7f9e14:	aa1a03e1 	mov	x1, x26
+  7f9e18:	f9400be2 	ldr	x2, [sp, #16]
+  7f9e1c:	f9002be2 	str	x2, [sp, #80]
+  7f9e20:	f94007e2 	ldr	x2, [sp, #8]
+  7f9e24:	f9001075 	str	x21, [x3, #32]
+  7f9e28:	a9047fe3 	stp	x3, xzr, [sp, #64]
+  7f9e2c:	f9002fe2 	str	x2, [sp, #88]
+  7f9e30:	97fffcb0 	bl	7f90f0
+  7f9e34:	a9428261 	ldp	x1, x0, [x19, #40]
+  7f9e38:	cb010000 	sub	x0, x0, x1
+  7f9e3c:	eb80129f 	cmp	x20, x0, asr #4
+  7f9e40:	54002222 	b.cs	7fa284    <<<--- TASKS VECTOR OOB CHECK (first loop)
+  7f9e44:	d37cee83 	lsl	x3, x20, #4
+  7f9e48:	8b030020 	add	x0, x1, x3
+  7f9e4c:	a94313e5 	ldp	x5, x4, [sp, #48]
+  7f9e50:	a9037fff 	stp	xzr, xzr, [sp, #48]
+  7f9e54:	f9400402 	ldr	x2, [x0, #8]
+  7f9e58:	f8236825 	str	x5, [x1, x3]
+  7f9e5c:	f9000404 	str	x4, [x0, #8]
+  7f9e60:	b4000142 	cbz	x2, 7f9e88
+  7f9e64:	d00134a3 	adrp	x3, 2e8f000
+  7f9e68:	f9453c60 	ldr	x0, [x3, #2680]
+  7f9e6c:	39400000 	ldrb	w0, [x0]
+  7f9e70:	34001d20 	cbz	w0, 7fa214
+  7f9e74:	b9400840 	ldr	w0, [x2, #8]
+  7f9e78:	51000401 	sub	w1, w0, #0x1
+  7f9e7c:	b9000841 	str	w1, [x2, #8]
+  7f9e80:	7100041f 	cmp	w0, #0x1
+  7f9e84:	54001960 	b.eq	7fa1b0
+  7f9e88:	f9401fe2 	ldr	x2, [sp, #56]
+  7f9e8c:	b4000142 	cbz	x2, 7f9eb4
+  7f9e90:	d00134a3 	adrp	x3, 2e8f000
+  7f9e94:	f9453c60 	ldr	x0, [x3, #2680]
+  7f9e98:	39400000 	ldrb	w0, [x0]
+  7f9e9c:	34001b00 	cbz	w0, 7fa1fc
+  7f9ea0:	b9400840 	ldr	w0, [x2, #8]
+  7f9ea4:	51000401 	sub	w1, w0, #0x1
+  7f9ea8:	b9000841 	str	w1, [x2, #8]
+  7f9eac:	7100041f 	cmp	w0, #0x1
+  7f9eb0:	540015a0 	b.eq	7fa164
+  7f9eb4:	f9402be3 	ldr	x3, [sp, #80]
+  7f9eb8:	b40000a3 	cbz	x3, 7f9ecc
+  7f9ebc:	aa1a03e1 	mov	x1, x26
+  7f9ec0:	aa1a03e0 	mov	x0, x26
+  7f9ec4:	52800062 	mov	w2, #0x3
+  7f9ec8:	d63f0060 	blr	x3
+  7f9ecc:	91000694 	add	x20, x20, #0x1
+  7f9ed0:	d2920701 	mov	x1, #0x9038
+  7f9ed4:	8b150318 	add	x24, x24, x21
+  7f9ed8:	8b0102d6 	add	x22, x22, x1
+  7f9edc:	eb17029f 	cmp	x20, x23
+  7f9ee0:	54fff681 	b.ne	7f9db0       <<<--- LOOP BACK (dispatch loop)
+  7f9ee4:	aa1903e1 	mov	x1, x25
+  7f9ee8:	52800002 	mov	w2, #0x0
+  7f9eec:	aa1c03e0 	mov	x0, x28
+  7f9ef0:	9411b760 	bl	c67c70        (XXH32 hash)
+  7f9ef4:	f9423f7a 	ldr	x26, [x27, #1144]
+  7f9ef8:	52844082 	mov	w2, #0x2204
+  7f9efc:	72a309a2 	movk	w2, #0x184d, lsl #16
+  7f9f00:	52800d81 	mov	w1, #0x6c
+  7f9f04:	b90023e0 	str	w0, [sp, #32]
+  7f9f08:	b9006be2 	str	w2, [sp, #104]
+  7f9f0c:	3901b3e1 	strb	w1, [sp, #108]
+  7f9f10:	f140435f 	cmp	x26, #0x10, lsl #12
+  7f9f14:	54001c89 	b.ls	7fa2a4
+  7f9f18:	528cf760 	mov	w0, #0x67bb
+  7f9f1c:	52800a04 	mov	w4, #0x50
+  7f9f20:	f141035f 	cmp	x26, #0x40, lsl #12
+  7f9f24:	54002388 	b.hi	7fa394
+  7f9f28:	9101b3e1 	add	x1, sp, #0x6c
+  7f9f2c:	52800003 	mov	w3, #0x0
+  7f9f30:	d2800142 	mov	x2, #0xa
+  7f9f34:	72a2cac0 	movk	w0, #0x1656, lsl #16
+  7f9f38:	3901b7e4 	strb	w4, [sp, #109]
+  7f9f3c:	9101a3f4 	add	x20, sp, #0x68
+  7f9f40:	f806e3f9 	stur	x25, [sp, #110]
+  7f9f44:	94482d03 	bl	1a05350       (LZ4F_compressFrame)
+  7f9f48:	53087c03 	lsr	w3, w0, #8
+  7f9f4c:	aa1403e1 	mov	x1, x20
+  7f9f50:	f9400fe0 	ldr	x0, [sp, #24]
+  7f9f54:	d28001e2 	mov	x2, #0xf
+  7f9f58:	3901dbe3 	strb	w3, [sp, #118]
+  7f9f5c:	97ffe4c1 	bl	7f3260        (ds_write)
+  7f9f60:	7100001f 	cmp	w0, #0x0
+  7f9f64:	1a9f07e0 	cset	w0, ne
+  7f9f68:	b9000be0 	str	w0, [sp, #8]
+  7f9f6c:	d29776f9 	mov	x25, #0xbbb7
+  7f9f70:	910183e0 	add	x0, sp, #0x60
+  7f9f74:	f2b49f19 	movk	x25, #0xa4f8, lsl #16
+  7f9f78:	90ffffb8 	adrp	x24, 7ed000
+  7f9f7c:	f2c901d9 	movk	x25, #0x480e, lsl #32
+  7f9f80:	d280001a 	mov	x26, #0x0
+  7f9f84:	d2800014 	mov	x20, #0x0
+  7f9f88:	f2efcd79 	movk	x25, #0x7e6b, lsl #48
+  7f9f8c:	f9000be0 	str	x0, [sp, #16]
+  7f9f90:	913cc300 	add	x0, x24, #0xf30
+  7f9f94:	f90003e0 	str	x0, [sp]
+  7f9f98:	a9440276 	ldp	x22, x0, [x19, #64]   <<<--- RESULT COLLECTION LOOP START
+  7f9f9c:	cb160000 	sub	x0, x0, x22           (contexts.end - contexts.begin)
+  7f9fa0:	9343fc00 	asr	x0, x0, #3            (/8)
+  7f9fa4:	9b197c00 	mul	x0, x0, x25           (magic multiply for /5 = element count)
+  7f9fa8:	eb14001f 	cmp	x0, x20               (contexts.size() vs index)
+  7f9fac:	54002409 	b.ls	7fa42c             <<<--- CONTEXTS VECTOR OOB -> ASSERT
+  7f9fb0:	a9428261 	ldp	x1, x0, [x19, #40]    (tasks.begin, tasks.end)
+  7f9fb4:	cb010000 	sub	x0, x0, x1            (tasks byte span)
+  7f9fb8:	eb80129f 	cmp	x20, x0, asr #4       (index vs tasks.size)
+  7f9fbc:	54002482 	b.cs	7fa44c             <<<--- TASKS VECTOR OOB -> ASSERT
+  7f9fc0:	d37cee80 	lsl	x0, x20, #4
+  7f9fc4:	f8606835 	ldr	x21, [x1, x0]
+  7f9fc8:	b4002b75 	cbz	x21, 7fa534
+  7f9fcc:	f94002a0 	ldr	x0, [x21]
+  7f9fd0:	f9400801 	ldr	x1, [x0, #16]
+  7f9fd4:	f94003e0 	ldr	x0, [sp]
+  7f9fd8:	eb00003f 	cmp	x1, x0
+  7f9fdc:	54001d61 	b.ne	7fa388
+  7f9fe0:	910042b8 	add	x24, x21, #0x10
+  7f9fe4:	88dfff02 	ldar	w2, [x24]
+  7f9fe8:	1200785c 	and	w28, w2, #0x7fffffff
+  7f9fec:	7100079f 	cmp	w28, #0x1
+  7f9ff0:	54000280 	b.eq	7fa040
+  7f9ff4:	d503201f 	nop
+  7f9ff8:	aa1803e1 	mov	x1, x24
+  7f9ffc:	52b00000 	mov	w0, #0x80000000
+  7fa000:	9451b030 	bl	1c660c0
+  7fa004:	32010382 	orr	w2, w28, #0x80000000
+  7fa008:	aa1803e1 	mov	x1, x24
+  7fa00c:	aa1803e0 	mov	x0, x24
+  7fa010:	d2800005 	mov	x5, #0x0
+  7fa014:	d2800004 	mov	x4, #0x0
+  7fa018:	52800003 	mov	w3, #0x0
+  7fa01c:	97fee0d5 	bl	7b2370        (futex_wait)
+  7fa020:	12001c00 	and	w0, w0, #0xff
+  7fa024:	88dfff02 	ldar	w2, [x24]
+  7fa028:	1200785c 	and	w28, w2, #0x7fffffff
+  7fa02c:	52000000 	eor	w0, w0, #0x1
+  7fa030:	7100079f 	cmp	w28, #0x1
+  7fa034:	1a9f17e3 	cset	w3, eq
+  7fa038:	2a000060 	orr	w0, w3, w0
+  7fa03c:	34fffde0 	cbz	w0, 7f9ff8
+  7fa040:	f94006a0 	ldr	x0, [x21, #8]
+  7fa044:	b40022e0 	cbz	x0, 7fa4a0
+  7fa048:	b9400be0 	ldr	w0, [sp, #8]
+  7fa04c:	35000220 	cbnz	w0, 7fa090
+  7fa050:	8b1a02d6 	add	x22, x22, x26
+  7fa054:	f9400ec3 	ldr	x3, [x22, #24]
+  7fa058:	b4000083 	cbz	x3, 7fa068
+  7fa05c:	f9423f60 	ldr	x0, [x27, #1144]
+  7fa060:	eb00007f 	cmp	x3, x0
+  7fa064:	54002043 	b.cc	7fa46c         <<<--- compressed_size < chunk_size: write direct
+  7fa068:	a94157e1 	ldp	x1, x21, [sp, #16]
+  7fa06c:	d2800082 	mov	x2, #0x4
+  7fa070:	f94006c3 	ldr	x3, [x22, #8]
+  7fa074:	32010063 	orr	w3, w3, #0x80000000
+  7fa078:	b90063e3 	str	w3, [sp, #96]
+  7fa07c:	aa1503e0 	mov	x0, x21
+  7fa080:	f9400aa3 	ldr	x3, [x21, #16]
+  7fa084:	f9400863 	ldr	x3, [x3, #16]
+  7fa088:	d63f0060 	blr	x3
+  7fa08c:	340018e0 	cbz	w0, 7fa3a8
+  7fa090:	52800020 	mov	w0, #0x1
+  7fa094:	b9000be0 	str	w0, [sp, #8]
+  7fa098:	91000694 	add	x20, x20, #0x1
+  7fa09c:	d2920700 	mov	x0, #0x9038
+  7fa0a0:	8b00035a 	add	x26, x26, x0
+  7fa0a4:	eb17029f 	cmp	x20, x23
+  7fa0a8:	54fff783 	b.cc	7f9f98         <<<--- RESULT COLLECTION LOOP BACK
+  7fa0ac:	b9400be0 	ldr	w0, [sp, #8]
+  7fa0b0:	35001b40 	cbnz	w0, 7fa418
+  7fa0b4:	f9400ff4 	ldr	x20, [sp, #24]
+  7fa0b8:	910183f3 	add	x19, sp, #0x60
+  7fa0bc:	aa1303e1 	mov	x1, x19
+  7fa0c0:	d2800082 	mov	x2, #0x4
+  7fa0c4:	aa1403e0 	mov	x0, x20
+  7fa0c8:	b90063ff 	str	wzr, [sp, #96]
+  7fa0cc:	97ffe465 	bl	7f3260        (ds_write - LZ4 frame end mark)
+  7fa0d0:	35001a40 	cbnz	w0, 7fa418
+  7fa0d4:	b94023e3 	ldr	w3, [sp, #32]
+  7fa0d8:	aa1303e1 	mov	x1, x19
+  7fa0dc:	aa1403e0 	mov	x0, x20
+  7fa0e0:	d2800082 	mov	x2, #0x4
+  7fa0e4:	b90063e3 	str	w3, [sp, #96]
+  7fa0e8:	97ffe45e 	bl	7f3260        (ds_write - XXH32 checksum)
+  7fa0ec:	35001960 	cbnz	w0, 7fa418
+  7fa0f0:	b00134a1 	adrp	x1, 2e8f000
+  7fa0f4:	f947bc21 	ldr	x1, [x1, #3960]
+  7fa0f8:	f9403fe3 	ldr	x3, [sp, #120]
+  7fa0fc:	f9400022 	ldr	x2, [x1]
+  7fa100:	eb020063 	subs	x3, x3, x2
+  7fa104:	d2800002 	mov	x2, #0x0
+  7fa108:	54002141 	b.ne	7fa530
+  7fa10c:	a9487bfd 	ldp	x29, x30, [sp, #128]
+  7fa110:	a94953f3 	ldp	x19, x20, [sp, #144]
+  7fa114:	a94a5bf5 	ldp	x21, x22, [sp, #160]
+  7fa118:	a94b63f7 	ldp	x23, x24, [sp, #176]
+  7fa11c:	a94c6bf9 	ldp	x25, x26, [sp, #192]
+  7fa120:	a94d73fb 	ldp	x27, x28, [sp, #208]
+  7fa124:	910383ff 	add	sp, sp, #0xe0
+  7fa128:	d65f03c0 	ret
+
+=== Assertion handlers ===
+
+  7fa264: contexts vector OOB assert -> calls __replacement_assert (line 1045)
+  7fa284: tasks vector OOB assert -> calls __replacement_assert (line 1045)
+  7fa42c: contexts vector OOB assert (result loop) -> calls __replacement_assert (line 1045)
+  7fa44c: tasks vector OOB assert (result loop) -> calls __replacement_assert (line 1045)
+
+==============================================================================
+PART 3: GDB CRASH FORENSICS
+==============================================================================
+
+=== Crash reproduction ===
+
+Backup command: xtrabackup --backup --user=root --password=root --compress=lz4
+               --compress-chunk-size=65534 --target-dir=/tmp/backup-forensics
+               --no-server-version-check
+
+Concurrent load: 30 parallel INSERT sessions, each inserting 50 rows of ~128KB BLOB data
+
+=== Backtrace ===
+
+#0  0x0000fffff7309190 in abort () from /lib64/libc.so.6
+#1  0x00000000007f1a60 in std::__replacement_assert(char const*, int, char const*, char const*) ()
+#2  0x00000000007fa284 in compress_write(ds_file_t*, void const*, unsigned long) [clone .lto_priv.1] ()
+#3  0x000000000084e4c4 in Redo_Log_Writer::write_buffer(unsigned char*, unsigned long) ()
+#4  0x000000000085e9e0 in Redo_Log_Data_Manager::start() ()
+#5  0x000000000081b104 in xtrabackup_backup_func() ()
+#6  0x00000000007c1bbc in main ()
+
+=== All Registers ===
+
+x0             0x183               387
+x1             0xfffff7ffdb48      281474842483528
+x2             0x0                 0
+x3             0x0                 0
+x4             0x2979122           43487522
+x5             0x3c109b3           62982579
+x6             0x64656c6961662027  7234307576302018599
+x7             0xa2e64656c696166   733634176081289574
+x8             0x745f657a69733a3a  8385532607616727610
+x9             0x1c66d38           29781304
+x10            0xffff00000947945e  -281474821024674
+x11            0x14                20
+x12            0x73696874203c206e  8316293034882637934
+x13            0x0                 0
+x14            0x0                 0
+x15            0x6365763a3a647473  7162260774862484595
+x16            0xfffff730918c      281474828898700
+x17            0x2e912e8           48829160
+x18            0x1                 1
+x19            0x3c0ec90           62975120
+x20            0x1                 1
+x21            0x1010e             65806
+x22            0x9038              36920
+x23            0x81                129
+x24            0x1010e             65806
+x25            0x800000            8388608
+x26            0xffffffffc540      281474976695616
+x27            0x3236000           52649984
+x28            0xfffff5e20000      281474806972416
+x29            0xffffffffc4f0      281474976695536
+x30            0x7f1a60            8329824
+sp             0xffffffffc3a0      0xffffffffc3a0
+pc             0xfffff7309190      0xfffff7309190 <abort+4>
+cpsr           0x80000000          [ EL=0 BTYPE=0 N ]
+
+=== Frame 2 (compress_write) info ===
+
+Stack level 2, frame at 0xffffffffc5e0:
+ pc = 0x7fa284 in compress_write(ds_file_t*, void const*, unsigned long) [clone .lto_priv.1]
+ saved pc = 0x84e4c4
+ called by frame at 0xffffffffc7f0, caller of frame at 0xffffffffc500
+ Arglist at 0xffffffffc500, args:
+ Locals at 0xffffffffc500, Previous frame's sp is 0xffffffffc5e0
+ Saved registers:
+  x19 at 0xffffffffc590, x20 at 0xffffffffc598, x21 at 0xffffffffc5a0,
+  x22 at 0xffffffffc5a8, x23 at 0xffffffffc5b0, x24 at 0xffffffffc5b8,
+  x25 at 0xffffffffc5c0, x26 at 0xffffffffc5c8, x27 at 0xffffffffc5d0,
+  x28 at 0xffffffffc5d8, x29 at 0xffffffffc580, x30 at 0xffffffffc588
+
+No symbol table info available (stripped binary).
+
+=== comp_file pointer (x19) ===
+
+$1 = 0x3c0ec90
+
+=== Raw comp_file memory dump (12 x 8-byte words at 0x3c0ec90) ===
+
+0x3c0ec90:  0x0000ffffeb5ff030  0x0000000003c0d220
+0x3c0eca0:  0x0000000000000800  0x0000ffffea1e4030
+0x3c0ecb0:  0x0000000000000000  0x0000000003c10010
+0x3c0ecc0:  0x0000000003c10820  0x0000000003c10820
+0x3c0ecd0:  0x0000000003c244a0  0x0000000003c2d4d8
+0x3c0ece0:  0x0000000003c2d4d8  0x0000000000000021
+
+=== Decoded comp_file structure ===
+
+offset  0: dest_file     = 0x0000ffffeb5ff030
+offset  8: comp_ctxt     = 0x0000000003c0d220
+offset 16: bytes_proc    = 0x0000000000000800 (2048)
+offset 24: comp_buf      = 0x0000ffffea1e4030
+offset 32: comp_buf_size = 0x0000000000000000 (0!)
+offset 40: tasks.begin   = 0x0000000003c10010
+offset 48: tasks.end     = 0x0000000003c10820
+offset 56: tasks.cap     = 0x0000000003c10820
+offset 64: ctx.begin     = 0x0000000003c244a0
+offset 72: ctx.end       = 0x0000000003c2d4d8
+offset 80: ctx.cap       = 0x0000000003c2d4d8
+offset 88: (unknown)     = 0x0000000000000021
+
+=== tasks vector ===
+
+begin = 0x3c10010
+end   = 0x3c10820
+cap   = 0x3c10820
+byte_span      = 2064
+capacity_bytes = 2064
+
+  size = 258 (if elem_size = 8)
+  size = 129 (if elem_size = 16)  <-- std::future<void> = 16 bytes on aarch64
+  size = 86  (if elem_size = 24)
+
+=== contexts vector ===
+
+begin = 0x3c244a0
+end   = 0x3c2d4d8
+cap   = 0x3c2d4d8
+byte_span      = 36920
+capacity_bytes = 36920
+
+  size = 923 (if elem_size = 40)
+
+==============================================================================
+PART 4: CRASH ANALYSIS
+==============================================================================
+
+=== Assertion that fired ===
+
+File:      /usr/include/c++/11/bits/stl_vector.h
+Line:      1045
+Condition: __n < this->size()
+Context:   std::vector<_Tp, _Alloc>::operator[]
+
+This is a BOUNDS-CHECKED vector operator[] (debug/hardened STL build).
+
+=== Which vector? ===
+
+The crash PC 0x7fa284 is the instruction immediately after the bl at 0x7fa280.
+The bl at 0x7fa280 is reached from the branch at 0x7f9e40:
+
+  7f9e3c: cmp x20, x0, asr #4    ; compare index with (tasks.end - tasks.begin) >> 4
+  7f9e40: b.cs 7fa284             ; branch if index >= tasks.size() (UNSIGNED >=)
+
+This is in the DISPATCH LOOP (first loop), checking tasks[x20] bounds.
+
+=== The vector that crashed: tasks (std::vector<std::future<void>>) ===
+
+From the assertion string at 0x1c67a88:
+  "std::vector<_Tp, _Alloc>::operator[](std::vector<_Tp, _Alloc>::size_type)
+   [with _Tp = std::future<void>; _Alloc = std::allocator<std::future<void> >;
+    std::vector<_Tp, _Alloc>::reference = std::future<void>&;
+    std::vector<_Tp, _Alloc>::size_type = long unsigned int]"
+
+=== Register state at crash (compress_write frame) ===
+
+x19 = 0x3c0ec90  : comp_file pointer (ds_compress_file_t*)
+x20 = 1           : loop index (second iteration)
+x23 = 0x81 = 129  : num_chunks (total chunks to process)
+x25 = 0x800000    : data length = 8,388,608 bytes (8 MB)
+x22 = 0x9038      : 36,920 = context element stride (sizeof(comp_thread_ctxt_t))
+
+=== The mismatch ===
+
+tasks vector:    129 elements (16 bytes each, 2064 total)
+contexts vector: 923 elements (40 bytes each, 36920 total)
+
+CRITICAL OBSERVATION: tasks has 129 elements, contexts has 923 elements.
+These vectors should have the same number of elements!
+
+The contexts vector has 923 = 129 * 7.15... This suggests the contexts vector
+was resized multiple times by different concurrent calls while tasks was only
+sized once. This is the race condition.
+
+=== chunk_size computation ===
+
+compress-chunk-size = 65534 (0xFFFE) -- user-specified, NOT 64KB-aligned
+data_length = 8,388,608 (8 MB)
+num_chunks = ceil(8388608 / 65534) = 129 (x23 = 0x81)
+
+The chunk size 65534 is deliberately non-power-of-2 to trigger edge cases
+in the buffer allocation and vector sizing logic.
+
+=== Disassembly around crash point ===
+
+Dump of assembler code from 0x7fa244 to 0x7fa2c4:
+   0x7fa244: b.cc    0x7fa37c
+   0x7fa248: b.ls    0x7f9d88
+   0x7fa24c: mov     x1, #0x9038
+   0x7fa250: madd    x1, x23, x1, x4
+   0x7fa254: cmp     x3, x1
+   0x7fa258: b.eq    0x7f9d88
+   0x7fa25c: str     x1, [x0, #8]
+   0x7fa260: b       0x7f9d88
+   0x7fa264: adrp    x3, 0x1c66000         ; filename string page
+   0x7fa268: adrp    x2, 0x1c67000         ; assertion string page
+   0x7fa26c: adrp    x0, 0x1c66000         ; function name page
+   0x7fa270: add     x3, x3, #0xd38        ; "__n < this->size()"
+   0x7fa274: add     x2, x2, #0x958        ; "std::vector<comp_thread_ctxt_t>::operator[]..."
+   0x7fa278: add     x0, x0, #0xe90        ; "/usr/include/c++/11/bits/stl_vector.h"
+   0x7fa27c: mov     w1, #0x415            ; line 1045
+   0x7fa280: bl      0x7f1a30              ; __replacement_assert -> abort()
+=> 0x7fa284: adrp    x3, 0x1c66000         ; <<< CRASH PC (return from abort)
+   0x7fa288: adrp    x2, 0x1c67000
+   0x7fa28c: adrp    x0, 0x1c66000
+   0x7fa290: add     x3, x3, #0xd38
+   0x7fa294: add     x2, x2, #0xa88        ; "std::vector<std::future<void>>::operator[]..."
+   0x7fa298: add     x0, x0, #0xe90
+   0x7fa29c: mov     w1, #0x415            ; line 1045
+   0x7fa2a0: bl      0x7f1a30              ; (second assert, never reached)
+
+==============================================================================
+PART 5: ROOT CAUSE EVIDENCE SUMMARY
+==============================================================================
+
+The crash occurs in compress_write() at the second iteration (index=1) of the
+task dispatch loop. The function attempts to access contexts[1] via
+std::vector::operator[], but the bounds check fires.
+
+WAIT -- re-examining the flow more carefully:
+
+At 0x7f9e3c-0x7f9e40 (dispatch loop, first iteration with x20=1):
+  cmp x20, x0 asr #4   ; x20=1 vs tasks.size computed from (end-begin)>>4
+  b.cs 0x7fa284         ; branch to assert if x20 >= tasks.size
+
+The branch target 0x7fa284 first passes through 0x7fa264 (contexts OOB assert)
+then falls through to 0x7fa284 (tasks OOB assert).
+
+Actually, looking again at the control flow:
+
+  0x7f9de4: cmp x0, x20           ; contexts.size vs index
+  0x7f9de8: b.ls 0x7fa264         ; if contexts.size <= index -> ASSERT (contexts OOB)
+
+  0x7f9e3c: cmp x20, x0 asr #4   ; index vs tasks.size
+  0x7f9e40: b.cs 0x7fa284         ; if index >= tasks.size -> ASSERT (tasks OOB)
+
+The crash PC is 0x7fa284. This is the instruction right after the contexts
+vector assert call at 0x7fa280. The flow was:
+
+  1. contexts OOB check at 0x7f9de8 found: contexts.size() <= x20
+  2. Branched to 0x7fa264
+  3. Called __replacement_assert at 0x7fa280 -> abort() at 0x7f1a60
+  4. PC after call = 0x7fa284
+
+So the FIRST assert that fired was the CONTEXTS VECTOR OOB check, NOT tasks.
+
+The assertion string at 0x7fa264 uses 0x1c67958:
+  "std::vector<comp_thread_ctxt_t>::operator[](...)"
+
+THIS IS THE ROOT CAUSE: The contexts vector (std::vector<comp_thread_ctxt_t>)
+is being accessed out of bounds in the dispatch loop.
+
+But wait: the contexts vector shows 923 elements, and x20=1.
+923 > 1, so how can this be OOB?
+
+Re-checking: the magic multiplication at 0x7f9da4 computes contexts.size()
+from raw pointer arithmetic. The magic constant x25 = 0x7e6b480ea4f8bbb7
+is the multiplicative inverse for division by 40 (sizeof(comp_thread_ctxt_t)).
+
+At crash time, x25 was RELOADED with 0x800000 (the data length!) because
+the register was reused. The saved frame registers show the state at the time
+of the abort() call, not at the time of the comparison.
+
+The actual crash sequence was:
+  - compress_write called with 8MB of redo log data
+  - num_chunks = ceil(8388608 / 65534) = 129
+  - vectors were resized to hold 129 entries
+  - During the dispatch loop iteration 1, the contexts[1] bounds check failed
+  - This indicates the contexts vector was NOT properly sized to 129 elements
+
+Given the vector memory dump shows contexts has 923 elements (36920 / 40),
+the most likely scenario is:
+  - The vectors were sized for a PREVIOUS call's chunk count
+  - A concurrent call resized them, corrupting the internal state
+  - OR the 923 is correct but the size computation in the bounds check
+    produced a wrong result due to integer overflow with the non-standard
+    chunk size (65534 = 0xFFFE)
+
+CONCLUSION: The crash is a std::vector out-of-bounds access in compress_write()
+on the contexts vector (std::vector<comp_thread_ctxt_t>) at line 1045 of
+stl_vector.h, triggered by the non-power-of-2 compress-chunk-size=65534
+causing incorrect vector sizing or bounds computation.
