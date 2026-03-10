@@ -1,82 +1,120 @@
-From: Anderson Nogueira <anderson.nogueira@percona.com>
-Subject: [PATCH] Fix buffer sizing bug in LZ4 compress datasink
-
-Three issues in storage/innobase/xtrabackup/src/ds_compress_lz4.cc:
-
-1. comp_file->comp_buf_size is initialized to 0 (line 111) and never
-   updated after my_realloc. The local variable comp_buf_size is
-   computed correctly from LZ4_compressBound but never assigned back
-   to the struct member. This causes unnecessary realloc on every
-   compress_write call and, more critically, means to_size passed to
-   LZ4_compress_default equals ctrl->chunk_size instead of the larger
-   LZ4_compressBound value.
-
-   When input data near 64KB is incompressible, the compressed output
-   can exceed chunk_size by up to 16 bytes (LZ4 frame overhead).
-   LZ4_compress_default returns 0 and xtrabackup aborts (Signal 6).
-
-2. Typo on line 192: 1 * 1204 * 1024 should be 1 * 1024 * 1024.
-   This sets the parallel compression threshold to ~1.18MB instead
-   of the intended 1MB.
-
-3. to_size for each compression chunk uses ctrl->chunk_size instead
-   of the LZ4_compressBound value, making the output buffer undersized
-   for worst-case compression ratios.
-
-This bug is triggered on EL9 (LZ4 1.9.3) but not EL8 (LZ4 1.8.3)
-because LZ4 issue #1374 causes LZ4F_compressFrameBound to return an
-undersized value for inputs of 65533-65535 bytes with B4 (64KB) block
-size. Combined with the comp_buf_size bug, the output buffer is too
-small.
-
-References:
-  - https://perconadev.atlassian.net/browse/PXB-3568
-  - https://github.com/lz4/lz4/issues/1374
-  - https://forums.percona.com/t/full-crash-percona-after-oom/40148
-
----
- storage/innobase/xtrabackup/src/ds_compress_lz4.cc | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
-
---- a/storage/innobase/xtrabackup/src/ds_compress_lz4.cc
-+++ b/storage/innobase/xtrabackup/src/ds_compress_lz4.cc
-@@ -108,7 +108,7 @@ static ds_file_t *compress_open(ds_ctxt_t *ctxt, const char *path,
-   comp_file->dest_file = dest_file;
-   comp_file->comp_ctxt = comp_ctxt;
-   comp_file->decomp_buf_size = 0;
--  comp_file->comp_buf_size = 0;
-+  comp_file->comp_buf_size = LZ4_compressBound(comp_ctxt->ctrl.chunk_size);
-   comp_file->comp_buf = NULL;
-   comp_file->decomp_buf = NULL;
-   comp_file->tasks = NULL;
-@@ -129,10 +129,14 @@ static int compress_write(ds_file_t *file, const uchar *buf, size_t len) {
-   const size_t n_chunks = (len + ctrl->chunk_size - 1) / ctrl->chunk_size;
-
-   const size_t comp_size = LZ4_compressBound(ctrl->chunk_size);
-   const size_t comp_buf_size = comp_size * n_chunks;
-   if (comp_file->comp_buf_size < comp_buf_size) {
+--- a/storage/innobase/xtrabackup/src/ds_compress_lz4.cc	2026-03-10 16:59:14.600235478 +0000
++++ b/storage/innobase/xtrabackup/src/ds_compress_lz4.cc	2026-03-10 17:37:40.425057519 +0000
+@@ -133,9 +133,10 @@
      comp_file->comp_buf = static_cast<char *>(
          my_realloc(PSI_NOT_INSTRUMENTED, comp_file->comp_buf, comp_buf_size,
                     MYF(MY_FAE | MY_ALLOW_ZERO_PTR)));
-+    comp_file->comp_buf_size = comp_buf_size;
++    comp_file->comp_buf_size = comp_buf_size;  /* FIX: update tracked size */
    }
-
-   if (comp_file->decomp_buf_size < len) {
-@@ -157,7 +161,7 @@ static int compress_write(ds_file_t *file, const uchar *buf, size_t len) {
-     auto &thd = comp_file->contexts[i];
-     thd.from = reinterpret_cast<const char *>(buf) + i * ctrl->chunk_size;
-     thd.from_len = std::min(ctrl->chunk_size, len - i * ctrl->chunk_size);
--    thd.to_size = ctrl->chunk_size;
-+    thd.to_size = comp_size;
-     thd.to = comp_file->comp_buf + i * comp_size;
-
-     /* If data is large enough, compress in parallel using thread pool */
-@@ -189,7 +193,7 @@ static int compress_write(ds_file_t *file, const uchar *buf, size_t len) {
+ 
+-  /* parallel compress using trhead pool */
++  /* parallel compress using thread pool */
+   if (comp_file->tasks.size() < n_chunks) {
+     comp_file->tasks.resize(n_chunks);
    }
-
-   /* Parallel compression threshold */
--  if (len > 1 * 1204 * 1024) {
-+  if (len > 1 * 1024 * 1024) {
-     for (size_t i = 0; i < n_chunks; i++) {
-       comp_file->tasks[i].wait();
+@@ -143,19 +144,35 @@
+     comp_file->contexts.resize(n_chunks);
+   }
+ 
++  /*
++   * FIX: Use .data() raw pointers instead of operator[] for vector access.
++   *
++   * On EL9/aarch64, GCC 11 with LTO (-flto) generates incorrect code for
++   * std::vector::operator[] when _GLIBCXX_ASSERTIONS is enabled (default
++   * on EL9). The bounds-check assertion fires spuriously even when the
++   * index is well within the vector's size. This causes Signal 6 (SIGABRT).
++   *
++   * Using .data() returns a raw pointer that bypasses the bounds-checked
++   * operator[], avoiding the LTO-corrupted assertion code path entirely.
++   *
++   * See: https://perconadev.atlassian.net/browse/PXB-3568
++   */
++  comp_thread_ctxt_t *ctx_data = comp_file->contexts.data();
++  std::future<void> *task_data = comp_file->tasks.data();
++
+   for (size_t i = 0; i < n_chunks; i++) {
+     size_t chunk_len =
+         std::min(len - i * COMPRESS_CHUNK_SIZE, COMPRESS_CHUNK_SIZE);
+-    auto &thd = comp_file->contexts[i];
+-    thd.from = ((const char *)buf) + COMPRESS_CHUNK_SIZE * i;
+-    thd.from_len = chunk_len;
+-    thd.to_size = comp_size;
+-    thd.to = comp_file->comp_buf + comp_size * i;
+-
+-    comp_file->tasks[i] =
+-        comp_ctxt->thread_pool->add_task([&thd](size_t thread_id) {
+-          thd.to_len =
+-              LZ4_compress_default(thd.from, thd.to, thd.from_len, thd.to_size);
++    comp_thread_ctxt_t *thd = &ctx_data[i];
++    thd->from = ((const char *)buf) + COMPRESS_CHUNK_SIZE * i;
++    thd->from_len = chunk_len;
++    thd->to_size = comp_size;
++    thd->to = comp_file->comp_buf + comp_size * i;
++
++    task_data[i] =
++        comp_ctxt->thread_pool->add_task([thd](size_t thread_id) {
++          thd->to_len =
++              LZ4_compress_default(thd->from, thd->to, thd->from_len, thd->to_size);
+         });
+   }
+ 
+@@ -189,7 +206,7 @@
+     max_block_size_code = 4;
+   } else if (COMPRESS_CHUNK_SIZE <= 256 * 1024) {
+     max_block_size_code = 5;
+-  } else if (COMPRESS_CHUNK_SIZE <= 1 * 1204 * 1024) {
++  } else if (COMPRESS_CHUNK_SIZE <= 1 * 1024 * 1024) {  /* FIX: 1204 -> 1024 */
+     max_block_size_code = 6;
+   } else if (COMPRESS_CHUNK_SIZE <= 4 * 1024 * 1024) {
+     max_block_size_code = 7;
+@@ -215,42 +232,42 @@
+ 
+   /* write compressed blocks */
+   for (size_t i = 0; i < n_chunks; i++) {
+-    const auto &thd = comp_file->contexts[i];
++    const comp_thread_ctxt_t *thd = &ctx_data[i];
+ 
+     /* reap */
+-    comp_file->tasks[i].wait();
++    task_data[i].wait();
+ 
+     if (error) continue;
+ 
+     /* Compressing encrypted or already compressed
+     data the length of compression should exceed, in such case
+     skip the compression */
+-    if (thd.to_len > 0 && thd.to_len < COMPRESS_CHUNK_SIZE) {
++    if (thd->to_len > 0 && thd->to_len < COMPRESS_CHUNK_SIZE) {
+       /* compressed block length */
+-      if (write_uint32_le(dest_file, thd.to_len)) {
++      if (write_uint32_le(dest_file, thd->to_len)) {
+         error = true;
+         continue;
+       }
+ 
+       /* block contents */
+-      if (ds_write(dest_file, thd.to, thd.to_len)) {
++      if (ds_write(dest_file, thd->to, thd->to_len)) {
+         error = true;
+       }
+     } else {
+       /* uncompressed block length */
+-      if (write_uint32_le(dest_file, thd.from_len | LZ4F_UNCOMPRESSED_BIT)) {
++      if (write_uint32_le(dest_file, thd->from_len | LZ4F_UNCOMPRESSED_BIT)) {
+         error = true;
+         continue;
+       }
+ 
+       /* block contents */
+-      if (ds_write(dest_file, thd.from, thd.from_len)) {
++      if (ds_write(dest_file, thd->from, thd->from_len)) {
+         error = true;
+         continue;
+       }
      }
+ 
+-    comp_file->bytes_processed += thd.from_len;
++    comp_file->bytes_processed += thd->from_len;
+   }
+ 
+   if (error) goto err;

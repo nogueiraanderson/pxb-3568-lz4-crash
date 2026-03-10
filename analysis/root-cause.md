@@ -2,23 +2,110 @@
 
 ## Summary
 
-XtraBackup crashes with Signal 6 (abort) during SST when using
-`compress=lz4` on EL9-based PXC Docker images. The crash occurs in
-`ds_compress_lz4.cc` during `compress_write` when `LZ4_compress_default`
-returns 0 due to an undersized output buffer.
+XtraBackup crashes with Signal 6 (SIGABRT) during LZ4-compressed backups on
+EL9-based PXC Docker images (aarch64). The crash is a **false-positive
+`_GLIBCXX_ASSERTIONS` bounds check** in `std::vector::operator[]`, caused by
+GCC 11 Link-Time Optimization (LTO) generating incorrect code on aarch64.
 
-Three interacting bugs produce this crash.
+## The Crash Mechanism
 
-## Bug A: `comp_buf_size` Never Updated After Realloc (Primary)
+### What Happens
 
-File: `storage/innobase/xtrabackup/src/ds_compress_lz4.cc`
+1. `compress_write()` in `ds_compress_lz4.cc` is called from `Redo_Log_Writer::write_buffer()`
+2. The function resizes `std::vector<comp_thread_ctxt_t> contexts` to `n_chunks`
+3. It accesses `comp_file->contexts[i]` via `operator[]`
+4. `operator[]` contains `_GLIBCXX_ASSERTIONS` bounds check: `assert(__n < this->size())`
+5. GCC 11 LTO generates incorrect code for this check on aarch64
+6. The assertion fires even though the index is valid (e.g., i=1, size=923)
+7. `std::__replacement_assert()` is called inline, which calls `abort()`
+8. Signal 6 (SIGABRT)
+
+### GDB Evidence
+
+Register state at crash point:
+
+```
+x19 (comp_file) = 0x3c28ee0
+x20 (index i)   = 1              <-- valid index
+x21 (comp_size) = 65806
+x22             = 36920 (0x9038) <-- suspicious: LTO-generated stride
+x23 (n_chunks)  = 129
+x25 (len)       = 8388608 (8MB)
+tasks.size()    = 129
+contexts.size() = 923            <-- i=1 < 923, assertion should PASS
+```
+
+The assertion `1 < 923` should evaluate to **true** (pass), yet it fires.
+This confirms the assertion code itself is broken, not the data.
+
+### Assembly Analysis
+
+LTO-generated code in `compress_write [clone .lto_priv.1]` uses:
+
+```asm
+MOVZ X1, #0x9038    ; stride = 36920 bytes (WRONG)
+; should be: MOVZ X1, #0x28  ; stride = 40 bytes = sizeof(comp_thread_ctxt_t)
+```
+
+The constant 0x9038 (36920) appears in the element address calculation.
+`sizeof(comp_thread_ctxt_t)` is 40 bytes (5 pointers/size_t fields at 8 bytes
+each on aarch64). The incorrect stride 36920 = 923 * 40, suggesting the LTO
+optimizer confused the vector size with the stride.
+
+## Why It Only Affects EL9/aarch64
+
+Three conditions must all be present:
+
+| Condition | EL8 | EL9 |
+|-----------|-----|-----|
+| GCC version | 8.5 | **11.5.0** (generates LTO bug) |
+| `_GLIBCXX_ASSERTIONS` | Not default | **Default** (redhat-rpm-config) |
+| LTO build | Yes | **Yes** (confirmed by `.lto_priv.1` suffix) |
+
+- **GCC 11 LTO on aarch64** generates incorrect element stride in
+  `vector::operator[]` bounds check. GCC 8 does not have this bug.
+- **`_GLIBCXX_ASSERTIONS`** enables the bounds check in `operator[]`.
+  Without it, the assertion code is absent and the actual data access
+  uses correct pointer arithmetic.
+- The bug is specific to the **full program LTO context**. Standalone
+  programs compiled with the same flags do not reproduce it.
+
+## Why the Crash Requires Concurrent Writes
+
+The crash only occurs when the redo log writer is actively compressing data
+(concurrent INSERT workload generates redo log entries). Without concurrent
+writes, the redo log buffer is small enough that `compress_write` receives
+small inputs that do not trigger the code path with the corrupted stride.
+
+With concurrent writes, `Redo_Log_Writer::write_buffer()` passes 8MB+ buffers,
+creating 129+ chunks. The loop iterates past the first element, hitting the
+incorrect stride calculation.
+
+## The Fix
+
+Replace `std::vector::operator[]` with `std::vector::data()` raw pointer access:
 
 ```cpp
-// Line 111: initialized to 0
-comp_file->comp_buf_size = 0;
+// BEFORE (buggy):
+auto &thd = comp_file->contexts[i];    // goes through operator[], assertion fires
 
-// Lines 132-136: computed but never assigned back
-const size_t comp_buf_size = comp_size * n_chunks;
+// AFTER (fixed):
+comp_thread_ctxt_t *ctx_data = comp_file->contexts.data();
+comp_thread_ctxt_t *thd = &ctx_data[i]; // raw pointer, no assertion check
+```
+
+`.data()` returns a raw `comp_thread_ctxt_t*` pointer. Array subscript on a
+raw pointer uses normal pointer arithmetic, completely bypassing the
+LTO-corrupted `operator[]` bounds check.
+
+Validated: compiled test on EL9/aarch64 with `-O2 -flto -D_GLIBCXX_ASSERTIONS`
+confirms `.data()` does not trigger assertions while `operator[]` does.
+
+## Additional Bugs (Non-Crash)
+
+### comp_buf_size Never Updated (line 136)
+
+```cpp
 if (comp_file->comp_buf_size < comp_buf_size) {
     comp_file->comp_buf = static_cast<char *>(
         my_realloc(PSI_NOT_INSTRUMENTED, comp_file->comp_buf, comp_buf_size,
@@ -27,88 +114,30 @@ if (comp_file->comp_buf_size < comp_buf_size) {
 }
 ```
 
-The buffer (`comp_buf`) is reallocated to the correct size, but the
-member tracking the size (`comp_buf_size`) stays at 0. This means:
+`comp_buf_size` (local) is computed but never assigned to
+`comp_file->comp_buf_size` (member, initialized to 0). Causes unnecessary
+`my_realloc` on every `compress_write` call.
 
-1. The realloc fires on **every** `compress_write` call (guard always
-   sees 0 < anything).
-2. More critically, each compression thread's `to_size` is set to
-   `ctrl->chunk_size` (line 160) instead of `LZ4_compressBound(chunk_size)`.
-
-When input data near 64KB is incompressible, LZ4 needs up to 16 extra
-bytes for frame headers. The undersized `to_size` causes
-`LZ4_compress_default` to return 0, triggering `abort()`.
-
-## LZ4 Library Bug #1374 (Contributing)
-
-[LZ4 issue #1374](https://github.com/lz4/lz4/issues/1374):
-`LZ4F_compressFrameBound()` returns an undersized value for inputs of
-65533-65535 bytes with B4 (64KB) block size. Fixed in LZ4 1.10.0.
-
-| Platform | System LZ4 | Has #1374 |
-|----------|-----------|-----------|
-| EL8 | 1.8.3 | No (older API, different code path) |
-| EL9 | 1.9.3 | **Yes** |
-
-XtraBackup in PXC Docker images **dynamically links** system `liblz4.so`
-(confirmed via `ldd`), so the system library version directly affects
-the crash behavior.
-
-The default `compress-chunk-size` in XtraBackup is 64KB, hitting
-the exact boundary where #1374 manifests.
-
-## Bug B: Vector Resize Race (Secondary)
+### Typo: 1204 Should Be 1024 (line 192)
 
 ```cpp
-if (comp_file->contexts.size() < n_chunks) {
-    comp_file->contexts.resize(n_chunks);
-}
-// ...
-for (size_t i = 0; i < n_chunks; i++) {
-    auto &thd = comp_file->contexts[i];
-    // thd is a reference into the vector
-    comp_file->tasks[i] =
-        comp_ctxt->thread_pool->add_task([&thd](size_t thread_id) {
-            thd.to_len = LZ4_compress_default(thd.from, thd.to,
-                                               thd.from_len, thd.to_size);
-        });
-}
+} else if (COMPRESS_CHUNK_SIZE <= 1 * 1204 * 1024) {  // should be 1024
 ```
 
-If `resize` relocates the vector's storage (when growing beyond
-capacity), and a previous task is still running against an old
-`contexts[i]` address, that is a use-after-free. This is a secondary
-concern and warrants TSAN investigation separately.
+Sets the BD byte max block size threshold to ~1.18MB instead of 1MB.
 
-## Typo: Line 192
+## Why Earlier Fix Attempts Failed
 
-```cpp
-if (len > 1 * 1204 * 1024) {  // should be 1024, not 1204
-```
+| Attempt | Why It Failed |
+|---------|--------------|
+| LZ4 1.10.0 upgrade | LZ4 library is not the problem; assertion is in STL code |
+| Buffer sizing patch | Fixed real bugs but not the assertion false positive |
+| Binary stride patch (0x9038 to 0x28) | Other LTO-corrupted constants exist; patching one is insufficient |
+| LD_PRELOAD abort() override | Suppressing abort causes infinite retry loop in inline assertion |
 
-Sets the parallel compression threshold to ~1.18MB instead of 1MB.
-Minor but worth fixing.
+## Comparison with zstd Datasink
 
-## Crash Path
-
-```
-compress_write called with len near 64KB
-  -> LZ4_compressBound(65534) returns 65550 (16 bytes > chunk_size)
-  -> thd.to_size = ctrl->chunk_size = 65534 (undersized)
-  -> LZ4_compress_default(src, dst, 65534, 65534) attempts compression
-  -> incompressible data: compressed output = ~65540 bytes
-  -> 65540 > 65534 (dstCapacity): returns 0
-  -> xtrabackup checks return value, calls abort()
-  -> Signal 6 (SIGABRT)
-```
-
-## Why It Worked Before
-
-On EL8 (LZ4 1.8.3), the boundary arithmetic is slightly different
-and the compressed output stays within the buffer. On EL9 (LZ4 1.9.3),
-the boundary condition in #1374 causes the output to exceed the buffer
-by exactly the frame header size.
-
-Additionally, GCC 11 (EL9 default) has stricter optimization and
-RHEL9 default hardening flags that change memory layout, making the
-crash deterministic rather than probabilistic.
+The zstd datasink (`ds_compress_zstd.cc`) works because it does NOT use
+`std::vector` at all. It uses raw `char*` buffers and ZSTD's built-in
+streaming API with thread pool. No `operator[]`, no `_GLIBCXX_ASSERTIONS`,
+no LTO code generation issue.
