@@ -3,7 +3,7 @@
 ## Root Cause
 
 XtraBackup crashes with Signal 6 (SIGABRT) during LZ4-compressed backups on
-EL9/aarch64 (OracleLinux 9 Docker images). The crash occurs in
+EL9 (OracleLinux 9 Docker images, both aarch64 and x86_64). The crash occurs in
 `compress_write()` in `ds_compress_lz4.cc` when the redo log writer calls it
 with data from concurrent database writes.
 
@@ -14,7 +14,7 @@ stl_vector.h:1045: Assertion '__n < this->size()' failed.
 ```
 
 GDB analysis confirmed the assertion fires with **valid indices** (e.g., i=1
-with size=923). This is caused by GCC 11.5.0 on aarch64 generating incorrect
+with size=923). This is caused by GCC 11.5.0 with LTO generating incorrect
 bounds-check code when Link-Time Optimization (LTO, `-flto`) interacts with
 `_GLIBCXX_ASSERTIONS` (enabled by default on EL9 via redhat-rpm-config).
 
@@ -90,7 +90,7 @@ git apply ds_compress_lz4.patch
 
 ## How to Verify
 
-1. Build XtraBackup from the patched source on EL9/aarch64 (the affected platform)
+1. Build XtraBackup from the patched source on EL9 (the affected platform)
 2. Create a database with significant random data (~30MB+)
 3. Run concurrent INSERT workload (generates redo log writes)
 4. Run `xtrabackup --backup --compress=lz4 --compress-chunk-size=65534`

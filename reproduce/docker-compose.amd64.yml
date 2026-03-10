@@ -1,0 +1,11 @@
+# Override: force linux/amd64 platform for x86_64 testing
+# Used with: docker compose -f docker-compose.yml -f docker-compose.amd64.yml
+services:
+  pxc-node1:
+    platform: linux/amd64
+
+  pxc-node2:
+    platform: linux/amd64
+
+  pxc-node3:
+    platform: linux/amd64

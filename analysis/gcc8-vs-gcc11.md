@@ -57,7 +57,7 @@ folded, changing memory layout and timing.
 
 The crash requires all of these conditions simultaneously:
 
-1. GCC 11+ LTO on aarch64 generates incorrect element stride (36920
+1. GCC 11+ LTO generates incorrect element stride (36920
    instead of 40) in the `compress_write()` vector traversal loop
 2. `_GLIBCXX_ASSERTIONS` is enabled (EL9 default), adding bounds
    checks to `std::vector::operator[]`

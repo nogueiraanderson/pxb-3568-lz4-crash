@@ -1,0 +1,711 @@
+  8a2268:	48 39 c3             	cmp    %rax,%rbx
+  8a226b:	77 33                	ja     8a22a0 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_13_State_baseV27_SetterIvvEEE9_M_invokeERKSt9_Any_data@@Base+0x15a0>
+  8a226d:	ba 38 90 00 00       	mov    $0x9038,%edx
+  8a2272:	31 f6                	xor    %esi,%esi
+  8a2274:	4c 89 f7             	mov    %r14,%rdi
+  8a2277:	e8 04 94 f1 ff       	callq  7bb680 <memset@plt>
+  8a227c:	4d 8d a6 38 90 00 00 	lea    0x9038(%r14),%r12
+  8a2283:	48 83 eb 01          	sub    $0x1,%rbx
+  8a2287:	0f 85 bb 00 00 00    	jne    8a2348 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_13_State_baseV27_SetterIvvEEE9_M_invokeERKSt9_Any_data@@Base+0x1648>
+--
+  8a22d9:	4c 03 6d c0          	add    -0x40(%rbp),%r13
+  8a22dd:	31 f6                	xor    %esi,%esi
+  8a22df:	ba 38 90 00 00       	mov    $0x9038,%edx
+  8a22e4:	49 89 de             	mov    %rbx,%r14
+  8a22e7:	4c 89 ef             	mov    %r13,%rdi
+--
+  8a2315:	4c 01 e3             	add    %r12,%rbx
+  8a2318:	48 8b 45 c0          	mov    -0x40(%rbp),%rax
+  8a231c:	48 69 db 38 90 00 00 	imul   $0x9038,%rbx,%rbx
+  8a2323:	49 89 07             	mov    %rax,(%r15)
+  8a2326:	48 01 c3             	add    %rax,%rbx
+--
+  8a2343:	c3                   	retq   
+  8a2344:	0f 1f 40 00          	nopl   0x0(%rax)
+  8a2348:	48 69 db 38 90 00 00 	imul   $0x9038,%rbx,%rbx
+  8a234f:	4c 89 e7             	mov    %r12,%rdi
+  8a2352:	4c 01 e3             	add    %r12,%rbx
+  8a2355:	0f 1f 00             	nopl   (%rax)
+  8a2358:	ba 38 90 00 00       	mov    $0x9038,%edx
+  8a235d:	4c 89 f6             	mov    %r14,%rsi
+  8a2360:	e8 eb a5 f1 ff       	callq  7bc950 <memcpy@plt>
+  8a2365:	48 89 c7             	mov    %rax,%rdi
+  8a2368:	48 81 c7 38 90 00 00 	add    $0x9038,%rdi
+  8a236f:	48 39 fb             	cmp    %rdi,%rbx
+  8a2372:	75 e4                	jne    8a2358 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_13_State_baseV27_SetterIvvEEE9_M_invokeERKSt9_Any_data@@Base+0x1658>
+--
+  8a239a:	48 21 d0             	and    %rdx,%rax
+  8a239d:	48 83 c0 01          	add    $0x1,%rax
+  8a23a1:	48 69 c0 38 90 00 00 	imul   $0x9038,%rax,%rax
+  8a23a8:	49 01 c4             	add    %rax,%r12
+  8a23ab:	e9 dd fe ff ff       	jmpq   8a228d <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_13_State_baseV27_SetterIvvEEE9_M_invokeERKSt9_Any_data@@Base+0x158d>
+  8a23b0:	4d 69 f6 38 90 00 00 	imul   $0x9038,%r14,%r14
+  8a23b7:	49 8d bd 38 90 00 00 	lea    0x9038(%r13),%rdi
+  8a23be:	49 01 fe             	add    %rdi,%r14
+  8a23c1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  8a23c8:	ba 38 90 00 00       	mov    $0x9038,%edx
+  8a23cd:	4c 89 ee             	mov    %r13,%rsi
+  8a23d0:	4c 89 45 c8          	mov    %r8,-0x38(%rbp)
+--
+  8a23d9:	4c 8b 45 c8          	mov    -0x38(%rbp),%r8
+  8a23dd:	48 89 c7             	mov    %rax,%rdi
+  8a23e0:	48 81 c7 38 90 00 00 	add    $0x9038,%rdi
+  8a23e7:	49 39 fe             	cmp    %rdi,%r14
+  8a23ea:	75 dc                	jne    8a23c8 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_13_State_baseV27_SetterIvvEEE9_M_invokeERKSt9_Any_data@@Base+0x16c8>
+--
+  8a243b:	48 39 d0             	cmp    %rdx,%rax
+  8a243e:	48 0f 47 c2          	cmova  %rdx,%rax
+  8a2442:	4c 69 f0 38 90 00 00 	imul   $0x9038,%rax,%r14
+  8a2449:	4c 89 f7             	mov    %r14,%rdi
+  8a244c:	e8 cf a5 f1 ff       	callq  7bca20 <_Znwm@plt>
+--
+  8aa98c:	ff d0                	callq  *%rax
+  8aa98e:	49 8d 47 01          	lea    0x1(%r15),%rax
+  8aa992:	49 81 c5 38 90 00 00 	add    $0x9038,%r13
+  8aa999:	4c 03 75 80          	add    -0x80(%rbp),%r14
+  8aa99d:	48 39 45 88          	cmp    %rax,-0x78(%rbp)
+--
+  8aabcc:	0f 85 8e 00 00 00    	jne    8aac60 <ds_write_sparse@@Base+0x1360>
+  8aabd2:	49 8b 45 08          	mov    0x8(%r13),%rax
+  8aabd6:	48 81 45 88 38 90 00 	addq   $0x9038,-0x78(%rbp)
+  8aabdd:	00 
+  8aabde:	49 01 46 10          	add    %rax,0x10(%r14)
+--
+  8ab022:	49 83 c4 01          	add    $0x1,%r12
+  8ab026:	4c 03 bd 78 ff ff ff 	add    -0x88(%rbp),%r15
+  8ab02d:	48 81 85 70 ff ff ff 	addq   $0x9038,-0x90(%rbp)
+  8ab034:	38 90 00 00 
+  8ab038:	4d 39 ec             	cmp    %r13,%r12
+--
+  8ab101:	0f 82 11 04 00 00    	jb     8ab518 <ds_write_sparse@@Base+0x1c18>
+  8ab107:	0f 86 9b fd ff ff    	jbe    8aaea8 <ds_write_sparse@@Base+0x15a8>
+  8ab10d:	49 69 c5 38 90 00 00 	imul   $0x9038,%r13,%rax
+  8ab114:	48 01 c1             	add    %rax,%rcx
+  8ab117:	48 39 ce             	cmp    %rcx,%rsi
+--
+  8ab35c:	0f 84 fe 01 00 00    	je     8ab560 <ds_write_sparse@@Base+0x1c60>
+  8ab362:	c6 85 78 ff ff ff 01 	movb   $0x1,-0x88(%rbp)
+  8ab369:	48 81 85 70 ff ff ff 	addq   $0x9038,-0x90(%rbp)
+  8ab370:	38 90 00 00 
+  8ab374:	49 83 c4 01          	add    $0x1,%r12
+--
+  936918:	48 8b 5d b0          	mov    -0x50(%rbp),%rbx
+  93691c:	c6 45 cc 00          	movb   $0x0,-0x34(%rbp)
+  936920:	c7 45 c8 00 00 00 00 	movl   $0x0,-0x38(%rbp)
+  936927:	48 85 db             	test   %rbx,%rbx
+  93692a:	0f 84 71 ff ff ff    	je     9368a1 <_Z22create_authid_str_fromB5cxx11PK8LEX_USER@@Base+0xd1>
+--
+  b3b3e1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  b3b3e8:	4c 89 fa             	mov    %r15,%rdx
+  b3b3eb:	e8 30 b5 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3b3f0:	49 8b 34 24          	mov    (%r12),%rsi
+  b3b3f4:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+  b3b470:	4c 89 fa             	mov    %r15,%rdx
+  b3b473:	48 89 8d 00 ff ff ff 	mov    %rcx,-0x100(%rbp)
+  b3b47a:	e8 a1 b4 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3b47f:	48 8b 8d 00 ff ff ff 	mov    -0x100(%rbp),%rcx
+  b3b486:	48 8b 50 10          	mov    0x10(%rax),%rdx
+--
+  b3b559:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  b3b560:	4c 89 fa             	mov    %r15,%rdx
+  b3b563:	e8 b8 b3 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3b568:	80 78 18 00          	cmpb   $0x0,0x18(%rax)
+  b3b56c:	0f 84 6e 07 00 00    	je     b3bce0 <_ZNSt17_Function_handlerIFbcENSt8__detail15_BracketMatcherINSt7__cxx1112regex_traitsIcEELb1ELb1EEEE10_M_managerERSt9_Any_dataRKS8_St18_Manager_operation@@Base+0xf640>
+--
+  b3b5d9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  b3b5e0:	4c 89 fa             	mov    %r15,%rdx
+  b3b5e3:	e8 38 b3 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3b5e8:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+  b3b5ed:	49 89 c7             	mov    %rax,%r15
+--
+  b3b630:	4c 89 fa             	mov    %r15,%rdx
+  b3b633:	44 88 85 00 ff ff ff 	mov    %r8b,-0x100(%rbp)
+  b3b63a:	e8 e1 b2 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3b63f:	44 0f b6 85 00 ff ff 	movzbl -0x100(%rbp),%r8d
+  b3b646:	ff 
+--
+  b3b6d9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  b3b6e0:	4c 89 fa             	mov    %r15,%rdx
+  b3b6e3:	e8 38 b2 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3b6e8:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+  b3b6ed:	49 89 c7             	mov    %rax,%r15
+--
+  b3b72f:	90                   	nop
+  b3b730:	4c 89 fa             	mov    %r15,%rdx
+  b3b733:	e8 e8 b1 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3b738:	49 8b 34 24          	mov    (%r12),%rsi
+  b3b73c:	48 bf ab aa aa aa aa 	movabs $0xaaaaaaaaaaaaaaab,%rdi
+--
+  b3b7aa:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+  b3b7b0:	4c 89 fa             	mov    %r15,%rdx
+  b3b7b3:	e8 68 b1 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3b7b8:	48 89 c3             	mov    %rax,%rbx
+  b3b7bb:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+  b3c10d:	00 00 00 
+  b3c110:	4c 89 ea             	mov    %r13,%rdx
+  b3c113:	e8 08 a8 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3c118:	f6 43 18 10          	testb  $0x10,0x18(%rbx)
+  b3c11c:	48 8b 50 10          	mov    0x10(%rax),%rdx
+--
+  b3c14d:	0f 1f 00             	nopl   (%rax)
+  b3c150:	4c 89 ea             	mov    %r13,%rdx
+  b3c153:	e8 c8 a7 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3c158:	80 78 18 00          	cmpb   $0x0,0x18(%rax)
+  b3c15c:	48 89 c3             	mov    %rax,%rbx
+--
+  b3c2f5:	0f 1f 00             	nopl   (%rax)
+  b3c2f8:	4c 89 ea             	mov    %r13,%rdx
+  b3c2fb:	e8 20 a6 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3c300:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+  b3c305:	48 89 c3             	mov    %rax,%rbx
+--
+  b3c355:	0f 1f 00             	nopl   (%rax)
+  b3c358:	4c 89 ea             	mov    %r13,%rdx
+  b3c35b:	e8 c0 a5 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3c360:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+  b3c365:	48 89 c3             	mov    %rax,%rbx
+--
+  b3c3fe:	00 00 
+  b3c400:	4c 89 ea             	mov    %r13,%rdx
+  b3c403:	e8 18 a5 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3c408:	48 89 c3             	mov    %rax,%rbx
+  b3c40b:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+  b3c71f:	90                   	nop
+  b3c720:	4c 89 ea             	mov    %r13,%rdx
+  b3c723:	e8 f8 a1 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3c728:	49 8b 34 24          	mov    (%r12),%rsi
+  b3c72c:	48 bf ab aa aa aa aa 	movabs $0xaaaaaaaaaaaaaaab,%rdi
+--
+  b3c79a:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+  b3c7a0:	4c 89 ea             	mov    %r13,%rdx
+  b3c7a3:	e8 78 a1 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3c7a8:	48 89 c3             	mov    %rax,%rbx
+  b3c7ab:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+  b3c809:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  b3c810:	4c 89 ea             	mov    %r13,%rdx
+  b3c813:	e8 08 a1 3f 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  b3c818:	49 8b 34 24          	mov    (%r12),%rsi
+  b3c81c:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+  e84ae9:	48 8b 4b 28          	mov    0x28(%rbx),%rcx
+  e84aed:	48 85 c9             	test   %rcx,%rcx
+  e84af0:	0f 85 f2 fe ff ff    	jne    e849e8 <_Z18MakeJoinHypergraphP3THDPNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEEP14JoinHypergraphPb@@Base+0x9038>
+  e84af6:	44 8b 45 94          	mov    -0x6c(%rbp),%r8d
+  e84afa:	48 8b 4d a8          	mov    -0x58(%rbp),%rcx
+--
+  f322b1:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  f322b8:	4c 89 fa             	mov    %r15,%rdx
+  f322bb:	e8 60 46 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f322c0:	49 8b 34 24          	mov    (%r12),%rsi
+  f322c4:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+  f32340:	4c 89 fa             	mov    %r15,%rdx
+  f32343:	48 89 8d 00 ff ff ff 	mov    %rcx,-0x100(%rbp)
+  f3234a:	e8 d1 45 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f3234f:	48 8b 8d 00 ff ff ff 	mov    -0x100(%rbp),%rcx
+  f32356:	48 8b 50 10          	mov    0x10(%rax),%rdx
+--
+  f32429:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  f32430:	4c 89 fa             	mov    %r15,%rdx
+  f32433:	e8 e8 44 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f32438:	80 78 18 00          	cmpb   $0x0,0x18(%rax)
+  f3243c:	0f 84 8e 07 00 00    	je     f32bd0 <_ZN5dblwr4recv4findEPKNS0_5PagesERK9page_id_t@@Base+0xaf0>
+--
+  f324a9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  f324b0:	4c 89 fa             	mov    %r15,%rdx
+  f324b3:	e8 68 44 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f324b8:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+  f324bd:	49 89 c7             	mov    %rax,%r15
+--
+  f32500:	4c 89 fa             	mov    %r15,%rdx
+  f32503:	44 88 85 00 ff ff ff 	mov    %r8b,-0x100(%rbp)
+  f3250a:	e8 11 44 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f3250f:	44 0f b6 85 00 ff ff 	movzbl -0x100(%rbp),%r8d
+  f32516:	ff 
+--
+  f325a9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  f325b0:	4c 89 fa             	mov    %r15,%rdx
+  f325b3:	e8 68 43 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f325b8:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+  f325bd:	49 89 c7             	mov    %rax,%r15
+--
+  f325ff:	90                   	nop
+  f32600:	4c 89 fa             	mov    %r15,%rdx
+  f32603:	e8 18 43 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f32608:	49 8b 34 24          	mov    (%r12),%rsi
+  f3260c:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+  f32694:	0f 1f 40 00          	nopl   0x0(%rax)
+  f32698:	4c 89 fa             	mov    %r15,%rdx
+  f3269b:	e8 80 42 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f326a0:	48 89 c3             	mov    %rax,%rbx
+  f326a3:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+  f3305b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+  f33060:	4c 89 ea             	mov    %r13,%rdx
+  f33063:	e8 b8 38 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f33068:	f6 43 18 10          	testb  $0x10,0x18(%rbx)
+  f3306c:	48 8b 50 10          	mov    0x10(%rax),%rdx
+--
+  f3309d:	0f 1f 00             	nopl   (%rax)
+  f330a0:	4c 89 ea             	mov    %r13,%rdx
+  f330a3:	e8 78 38 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f330a8:	80 78 18 00          	cmpb   $0x0,0x18(%rax)
+  f330ac:	48 89 c3             	mov    %rax,%rbx
+--
+  f33242:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+  f33248:	4c 89 ea             	mov    %r13,%rdx
+  f3324b:	e8 d0 36 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f33250:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+  f33255:	48 89 c3             	mov    %rax,%rbx
+--
+  f332a5:	0f 1f 00             	nopl   (%rax)
+  f332a8:	4c 89 ea             	mov    %r13,%rdx
+  f332ab:	e8 70 36 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f332b0:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+  f332b5:	48 89 c3             	mov    %rax,%rbx
+--
+  f3334e:	00 00 
+  f33350:	4c 89 ea             	mov    %r13,%rdx
+  f33353:	e8 c8 35 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f33358:	48 89 c3             	mov    %rax,%rbx
+  f3335b:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+  f3367e:	66 90                	xchg   %ax,%ax
+  f33680:	4c 89 ea             	mov    %r13,%rdx
+  f33683:	e8 98 32 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f33688:	49 8b 34 24          	mov    (%r12),%rsi
+  f3368c:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+  f33714:	0f 1f 40 00          	nopl   0x0(%rax)
+  f33718:	4c 89 ea             	mov    %r13,%rdx
+  f3371b:	e8 00 32 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f33720:	48 89 c3             	mov    %rax,%rbx
+  f33723:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+  f33781:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+  f33788:	4c 89 ea             	mov    %r13,%rdx
+  f3378b:	e8 90 31 00 01       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+  f33790:	49 8b 34 24          	mov    (%r12),%rsi
+  f33794:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+ 1036917:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+ 103691e:	00 00 
+ 1036920:	0f b6 70 ff          	movzbl -0x1(%rax),%esi
+ 1036924:	48 83 e8 01          	sub    $0x1,%rax
+ 1036928:	48 c1 e3 08          	shl    $0x8,%rbx
+ 103692c:	48 01 f3             	add    %rsi,%rbx
+ 103692f:	49 39 c5             	cmp    %rax,%r13
+ 1036932:	75 ec                	jne    1036920 <_Z24rtr_merge_and_update_mbrP9btr_cur_tS0_PmS1_PhP5mtr_t@@Base+0x6c0>
+ 1036934:	4c 8b 19             	mov    (%rcx),%r11
+ 1036937:	83 fa 08             	cmp    $0x8,%edx
+--
+ 1336919:	4c 89 e7             	mov    %r12,%rdi
+ 133691c:	48 89 5d a0          	mov    %rbx,-0x60(%rbp)
+ 1336920:	48 8d 72 d8          	lea    -0x28(%rdx),%rsi
+ 1336924:	e8 b7 35 a2 00       	callq  1d59ee0 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x280da0>
+ 1336929:	49 8d 86 08 01 00 00 	lea    0x108(%r14),%rax
+--
+ 13691fe:	c9                   	leaveq 
+ 13691ff:	c3                   	retq   
+ 1369200:	f3 0f 1e fa          	endbr64 
+ 1369204:	55                   	push   %rbp
+ 1369205:	48 8d 15 34 ff ff ff 	lea    -0xcc(%rip),%rdx        # 1369140 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x880>
+ 136920c:	48 89 e5             	mov    %rsp,%rbp
+ 136920f:	53                   	push   %rbx
+ 1369210:	48 89 fb             	mov    %rdi,%rbx
+ 1369213:	48 83 ec 08          	sub    $0x8,%rsp
+--
+ 13d63eb:	f2 0f 11 4d 90       	movsd  %xmm1,-0x70(%rbp)
+ 13d63f0:	49 8b 04 24          	mov    (%r12),%rax
+ 13d63f4:	48 8d 15 05 2e f9 ff 	lea    -0x6d1fb(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 13d63fb:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 13d6402:	48 39 d0             	cmp    %rdx,%rax
+--
+ 13d6651:	ff 
+ 13d6652:	49 8b 04 24          	mov    (%r12),%rax
+ 13d6656:	48 8d 15 a3 2b f9 ff 	lea    -0x6d45d(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 13d665d:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 13d6664:	48 39 d0             	cmp    %rdx,%rax
+--
+ 141f43c:	ff 
+ 141f43d:	49 8b 04 24          	mov    (%r12),%rax
+ 141f441:	48 8d 15 b8 9d f4 ff 	lea    -0xb6248(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 141f448:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 141f44f:	48 39 d0             	cmp    %rdx,%rax
+--
+ 141fa22:	ff 
+ 141fa23:	49 8b 04 24          	mov    (%r12),%rax
+ 141fa27:	48 8d 15 d2 97 f4 ff 	lea    -0xb682e(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 141fa2e:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 141fa35:	48 39 d0             	cmp    %rdx,%rax
+--
+ 142013d:	ff 
+ 142013e:	49 8b 06             	mov    (%r14),%rax
+ 1420141:	48 8d 15 b8 90 f4 ff 	lea    -0xb6f48(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1420148:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 142014f:	48 39 d0             	cmp    %rdx,%rax
+--
+ 14209e8:	f2 0f 11 45 88       	movsd  %xmm0,-0x78(%rbp)
+ 14209ed:	49 8b 04 24          	mov    (%r12),%rax
+ 14209f1:	48 8d 15 08 88 f4 ff 	lea    -0xb77f8(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 14209f8:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 14209ff:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1435d2b:	0f 85 57 05 00 00    	jne    1436288 <_Z15mbr_contain_cmpPKN2dd24Spatial_reference_systemEP7rtr_mbrS4_@@Base+0x608>
+ 1435d31:	49 8b 04 24          	mov    (%r12),%rax
+ 1435d35:	48 8d 15 c4 34 f3 ff 	lea    -0xccb3c(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1435d3c:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 1435d43:	48 39 d0             	cmp    %rdx,%rax
+--
+ 143664e:	0f 85 44 05 00 00    	jne    1436b98 <_Z14mbr_within_cmpPKN2dd24Spatial_reference_systemEP7rtr_mbrS4_@@Base+0x728>
+ 1436654:	49 8b 04 24          	mov    (%r12),%rax
+ 1436658:	48 8d 15 a1 2b f3 ff 	lea    -0xcd45f(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 143665f:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 1436666:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1436e4b:	0f 85 7f 05 00 00    	jne    14373d0 <_Z13mbr_equal_cmpPKN2dd24Spatial_reference_systemEP7rtr_mbrS4_@@Base+0x630>
+ 1436e51:	49 8b 04 24          	mov    (%r12),%rax
+ 1436e55:	48 8d 15 a4 23 f3 ff 	lea    -0xcdc5c(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1436e5c:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 1436e63:	48 39 d0             	cmp    %rdx,%rax
+--
+ 143765b:	0f 85 a7 05 00 00    	jne    1437c08 <_Z17mbr_intersect_cmpPKN2dd24Spatial_reference_systemEP7rtr_mbrS4_@@Base+0x658>
+ 1437661:	49 8b 04 24          	mov    (%r12),%rax
+ 1437665:	48 8d 15 94 1b f3 ff 	lea    -0xce46c(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 143766c:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 1437673:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1437e9b:	0f 85 7f 05 00 00    	jne    1438420 <_Z16mbr_disjoint_cmpPKN2dd24Spatial_reference_systemEP7rtr_mbrS4_@@Base+0x630>
+ 1437ea1:	49 8b 04 24          	mov    (%r12),%rax
+ 1437ea5:	48 8d 15 54 13 f3 ff 	lea    -0xcecac(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1437eac:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 1437eb3:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1440ba3:	f2 0f 59 ca          	mulsd  %xmm2,%xmm1
+ 1440ba7:	49 8b 45 00          	mov    0x0(%r13),%rax
+ 1440bab:	48 8d 15 4e 86 f2 ff 	lea    -0xd79b2(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1440bb2:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 1440bb9:	48 39 d0             	cmp    %rdx,%rax
+--
+ 14d6156:	0f 85 64 02 00 00    	jne    14d63c0 <_ZNK21Item_typecast_polygon4castEPKN2dd24Spatial_reference_systemEPSt10unique_ptrIN3gis8GeometryESt14default_deleteIS6_EESA_@@Base+0x7f0>
+ 14d615c:	48 8b 45 88          	mov    -0x78(%rbp),%rax
+ 14d6160:	48 8d 15 99 30 e9 ff 	lea    -0x16cf67(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 14d6167:	48 8b 00             	mov    (%rax),%rax
+ 14d616a:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+--
+ 14d650b:	0f 85 de 01 00 00    	jne    14d66ef <_ZNK21Item_typecast_polygon4castEPKN2dd24Spatial_reference_systemEPSt10unique_ptrIN3gis8GeometryESt14default_deleteIS6_EESA_@@Base+0xb1f>
+ 14d6511:	48 8b 45 88          	mov    -0x78(%rbp),%rax
+ 14d6515:	48 8d 15 e4 2c e9 ff 	lea    -0x16d31c(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 14d651c:	48 8b 00             	mov    (%rax),%rax
+ 14d651f:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+--
+ 14d7939:	0f 85 01 02 00 00    	jne    14d7b40 <_ZNK26Item_typecast_multipolygon4castEPKN2dd24Spatial_reference_systemEPSt10unique_ptrIN3gis8GeometryESt14default_deleteIS6_EESA_@@Base+0x6a0>
+ 14d793f:	48 8b 85 78 ff ff ff 	mov    -0x88(%rbp),%rax
+ 14d7946:	48 8d 15 b3 18 e9 ff 	lea    -0x16e74d(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 14d794d:	48 8b 00             	mov    (%rax),%rax
+ 14d7950:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+--
+ 14db0a4:	0f 84 23 ff ff ff    	je     14dafcd <_ZN3gis14parse_geometryEP3THDPKcPK6StringPPKN2dd24Spatial_reference_systemEPSt10unique_ptrINS_8GeometryESt14default_deleteISD_EEb@@Base+0xed>
+ 14db0aa:	4c 8b 33             	mov    (%rbx),%r14
+ 14db0ad:	48 8d 15 4c e1 e8 ff 	lea    -0x171eb4(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 14db0b4:	49 8b 06             	mov    (%r14),%rax
+ 14db0b7:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+--
+ 14dc4d6:	0f 84 6a ff ff ff    	je     14dc446 <_ZN28Item_func_st_distance_sphere8val_realEv@@Base+0x4f6>
+ 14dc4dc:	49 8b 07             	mov    (%r15),%rax
+ 14dc4df:	48 8d 15 1a cd e8 ff 	lea    -0x1732e6(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 14dc4e6:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 14dc4ed:	48 39 d0             	cmp    %rdx,%rax
+--
+ 14f96a6:	f2 0f 59 c8          	mulsd  %xmm0,%xmm1
+ 14f96aa:	49 8b 04 24          	mov    (%r12),%rax
+ 14f96ae:	48 8d 15 4b fb e6 ff 	lea    -0x1904b5(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 14f96b5:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 14f96bc:	48 39 d0             	cmp    %rdx,%rax
+--
+ 150e7cf:	ff 
+ 150e7d0:	49 8b 04 24          	mov    (%r12),%rax
+ 150e7d4:	48 8d 15 25 aa e5 ff 	lea    -0x1a55db(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 150e7db:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 150e7e2:	48 39 d0             	cmp    %rdx,%rax
+--
+ 15365a8:	ff 
+ 15365a9:	49 8b 04 24          	mov    (%r12),%rax
+ 15365ad:	48 8d 15 4c 2c e3 ff 	lea    -0x1cd3b4(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15365b4:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15365bb:	48 39 d0             	cmp    %rdx,%rax
+--
+ 15488e3:	f2 0f 11 45 80       	movsd  %xmm0,-0x80(%rbp)
+ 15488e8:	49 8b 04 24          	mov    (%r12),%rax
+ 15488ec:	48 8d 15 0d 09 e2 ff 	lea    -0x1df6f3(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15488f3:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15488fa:	48 39 d0             	cmp    %rdx,%rax
+--
+ 158009e:	0f 85 b4 01 00 00    	jne    1580258 <_ZN3gis10differenceEPKN2dd24Spatial_reference_systemEPKNS_8GeometryES6_PKcPSt10unique_ptrIS4_St14default_deleteIS4_EE@@Base+0x268>
+ 15800a4:	49 8b 04 24          	mov    (%r12),%rax
+ 15800a8:	48 8d 15 51 91 de ff 	lea    -0x216eaf(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15800af:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15800b6:	48 39 d0             	cmp    %rdx,%rax
+--
+ 15a376b:	f2 0f 11 45 90       	movsd  %xmm0,-0x70(%rbp)
+ 15a3770:	49 8b 04 24          	mov    (%r12),%rax
+ 15a3774:	48 8d 15 85 5a dc ff 	lea    -0x23a57b(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15a377b:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15a3782:	48 39 d0             	cmp    %rdx,%rax
+--
+ 15a39b8:	ff 
+ 15a39b9:	49 8b 04 24          	mov    (%r12),%rax
+ 15a39bd:	48 8d 15 3c 58 dc ff 	lea    -0x23a7c4(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15a39c4:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15a39cb:	48 39 d0             	cmp    %rdx,%rax
+--
+ 15d902b:	f2 0f 11 45 a0       	movsd  %xmm0,-0x60(%rbp)
+ 15d9030:	49 8b 04 24          	mov    (%r12),%rax
+ 15d9034:	48 8d 15 c5 01 d9 ff 	lea    -0x26fe3b(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15d903b:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15d9042:	48 39 d0             	cmp    %rdx,%rax
+--
+ 15ef72b:	f2 0f 11 45 a0       	movsd  %xmm0,-0x60(%rbp)
+ 15ef730:	49 8b 04 24          	mov    (%r12),%rax
+ 15ef734:	48 8d 15 c5 9a d7 ff 	lea    -0x28653b(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15ef73b:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15ef742:	48 39 d0             	cmp    %rdx,%rax
+--
+ 15ef9eb:	f2 0f 11 45 a0       	movsd  %xmm0,-0x60(%rbp)
+ 15ef9f0:	49 8b 04 24          	mov    (%r12),%rax
+ 15ef9f4:	48 8d 15 05 98 d7 ff 	lea    -0x2867fb(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15ef9fb:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15efa02:	48 39 d0             	cmp    %rdx,%rax
+--
+ 15fa67e:	0f 85 d4 01 00 00    	jne    15fa858 <_ZN3gis12intersectionEPKN2dd24Spatial_reference_systemEPKNS_8GeometryES6_PKcPSt10unique_ptrIS4_St14default_deleteIS4_EE@@Base+0x288>
+ 15fa684:	49 8b 04 24          	mov    (%r12),%rax
+ 15fa688:	48 8d 15 71 eb d6 ff 	lea    -0x29148f(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 15fa68f:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 15fa696:	48 39 d0             	cmp    %rdx,%rax
+--
+ 16143c4:	f2 0f 11 a5 08 ff ff 	movsd  %xmm4,-0xf8(%rbp)
+ 16143cb:	ff 
+ 16143cc:	eb 1a                	jmp    16143e8 <_ZNK3gis12Intersection4evalEPKNS_29Geographic_geometrycollectionES3_@@Base+0x9038>
+ 16143ce:	66 90                	xchg   %ax,%ax
+ 16143d0:	66 45 0f 28 d1       	movapd %xmm9,%xmm10
+--
+ 1659443:	f2 0f 11 45 80       	movsd  %xmm0,-0x80(%rbp)
+ 1659448:	49 8b 04 24          	mov    (%r12),%rax
+ 165944c:	48 8d 15 ad fd d0 ff 	lea    -0x2f0253(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1659453:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 165945a:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1659698:	ff 
+ 1659699:	49 8b 04 24          	mov    (%r12),%rax
+ 165969d:	48 8d 15 5c fb d0 ff 	lea    -0x2f04a4(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 16596a4:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 16596ab:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1661c84:	0f 84 66 01 00 00    	je     1661df0 <_ZN3gis9is_simpleEPKN2dd24Spatial_reference_systemEPKNS_8GeometryEPKcPbS9_@@Base+0x1a0>
+ 1661c8a:	48 8b 07             	mov    (%rdi),%rax
+ 1661c8d:	48 8d 15 6c 75 d0 ff 	lea    -0x2f8a94(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1661c94:	49 89 fc             	mov    %rdi,%r12
+ 1661c97:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+--
+ 16652b2:	0f 84 78 01 00 00    	je     1665430 <_ZN3gis8is_validEPKN2dd24Spatial_reference_systemEPKNS_8GeometryEPKcPb@@Base+0x1c0>
+ 16652b8:	49 8b 04 24          	mov    (%r12),%rax
+ 16652bc:	48 8d 15 3d 3f d0 ff 	lea    -0x2fc0c3(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 16652c3:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 16652ca:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1681668:	f2 0f 11 4d 80       	movsd  %xmm1,-0x80(%rbp)
+ 168166d:	49 8b 04 24          	mov    (%r12),%rax
+ 1681671:	48 8d 15 88 7b ce ff 	lea    -0x318478(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1681678:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 168167f:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1681974:	f2 0f 11 4d a8       	movsd  %xmm1,-0x58(%rbp)
+ 1681979:	49 8b 06             	mov    (%r14),%rax
+ 168197c:	48 8d 15 7d 78 ce ff 	lea    -0x318783(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1681983:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 168198a:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1688cf8:	ff 
+ 1688cf9:	49 8b 04 24          	mov    (%r12),%rax
+ 1688cfd:	48 8d 15 fc 04 ce ff 	lea    -0x31fb04(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1688d04:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 1688d0b:	48 39 d0             	cmp    %rdx,%rax
+--
+ 169071b:	f2 0f 11 45 90       	movsd  %xmm0,-0x70(%rbp)
+ 1690720:	49 8b 04 24          	mov    (%r12),%rax
+ 1690724:	48 8d 15 d5 8a cd ff 	lea    -0x32752b(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 169072b:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 1690732:	48 39 d0             	cmp    %rdx,%rax
+--
+ 16bad9e:	0f 85 b4 01 00 00    	jne    16baf58 <_ZN3gis13symdifferenceEPKN2dd24Spatial_reference_systemEPKNS_8GeometryES6_PKcPSt10unique_ptrIS4_St14default_deleteIS4_EE@@Base+0x268>
+ 16bada4:	49 8b 04 24          	mov    (%r12),%rax
+ 16bada8:	48 8d 15 51 e4 ca ff 	lea    -0x351baf(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 16badaf:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 16badb6:	48 39 d0             	cmp    %rdx,%rax
+--
+ 16c38a6:	84 c0                	test   %al,%al
+ 16c38a8:	48 8b 95 20 fe ff ff 	mov    -0x1e0(%rbp),%rdx
+ 16c38af:	0f 84 73 04 00 00    	je     16c3d28 <_ZN3gis13symdifferenceEPKN2dd24Spatial_reference_systemEPKNS_8GeometryES6_PKcPSt10unique_ptrIS4_St14default_deleteIS4_EE@@Base+0x9038>
+ 16c38b5:	31 c0                	xor    %eax,%eax
+ 16c38b7:	41 83 fc 01          	cmp    $0x1,%r12d
+--
+ 16c3d05:	84 c0                	test   %al,%al
+ 16c3d07:	48 8b 95 20 fe ff ff 	mov    -0x1e0(%rbp),%rdx
+ 16c3d0e:	74 18                	je     16c3d28 <_ZN3gis13symdifferenceEPKN2dd24Spatial_reference_systemEPKNS_8GeometryES6_PKcPSt10unique_ptrIS4_St14default_deleteIS4_EE@@Base+0x9038>
+ 16c3d10:	48 8b 85 60 fe ff ff 	mov    -0x1a0(%rbp),%rax
+ 16c3d17:	48 83 c0 01          	add    $0x1,%rax
+--
+ 16dcb58:	ff 
+ 16dcb59:	49 8b 04 24          	mov    (%r12),%rax
+ 16dcb5d:	48 8d 15 9c c6 c8 ff 	lea    -0x373964(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 16dcb64:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 16dcb6b:	48 39 d0             	cmp    %rdx,%rax
+--
+ 16e5c83:	f2 0f 11 45 80       	movsd  %xmm0,-0x80(%rbp)
+ 16e5c88:	49 8b 04 24          	mov    (%r12),%rax
+ 16e5c8c:	48 8d 15 6d 35 c8 ff 	lea    -0x37ca93(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 16e5c93:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 16e5c9a:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1787805:	0f 85 95 01 00 00    	jne    17879a0 <_ZN3gis6union_EPKN2dd24Spatial_reference_systemEPKNS_8GeometryES6_PKcPSt10unique_ptrIS4_St14default_deleteIS4_EEPb@@Base+0x250>
+ 178780b:	49 8b 04 24          	mov    (%r12),%rax
+ 178780f:	48 8d 15 ea 19 be ff 	lea    -0x41e616(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 1787816:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 178781d:	48 39 d0             	cmp    %rdx,%rax
+--
+ 178da23:	f2 0f 11 45 80       	movsd  %xmm0,-0x80(%rbp)
+ 178da28:	49 8b 04 24          	mov    (%r12),%rax
+ 178da2c:	48 8d 15 cd b7 bd ff 	lea    -0x424833(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 178da33:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 178da3a:	48 39 d0             	cmp    %rdx,%rax
+--
+ 17948b8:	ff 
+ 17948b9:	49 8b 04 24          	mov    (%r12),%rax
+ 17948bd:	48 8d 15 3c 49 bd ff 	lea    -0x42b6c4(%rip),%rdx        # 1369200 <_ZNK2dd20Partition_value_impl19has_new_primary_keyEv@@Base+0x940>
+ 17948c4:	48 8b 80 e8 00 00 00 	mov    0xe8(%rax),%rax
+ 17948cb:	48 39 d0             	cmp    %rdx,%rax
+--
+ 1c7056a:	48 01 d8             	add    %rbx,%rax
+ 1c7056d:	3e ff e0             	notrack jmpq *%rax
+ 1c70570:	e8 ab 63 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c70575:	49 8b 34 24          	mov    (%r12),%rsi
+ 1c70579:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+ 1c705ed:	0f 1f 00             	nopl   (%rax)
+ 1c705f0:	48 89 8d 08 ff ff ff 	mov    %rcx,-0xf8(%rbp)
+ 1c705f7:	e8 24 63 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c705fc:	48 8b 8d 08 ff ff ff 	mov    -0xf8(%rbp),%rcx
+ 1c70603:	4c 89 e7             	mov    %r12,%rdi
+--
+ 1c706c9:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+ 1c706d0:	48 89 95 08 ff ff ff 	mov    %rdx,-0xf8(%rbp)
+ 1c706d7:	e8 44 62 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c706dc:	48 8b 95 08 ff ff ff 	mov    -0xf8(%rbp),%rdx
+ 1c706e3:	80 78 18 00          	cmpb   $0x0,0x18(%rax)
+--
+ 1c7074f:	e9 5c fc ff ff       	jmpq   1c703b0 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x197270>
+ 1c70754:	0f 1f 40 00          	nopl   0x0(%rax)
+ 1c70758:	e8 c3 61 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c7075d:	49 8b 4c 24 08       	mov    0x8(%r12),%rcx
+ 1c70762:	4d 8b 04 24          	mov    (%r12),%r8
+--
+ 1c70b09:	e9 32 fb ff ff       	jmpq   1c70640 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x197500>
+ 1c70b0e:	66 90                	xchg   %ax,%ax
+ 1c70b10:	e8 0b 5e 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c70b15:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+ 1c70b1a:	48 89 c1             	mov    %rax,%rcx
+--
+ 1c70b69:	e9 d2 fa ff ff       	jmpq   1c70640 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x197500>
+ 1c70b6e:	66 90                	xchg   %ax,%ax
+ 1c70b70:	e8 ab 5d 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c70b75:	49 8b 34 24          	mov    (%r12),%rsi
+ 1c70b79:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+ 1c70bf5:	e9 ce f9 ff ff       	jmpq   1c705c8 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x197488>
+ 1c70bfa:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+ 1c70c00:	e8 1b 5d 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c70c05:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+ 1c70c0a:	48 89 c1             	mov    %rax,%rcx
+--
+ 1c70c5b:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+ 1c70c60:	44 88 85 08 ff ff ff 	mov    %r8b,-0xf8(%rbp)
+ 1c70c67:	e8 b4 5c 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c70c6c:	44 0f b6 85 08 ff ff 	movzbl -0xf8(%rbp),%r8d
+ 1c70c73:	ff 
+--
+ 1c70d18:	0f 1f 84 00 00 00 00 	nopl   0x0(%rax,%rax,1)
+ 1c70d1f:	00 
+ 1c70d20:	e8 fb 5b 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c70d25:	48 89 c3             	mov    %rax,%rbx
+ 1c70d28:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+ 1c7159a:	e9 e1 ca 2a 00       	jmpq   1f1e080 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x444f40>
+ 1c7159f:	90                   	nop
+ 1c715a0:	e8 7b 53 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c715a5:	41 f6 47 18 10       	testb  $0x10,0x18(%r15)
+ 1c715aa:	4c 89 e7             	mov    %r12,%rdi
+--
+ 1c7161f:	90                   	nop
+ 1c71620:	48 89 95 28 ff ff ff 	mov    %rdx,-0xd8(%rbp)
+ 1c71627:	e8 f4 52 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c7162c:	48 8b 95 28 ff ff ff 	mov    -0xd8(%rbp),%rdx
+ 1c71633:	80 78 18 00          	cmpb   $0x0,0x18(%rax)
+--
+ 1c717cc:	eb 3a                	jmp    1c71808 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x1986c8>
+ 1c717ce:	66 90                	xchg   %ax,%ax
+ 1c717d0:	e8 4b 51 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c717d5:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+ 1c717da:	48 89 c3             	mov    %rax,%rbx
+--
+ 1c7182c:	c3                   	retq   
+ 1c7182d:	0f 1f 00             	nopl   (%rax)
+ 1c71830:	e8 eb 50 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c71835:	49 8b 54 24 18       	mov    0x18(%r12),%rdx
+ 1c7183a:	48 89 c3             	mov    %rax,%rbx
+--
+ 1c71873:	eb 93                	jmp    1c71808 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x1986c8>
+ 1c71875:	0f 1f 00             	nopl   (%rax)
+ 1c71878:	e8 a3 50 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c7187d:	48 89 c3             	mov    %rax,%rbx
+ 1c71880:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+ 1c718ff:	e9 cc fc ff ff       	jmpq   1c715d0 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x198490>
+ 1c71904:	0f 1f 40 00          	nopl   0x0(%rax)
+ 1c71908:	e8 13 50 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c7190d:	49 8b 4c 24 08       	mov    0x8(%r12),%rcx
+ 1c71912:	4d 8b 04 24          	mov    (%r12),%r8
+--
+ 1c71b8e:	e9 5c fd ff ff       	jmpq   1c718ef <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x1987af>
+ 1c71b93:	0f 1f 44 00 00       	nopl   0x0(%rax,%rax,1)
+ 1c71b98:	e8 83 4d 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c71b9d:	49 8b 34 24          	mov    (%r12),%rsi
+ 1c71ba1:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+ 1c71c1d:	e9 e6 fb ff ff       	jmpq   1c71808 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x1986c8>
+ 1c71c22:	66 0f 1f 44 00 00    	nopw   0x0(%rax,%rax,1)
+ 1c71c28:	e8 f3 4c 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c71c2d:	48 89 c3             	mov    %rax,%rbx
+ 1c71c30:	49 8b 44 24 18       	mov    0x18(%r12),%rax
+--
+ 1c71c87:	66 0f 1f 84 00 00 00 	nopw   0x0(%rax,%rax,1)
+ 1c71c8e:	00 00 
+ 1c71c90:	e8 8b 4c 2c 00       	callq  1f36920 <_ZN10binary_log15Table_map_event24Optional_metadata_fieldsC1EPhj@@Base+0x45d7e0>
+ 1c71c95:	49 8b 34 24          	mov    (%r12),%rsi
+ 1c71c99:	49 8b 54 24 08       	mov    0x8(%r12),%rdx
+--
+ 1d36919:	49 89 c7             	mov    %rax,%r15
+ 1d3691c:	48 8d 40 30          	lea    0x30(%rax),%rax
+ 1d36920:	0f 11 40 f0          	movups %xmm0,-0x10(%rax)
+ 1d36924:	49 8d 7f 38          	lea    0x38(%r15),%rdi
+ 1d36928:	48 c7 00 00 00 00 00 	movq   $0x0,(%rax)
+--
+ 1f3691c:	00 00 00 
+ 1f3691f:	90                   	nop
+ 1f36920:	f3 0f 1e fa          	endbr64 
+ 1f36924:	48 b8 ab aa aa aa aa 	movabs $0xaaaaaaaaaaaaaaab,%rax
+ 1f3692b:	aa aa aa 

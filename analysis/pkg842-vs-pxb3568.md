@@ -31,7 +31,7 @@ code.
 
 ## PXB-3568: XtraBackup Signal 6 with LZ4 (Open)
 
-The actual crash. On EL9/aarch64, GCC 11 LTO generates incorrect code for
+The actual crash. On EL9, GCC 11 LTO generates incorrect code for
 `std::vector::operator[]` bounds checking when `_GLIBCXX_ASSERTIONS` is
 enabled (EL9 default). The bounds-check assertion fires on valid indices,
 causing `abort()` via Signal 6. The fix is to use `.data()` raw pointer

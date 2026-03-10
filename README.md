@@ -9,7 +9,7 @@ This repo reproduces the crash, identifies the root cause, and provides a fix.
 
 ## Root Cause
 
-GCC 11/12 on aarch64 with Link-Time Optimization (LTO, `-flto`) generates
+GCC 11/12 with Link-Time Optimization (LTO, `-flto`) generates
 an incorrect element stride in the `compress_write()` loop that traverses
 `std::vector<comp_thread_ctxt_t>`. The binary contains `mov x1, #0x9038`
 (stride 36920) where `sizeof(comp_thread_ctxt_t)` = 40 is expected.
@@ -47,7 +47,7 @@ Fixed source: [`fixes/ds_compress_lz4_fixed.cc`](fixes/ds_compress_lz4_fixed.cc)
 
 ## Validated Results
 
-### Reproduction Tests (PXC 8.0.45, aarch64, OracleLinux 9)
+### Reproduction Tests (PXC 8.0.45, OracleLinux 9)
 
 | Test | Command | Result |
 |------|---------|--------|
@@ -179,7 +179,7 @@ This is a separate failure from the Signal 6 crash.
 | System LZ4 | 1.8.3 | 1.9.3 |
 
 The crash requires all three conditions:
-1. GCC 11 LTO code generation bug on aarch64
+1. GCC 11 LTO code generation bug (confirmed on both aarch64 and x86_64)
 2. `_GLIBCXX_ASSERTIONS` enabled (bounds check in `operator[]`)
 3. `std::vector` access pattern in `compress_write`
 

@@ -3,7 +3,7 @@
 ## Summary
 
 XtraBackup crashes with Signal 6 (SIGABRT) during LZ4-compressed backups on
-EL9-based PXC Docker images (aarch64). The crash is caused by GCC 11/12
+EL9-based PXC Docker images. The crash is caused by GCC 11/12
 Link-Time Optimization (LTO) generating an incorrect element stride in the
 `compress_write()` function's vector traversal loops. The stride 0x9038
 (36920) appears where 0x28 (40 = `sizeof(comp_thread_ctxt_t)`) is expected.
@@ -154,7 +154,7 @@ be determined with certainty from the post-crash GDB state, since
 multiple memory locations may have been corrupted by the time the
 assertion triggers.
 
-## Why It Only Affects EL9/aarch64
+## Why It Only Affects EL9
 
 Three conditions must all be present:
 
@@ -164,7 +164,7 @@ Three conditions must all be present:
 | `_GLIBCXX_ASSERTIONS` | Not default | **Default** (redhat-rpm-config) |
 | LTO build | Yes | **Yes** (confirmed by `.lto_priv.1` suffix) |
 
-- **GCC 11 and GCC 12 LTO on aarch64** both generate incorrect element stride
+- **GCC 11 and GCC 12 LTO** both generate incorrect element stride
   in the compress_write function. Tested: GCC 11.5.0 (system) and GCC 12
   (gcc-toolset-12) both produce binaries with the 0x9038 stride bug.
   GCC 8 (EL8) does not have this bug.

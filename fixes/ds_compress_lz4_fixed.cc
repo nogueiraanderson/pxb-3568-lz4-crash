@@ -147,7 +147,7 @@ static int compress_write(ds_file_t *file, const void *buf, size_t len) {
   /*
    * FIX: Use .data() raw pointers instead of operator[] for vector access.
    *
-   * On EL9/aarch64, GCC 11 with LTO (-flto) generates incorrect code for
+   * On EL9, GCC 11/12 with LTO (-flto) generates incorrect code for
    * std::vector::operator[] when _GLIBCXX_ASSERTIONS is enabled (default
    * on EL9). The bounds-check assertion fires spuriously even when the
    * index is well within the vector's size. This causes Signal 6 (SIGABRT).

@@ -20,7 +20,7 @@ sed -i 's/1 \* 1204 \* 1024/1 * 1024 * 1024/' "$SRC"
 
 # Fix 3 (PRIMARY): Replace operator[] with .data() raw pointer access
 # This bypasses _GLIBCXX_ASSERTIONS bounds check which is corrupted by
-# GCC 11 LTO on aarch64. See PXB-3568 for details.
+# GCC 11/12 LTO on EL9. See PXB-3568 for details.
 
 # Add raw pointer declarations before the setup loop
 sed -i '/comp_file->contexts.resize(n_chunks);/{
