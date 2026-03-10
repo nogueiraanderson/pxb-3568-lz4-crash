@@ -1,0 +1,20 @@
+# Override: use source-patched xtrabackup binary (Fix C)
+# Build context is project root for patch file access
+services:
+  pxc-node1:
+    build:
+      context: ../..
+      dockerfile: fixes/patched-source/Dockerfile
+    image: pxc-fix-patched:8.0.45
+
+  pxc-node2:
+    build:
+      context: ../..
+      dockerfile: fixes/patched-source/Dockerfile
+    image: pxc-fix-patched:8.0.45
+
+  pxc-node3:
+    build:
+      context: ../..
+      dockerfile: fixes/patched-source/Dockerfile
+    image: pxc-fix-patched:8.0.45

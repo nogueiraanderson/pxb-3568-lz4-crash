@@ -14,9 +14,10 @@ default:
     @echo "  Reproduce    just reproduce     Trigger LZ4 crash during SST"
     @echo "  Fix A        just fix-a         Replace system liblz4 with 1.10.0"
     @echo "  Fix B        just fix-b         LD_PRELOAD shim for LZ4_compress_default"
-    @echo "  All          just all           Run reproduce + both fixes"
+    @echo "  Fix C        just fix-c         Patched xtrabackup from source (before/after)"
+    @echo "  All          just all           Run reproduce + all fixes"
     @echo ""
-    @echo "  Prereqs: Docker, Docker Compose, ~2GB RAM"
+    @echo "  Prereqs: Docker, Docker Compose, just, ~2GB RAM"
     @echo "  Image:   percona/percona-xtradb-cluster:8.0.45"
     @echo ""
     @just --list
@@ -38,8 +39,13 @@ fix-b *ARGS:
     chmod +x {{ project }}/fixes/ld-preload-shim/test-fix-b.sh
     {{ project }}/fixes/ld-preload-shim/test-fix-b.sh {{ ARGS }}
 
-# Run all experiments: reproduce, then both fixes
-all: reproduce fix-a fix-b
+# Fix C: Before/after with patched xtrabackup built from source (~20min build)
+fix-c *ARGS:
+    chmod +x {{ project }}/fixes/patched-source/test-fix-c.sh
+    {{ project }}/fixes/patched-source/test-fix-c.sh {{ ARGS }}
+
+# Run all experiments: reproduce, workarounds, then patch validation
+all: reproduce fix-a fix-b fix-c
     @echo ""
     @echo "All experiments complete. Check evidence/ for logs."
 
@@ -56,6 +62,11 @@ build-fix-b:
     docker compose -f {{ project }}/reproduce/docker-compose.yml \
         -f {{ project }}/fixes/ld-preload-shim/docker-compose.override.yml \
         build --no-cache
+
+# Build Fix C image (patched xtrabackup from source, ~15-20 min)
+build-patched:
+    docker build -f {{ project }}/fixes/patched-source/Dockerfile \
+        -t pxc-fix-patched:8.0.45 {{ project }}
 
 # ─── Inspection ───────────────────────────────────────────────────
 
@@ -81,13 +92,16 @@ down:
     docker compose -f {{ project }}/reproduce/docker-compose.yml \
         -f {{ project }}/fixes/ld-preload-shim/docker-compose.override.yml \
         down -v --remove-orphans 2>/dev/null || true
+    docker compose -f {{ project }}/reproduce/docker-compose.yml \
+        -f {{ project }}/fixes/patched-source/docker-compose.override.yml \
+        down -v --remove-orphans 2>/dev/null || true
 
-# Remove all evidence logs
+# Remove all evidence
 clean-evidence:
-    rm -rf {{ project }}/evidence/*.log {{ project }}/evidence/*.txt
+    rm -rf {{ project }}/evidence/*.log {{ project }}/evidence/*.txt {{ project }}/evidence/patched-source/
     @echo "Evidence cleaned"
 
 # Full cleanup: containers + volumes + evidence + images
 clean: down clean-evidence
-    docker rmi pxc-fix-lz4:8.0.45 pxc-fix-bufsize:8.0.45 2>/dev/null || true
+    docker rmi pxc-fix-lz4:8.0.45 pxc-fix-bufsize:8.0.45 pxc-fix-patched:8.0.45 2>/dev/null || true
     @echo "Full cleanup complete"

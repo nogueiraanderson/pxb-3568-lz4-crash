@@ -6,7 +6,7 @@ EL9-based PXC Docker images. Affects PXC 8.0.42 and 8.0.45 (both ship
 XtraBackup 8.0.35-35).
 
 This repo reproduces the crash, identifies the root cause, proposes a
-source code patch, and validates two workarounds.
+source code patch, and validates it with a before/after comparison.
 
 ## The Bug
 
@@ -61,16 +61,34 @@ cd /path/to/percona-xtrabackup && git apply patch/ds_compress_lz4.patch
 
 Full proposal: [patch/PATCH-NOTES.md](patch/PATCH-NOTES.md)
 
+## Patch Validation (Before/After)
+
+`just fix-c` runs a self-contained before/after experiment:
+
+1. **BEFORE**: Stock PXC 8.0.45, force SST with LZ4. Expected: Signal 6 crash.
+2. **AFTER**: Same image with patched xtrabackup binary. Expected: SST completes.
+3. **VERDICT**: Side-by-side comparison with PASS/FAIL.
+
+```bash
+just build-patched   # Build xtrabackup from source with patch (~15-20 min)
+just fix-c           # Run before/after comparison
+```
+
+The patched image is built via multi-stage Docker: clones `percona-xtrabackup`
+branch `8.0`, applies `patch/ds_compress_lz4.patch`, builds only the xtrabackup
+target, and copies the binary into the PXC 8.0.45 image.
+
 ## Quick Start
 
 **Prerequisites**: Docker, Docker Compose, [just](https://github.com/casey/just), ~2GB RAM
 
 ```bash
-just reproduce     # Trigger LZ4 crash during SST (3 attempts)
-just fix-a         # Test with LZ4 1.10.0 (workaround)
-just fix-b         # Test with LD_PRELOAD shim (workaround)
-just all           # Run all three
-just               # Show all available commands
+just reproduce       # Trigger LZ4 crash during SST (3 attempts)
+just fix-c           # Before/after patch validation (the main experiment)
+just fix-a           # Workaround: LZ4 1.10.0 system library
+just fix-b           # Workaround: LD_PRELOAD shim
+just all             # Run everything
+just                 # Show all available commands
 ```
 
 ## Workarounds
@@ -111,11 +129,15 @@ pxb-3568-lz4-crash/
 │   ├── my.cnf                            LZ4 compression config
 │   └── test-reproduce.sh                 Crash reproduction script
 ├── fixes/
-│   ├── lz4-upgrade/                      Fix A: LZ4 1.10.0
+│   ├── patched-source/                   Fix C: Patched xtrabackup from source
+│   │   ├── Dockerfile                    Multi-stage build (clone, patch, compile)
+│   │   ├── docker-compose.override.yml
+│   │   └── test-fix-c.sh                Before/after comparison
+│   ├── lz4-upgrade/                      Fix A: LZ4 1.10.0 (workaround)
 │   │   ├── Dockerfile
 │   │   ├── docker-compose.override.yml
 │   │   └── test-fix-a.sh
-│   └── ld-preload-shim/                  Fix B: LD_PRELOAD workaround
+│   └── ld-preload-shim/                  Fix B: LD_PRELOAD (workaround)
 │       ├── Dockerfile
 │       ├── lz4_fix.c                     Standalone shim source
 │       ├── docker-compose.override.yml
