@@ -1,0 +1,19 @@
+# Override: use LZ4 1.10.0 image (Fix A)
+services:
+  pxc-node1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pxc-fix-lz4:8.0.45
+
+  pxc-node2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pxc-fix-lz4:8.0.45
+
+  pxc-node3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pxc-fix-lz4:8.0.45

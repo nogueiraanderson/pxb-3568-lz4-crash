@@ -1,0 +1,19 @@
+# Override: use LD_PRELOAD buffer size fix (Fix B)
+services:
+  pxc-node1:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pxc-fix-bufsize:8.0.45
+
+  pxc-node2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pxc-fix-bufsize:8.0.45
+
+  pxc-node3:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: pxc-fix-bufsize:8.0.45

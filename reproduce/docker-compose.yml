@@ -1,0 +1,70 @@
+# PXB-3568: LZ4 Signal 6 crash reproduction
+# 3-node PXC 8.0.45 cluster with LZ4 compression enabled for SST
+#
+# Usage:
+#   docker compose up -d              # start cluster
+#   docker compose down -v            # teardown
+
+x-pxc-common: &pxc-common
+  image: ${PXC_IMAGE:-percona/percona-xtradb-cluster:8.0.45}
+  privileged: true
+  networks:
+    - pxc-net
+
+services:
+  pxc-node1:
+    <<: *pxc-common
+    container_name: lz4-pxc-node1
+    hostname: lz4-pxc-node1
+    ports:
+      - "23306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      CLUSTER_NAME: lz4-test
+      CLUSTER_JOIN:
+    volumes:
+      - ./my.cnf:/etc/percona-xtradb-cluster.conf.d/lz4.cnf:ro
+      - node1-data:/var/lib/mysql
+      - node1-logs:/var/log
+
+  pxc-node2:
+    <<: *pxc-common
+    container_name: lz4-pxc-node2
+    hostname: lz4-pxc-node2
+    ports:
+      - "23307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      CLUSTER_NAME: lz4-test
+      CLUSTER_JOIN: lz4-pxc-node1
+    volumes:
+      - ./my.cnf:/etc/percona-xtradb-cluster.conf.d/lz4.cnf:ro
+      - node2-data:/var/lib/mysql
+      - node2-logs:/var/log
+
+  pxc-node3:
+    <<: *pxc-common
+    container_name: lz4-pxc-node3
+    hostname: lz4-pxc-node3
+    ports:
+      - "23308:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      CLUSTER_NAME: lz4-test
+      CLUSTER_JOIN: lz4-pxc-node1
+    volumes:
+      - ./my.cnf:/etc/percona-xtradb-cluster.conf.d/lz4.cnf:ro
+      - node3-data:/var/lib/mysql
+      - node3-logs:/var/log
+
+volumes:
+  node1-data:
+  node2-data:
+  node3-data:
+  node1-logs:
+  node2-logs:
+  node3-logs:
+
+networks:
+  pxc-net:
+    driver: bridge

@@ -1,0 +1,78 @@
+# GCC 8 (EL8) vs GCC 11 (EL9): Why the Bug Surfaces on EL9
+
+## Compiler Versions
+
+| Platform | Default GCC | Toolset Override |
+|----------|-------------|-----------------|
+| EL8 | 8.5.x | gcc-toolset-10 (used in some builds) |
+| EL9 | 11.x | **None** (bare system GCC) |
+
+The PXB Jenkins build pipeline has no toolset override for EL9 builds.
+EL9 uses the system GCC 11 directly.
+
+## RHEL9 Default Hardening Flags
+
+EL9's `redhat-rpm-config` injects these flags into RPM builds:
+
+| Flag | EL8 | EL9 | Effect |
+|------|-----|-----|--------|
+| `-fstack-clash-protection` | No | **Yes** | Probes stack pages on allocation; freed vector memory overwritten faster |
+| `-fcf-protection` | No | **Yes** | Indirect call validation (CET) |
+| `-D_GLIBCXX_ASSERTIONS` | No | **Yes** | Runtime bounds checking on `std::vector::operator[]` |
+| `-D_FORTIFY_SOURCE=2` | Yes | Yes | Buffer overflow detection |
+
+## GCC 11 Optimization Differences
+
+### Improved IPA Value Range Propagation
+
+GCC 11 has significantly enhanced Inter-Procedural Analysis (IPA).
+It can determine that `comp_file->comp_buf_size` is always 0 (since
+it is never written after initialization) and potentially:
+
+1. Prove the realloc guard is always true (dead code elimination
+   of the else branch)
+2. Inline the realloc path differently
+3. Change register allocation around the compression loop
+
+Under GCC 8, the optimizer does not trace the value through the
+struct member, so it generates more conservative code.
+
+### `-fipa-icf` Enhancements
+
+GCC 11's Identical Code Folding is more aggressive. Functions with
+similar structure (like the compression thread lambdas) may be
+folded, changing memory layout and timing.
+
+## Combined Effect
+
+The crash requires all of these conditions simultaneously:
+
+1. `comp_buf_size` bug leaves `to_size = chunk_size` (always true)
+2. Input data near 64KB that compresses poorly (data-dependent)
+3. LZ4 1.9.3 returns exactly the right size to overflow by 16 bytes
+   (library-version-dependent)
+4. The overflow is detected rather than silently corrupting
+   (glibc/hardening-dependent)
+
+On EL8, condition 3 is not met (LZ4 1.8.3 has different arithmetic).
+On EL9, conditions 3 and 4 are both met, making the crash reliable.
+
+## ASAN/UBSAN Verification
+
+XtraBackup supports sanitizer builds:
+
+```bash
+cmake -DWITH_ASAN=ON -DWITH_UBSAN=ON -DWITH_TSAN=ON ...
+```
+
+Running LZ4-compressed backups under ASAN on EL9 would definitively
+show:
+
+- Bug A as a heap-buffer-overflow (writing past the allocated buffer)
+- Bug B as a heap-use-after-free (if vector relocates during task)
+
+## Sources
+
+- [GCC 11 Release Changes](https://gcc.gnu.org/gcc-11/changes.html)
+- [RHEL9 Compiler Flags](https://src.fedoraproject.org/rpms/redhat-rpm-config/blob/rawhide/f/buildflags.md)
+- [Detecting memory management bugs with GCC 11](https://developers.redhat.com/blog/2021/04/30/detecting-memory-management-bugs-with-gcc-11-part-1-understanding-dynamic-allocation)

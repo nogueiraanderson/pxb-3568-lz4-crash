@@ -1,0 +1,82 @@
+From: Anderson Nogueira <anderson.nogueira@percona.com>
+Subject: [PATCH] Fix buffer sizing bug in LZ4 compress datasink
+
+Three issues in storage/innobase/xtrabackup/src/ds_compress_lz4.cc:
+
+1. comp_file->comp_buf_size is initialized to 0 (line 111) and never
+   updated after my_realloc. The local variable comp_buf_size is
+   computed correctly from LZ4_compressBound but never assigned back
+   to the struct member. This causes unnecessary realloc on every
+   compress_write call and, more critically, means to_size passed to
+   LZ4_compress_default equals ctrl->chunk_size instead of the larger
+   LZ4_compressBound value.
+
+   When input data near 64KB is incompressible, the compressed output
+   can exceed chunk_size by up to 16 bytes (LZ4 frame overhead).
+   LZ4_compress_default returns 0 and xtrabackup aborts (Signal 6).
+
+2. Typo on line 192: 1 * 1204 * 1024 should be 1 * 1024 * 1024.
+   This sets the parallel compression threshold to ~1.18MB instead
+   of the intended 1MB.
+
+3. to_size for each compression chunk uses ctrl->chunk_size instead
+   of the LZ4_compressBound value, making the output buffer undersized
+   for worst-case compression ratios.
+
+This bug is triggered on EL9 (LZ4 1.9.3) but not EL8 (LZ4 1.8.3)
+because LZ4 issue #1374 causes LZ4F_compressFrameBound to return an
+undersized value for inputs of 65533-65535 bytes with B4 (64KB) block
+size. Combined with the comp_buf_size bug, the output buffer is too
+small.
+
+References:
+  - https://perconadev.atlassian.net/browse/PXB-3568
+  - https://github.com/lz4/lz4/issues/1374
+  - https://forums.percona.com/t/full-crash-percona-after-oom/40148
+
+---
+ storage/innobase/xtrabackup/src/ds_compress_lz4.cc | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
+
+--- a/storage/innobase/xtrabackup/src/ds_compress_lz4.cc
++++ b/storage/innobase/xtrabackup/src/ds_compress_lz4.cc
+@@ -108,7 +108,7 @@ static ds_file_t *compress_open(ds_ctxt_t *ctxt, const char *path,
+   comp_file->dest_file = dest_file;
+   comp_file->comp_ctxt = comp_ctxt;
+   comp_file->decomp_buf_size = 0;
+-  comp_file->comp_buf_size = 0;
++  comp_file->comp_buf_size = LZ4_compressBound(comp_ctxt->ctrl.chunk_size);
+   comp_file->comp_buf = NULL;
+   comp_file->decomp_buf = NULL;
+   comp_file->tasks = NULL;
+@@ -129,10 +129,14 @@ static int compress_write(ds_file_t *file, const uchar *buf, size_t len) {
+   const size_t n_chunks = (len + ctrl->chunk_size - 1) / ctrl->chunk_size;
+
+   const size_t comp_size = LZ4_compressBound(ctrl->chunk_size);
+   const size_t comp_buf_size = comp_size * n_chunks;
+   if (comp_file->comp_buf_size < comp_buf_size) {
+     comp_file->comp_buf = static_cast<char *>(
+         my_realloc(PSI_NOT_INSTRUMENTED, comp_file->comp_buf, comp_buf_size,
+                    MYF(MY_FAE | MY_ALLOW_ZERO_PTR)));
++    comp_file->comp_buf_size = comp_buf_size;
+   }
+
+   if (comp_file->decomp_buf_size < len) {
+@@ -157,7 +161,7 @@ static int compress_write(ds_file_t *file, const uchar *buf, size_t len) {
+     auto &thd = comp_file->contexts[i];
+     thd.from = reinterpret_cast<const char *>(buf) + i * ctrl->chunk_size;
+     thd.from_len = std::min(ctrl->chunk_size, len - i * ctrl->chunk_size);
+-    thd.to_size = ctrl->chunk_size;
++    thd.to_size = comp_size;
+     thd.to = comp_file->comp_buf + i * comp_size;
+
+     /* If data is large enough, compress in parallel using thread pool */
+@@ -189,7 +193,7 @@ static int compress_write(ds_file_t *file, const uchar *buf, size_t len) {
+   }
+
+   /* Parallel compression threshold */
+-  if (len > 1 * 1204 * 1024) {
++  if (len > 1 * 1024 * 1024) {
+     for (size_t i = 0; i < n_chunks; i++) {
+       comp_file->tasks[i].wait();
+     }
