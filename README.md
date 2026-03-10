@@ -88,7 +88,27 @@ the LZ4 compression path through `Redo_Log_Writer::write_buffer`.
 
 ## Reproduce
 
-**Prerequisites**: Docker, Docker Compose, ~2GB RAM
+**Prerequisites**: Docker, Docker Compose, [just](https://github.com/casey/just), ~2GB RAM
+
+```bash
+# Show available commands
+just
+
+# Reproduce the LZ4 crash (starts 3-node PXC cluster, triggers SST)
+just reproduce
+
+# Run isolation experiments (each builds XtraBackup from source, ~20 min)
+just experiment gcc11-lto-off        # GCC 11, LTO OFF, assertions ON
+just experiment gcc11-no-assertions  # GCC 11, LTO ON, assertions OFF
+just experiment gcc12-lto-on         # GCC 12, LTO ON, assertions ON
+just experiment patched-data-fix     # GCC 12, LTO ON, assertions ON, .data() patch
+
+# Cleanup
+just down       # Stop containers
+just clean      # Full cleanup (containers + images + evidence)
+```
+
+For manual reproduction without `just`:
 
 ```bash
 # 1. Start a PXC 8.0.45 node
@@ -168,29 +188,34 @@ The crash requires all three conditions:
 ```
 pxb-3568-lz4-crash/
 ├── README.md                             This file
-├── Justfile                              Task runner (just reproduce, just fix-a, etc.)
+├── Justfile                              Task runner (just reproduce, just experiment, etc.)
 ├── reproduce/
 │   ├── docker-compose.yml                PXC 8.0.45 cluster with LZ4 config
 │   ├── my.cnf                            Reference MySQL config
 │   └── test-reproduce.sh                 Full 3-node SST crash reproduction
+├── experiments/                          Isolation experiments (one variable each)
+│   ├── gcc11-lto-off/Dockerfile          GCC 11, LTO OFF, assertions ON
+│   ├── gcc11-no-assertions/Dockerfile    GCC 11, LTO ON, assertions OFF
+│   ├── gcc12-lto-on/Dockerfile           GCC 12, LTO ON, assertions ON
+│   ├── patched-data-fix/Dockerfile       GCC 12, LTO ON, assertions ON, .data() patch
+│   └── test-experiment.sh                Unified test runner for experiment images
 ├── fixes/
 │   ├── ds_compress_lz4_fixed.cc          Complete fixed source file
 │   ├── test_fix_validation.cpp           Validates .data() bypasses assertion
 │   ├── ld-preload-shim/                  Fix B: LD_PRELOAD workaround (insufficient)
-│   ├── lz4-upgrade/                      Fix A: LZ4 1.10.0 upgrade (insufficient)
+│   ├── lz4-upgrade/                      Fix A: LZ4 1.10.0 upgrade (inconclusive)
 │   └── patched-source/                   Fix C: Source patch build (insufficient alone)
 ├── patch/
-│   ├── ds_compress_lz4.patch             Unified diff (all 4 fixes)
+│   ├── ds_compress_lz4.patch             Unified diff (all fixes)
 │   ├── PATCH-NOTES.md                    Detailed patch explanation
 │   └── apply-fix.sh                      Applies all fixes via sed
 ├── analysis/
-│   ├── root-cause.md                     Final root cause (LTO assertion bug)
+│   ├── root-cause.md                     Root cause analysis (LTO stride bug)
 │   ├── gcc8-vs-gcc11.md                  Compiler differences (early hypothesis)
 │   ├── pkg842-vs-pxb3568.md              PKG-842 is not the fix
 │   └── lz4-boundary-math.md              64KB boundary arithmetic (early hypothesis)
-├── test-validate.sh                      Automated 3-way comparison test
 ├── test_lz4_compress.c                   Standalone LZ4 library test
-└── evidence/                             Test outputs (gitignored)
+└── evidence/                             Test outputs and disassembly (gitignored)
 ```
 
 ## References

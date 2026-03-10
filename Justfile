@@ -68,6 +68,23 @@ build-patched:
     docker build -f {{ project }}/fixes/patched-source/Dockerfile \
         -t pxc-fix-patched:8.0.45 {{ project }}
 
+# ─── Isolation Experiments ────────────────────────────────────────
+
+# Build and test an isolation experiment image
+# Usage: just experiment <name> where name is a subdirectory of experiments/
+experiment name:
+    docker build -f {{ project }}/experiments/{{ name }}/Dockerfile \
+        -t pxb-exp-{{ name }}:8.0.45 {{ project }}
+    chmod +x {{ project }}/experiments/test-experiment.sh
+    {{ project }}/experiments/test-experiment.sh pxb-exp-{{ name }}:8.0.45 "{{ name }}"
+
+# Build all 4 experiment images (~20 min each)
+build-experiments:
+    just experiment gcc11-lto-off
+    just experiment gcc11-no-assertions
+    just experiment gcc12-lto-on
+    just experiment patched-data-fix
+
 # ─── Inspection ───────────────────────────────────────────────────
 
 # Show LZ4 version and linking in the stock PXC image
