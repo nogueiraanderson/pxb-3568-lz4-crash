@@ -1,26 +1,16 @@
 /*
- * PXB-3568 workaround: LD_PRELOAD shim for LZ4_compress_default
+ * PXB-3568 workaround attempt: LD_PRELOAD shim for LZ4_compress_default
  *
- * The bug in ds_compress_lz4.cc:
+ * NOTE: This approach was INSUFFICIENT. The actual root cause is GCC 11/12
+ * LTO generating incorrect stride (36920 instead of 40) for std::vector
+ * element traversal in compress_write(). The crash is a false-positive
+ * _GLIBCXX_ASSERTIONS bounds check, not a buffer sizing issue.
+ * See analysis/root-cause.md for the definitive analysis.
  *
- *   const size_t comp_buf_size = LZ4_compressBound(ctrl->chunk_size);
- *   if (comp_file->comp_buf_size < comp_buf_size) {
- *       comp_file->comp_buf = my_realloc(..., comp_buf_size, ...);
- *       // BUG: comp_file->comp_buf_size is NEVER updated
- *   }
- *
- * comp_file->comp_buf_size is initialized to 0 and never written.
- * The realloc fires every call, but the buffer is correctly sized.
- * However, the output buffer passed to LZ4_compress_default uses
- * to_size = ctrl->chunk_size (not the larger LZ4_compressBound value).
- *
- * When input is near 64KB (the default compress-chunk-size), the
- * compressed output can exceed chunk_size by up to 16 bytes (LZ4
- * frame header). LZ4_compress_default returns 0, and xtrabackup
- * calls abort() via Signal 6.
- *
- * This shim intercepts LZ4_compress_default. On failure, it retries
- * with a correctly sized temporary buffer and copies back.
+ * The shim below was written during the initial investigation phase when
+ * the hypothesis was buffer undersizing. It addresses a real secondary bug
+ * (comp_buf_size never updated after my_realloc) but does not prevent
+ * the LTO stride corruption that causes Signal 6.
  *
  * Build: gcc -shared -fPIC -o lz4_fix.so lz4_fix.c -ldl
  * Use:   LD_PRELOAD=/path/to/lz4_fix.so xtrabackup --compress=lz4 ...

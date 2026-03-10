@@ -2,7 +2,9 @@
 #
 # In LZ4 >= 1.10.0, LZ4_compressBound returns a correctly sized value
 # that avoids the boundary condition (LZ4 issue #1374). This works
-# around the xtrabackup buffer sizing bug without patching xtrabackup.
+# Note: This approach was inconclusive. The LZ4 library is not the root cause;
+# the crash is caused by GCC LTO generating incorrect stride in std::vector
+# access. See analysis/root-cause.md.
 ARG PXC_IMAGE=percona/percona-xtradb-cluster:8.0.45
 FROM ${PXC_IMAGE}
 

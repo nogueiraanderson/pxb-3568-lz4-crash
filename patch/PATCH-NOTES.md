@@ -103,4 +103,6 @@ Alternatively, build with `-DWITH_LTO=OFF` to confirm the crash is LTO-specific.
 This patch addresses the Signal 6 crash (Bug A: LTO-corrupted vector bounds
 check) and two additional code quality issues (comp_buf_size tracking, typo).
 
+The unified diff also fixes a comment typo ("trhead pool" to "thread pool").
+
 It does not require changes to the LZ4 library itself.

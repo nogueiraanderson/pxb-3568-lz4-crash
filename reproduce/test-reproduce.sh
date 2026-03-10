@@ -3,7 +3,7 @@
 #
 # Reproduces the LZ4 Signal 6 crash during SST on PXC 8.0.45 (EL9).
 # Starts a 3-node PXC cluster, inserts data, then forces SST with
-# LZ4 compression to trigger the buffer sizing bug.
+# LZ4 compression to trigger the LTO assertion bug.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

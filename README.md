@@ -53,7 +53,7 @@ Fixed source: [`fixes/ds_compress_lz4_fixed.cc`](fixes/ds_compress_lz4_fixed.cc)
 | Stock + LZ4 (no concurrent) | Same, idle database | SUCCESS |
 | Stock + zstd | `xtrabackup --backup --compress=zstd` | **SUCCESS** |
 | Stock + no compression | `xtrabackup --backup` | **SUCCESS** |
-| LZ4 1.10.0 upgrade | System liblz4 upgraded | **CRASH (Signal 6)** |
+| LZ4 1.10.0 upgrade | System liblz4 upgraded | **Inconclusive** (SST failed at PKG-842 script check before reaching compression) |
 
 ### Isolation Experiments (rebuilt XtraBackup from source)
 

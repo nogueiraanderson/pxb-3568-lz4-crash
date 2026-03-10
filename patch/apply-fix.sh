@@ -45,6 +45,9 @@ sed -i 's/thd\.from/thd->from/g; s/thd\.to/thd->to/g' "$SRC"
 sed -i 's/const auto &thd = comp_file->contexts\[i\]/const comp_thread_ctxt_t *thd = \&ctx_data[i]/' "$SRC"
 sed -i 's/comp_file->tasks\[i\]\.wait/task_data[i].wait/' "$SRC"
 
+# Fix 4: Comment typo "trhead pool" -> "thread pool"
+sed -i 's/trhead pool/thread pool/' "$SRC"
+
 echo ""
 echo "=== After patch ==="
 grep -n 'comp_buf_size\|1024 \* 1024\|ctx_data\|task_data\|thd->' "$SRC" | head -30

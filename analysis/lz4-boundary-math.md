@@ -82,8 +82,9 @@ $ docker exec pxc-node1 ldd /usr/bin/xtrabackup | grep lz4
 
 This means:
 - The system LZ4 version directly affects XtraBackup behavior
-- Replacing `/usr/lib64/liblz4.so.1` with LZ4 1.10.0 fixes the crash
 - LD_PRELOAD interposition works because the symbol is dynamically resolved
+- However, replacing liblz4 does NOT fix the crash (see root-cause.md: the
+  bug is in LTO-generated std::vector stride code, not in the LZ4 library)
 
 Note: The XtraBackup CMake configuration defaults to `WITH_LZ4=bundled`
 (static linking), but the RPM/Docker package builds override this to

@@ -8,7 +8,7 @@ unrelated code paths.
 
 | | PKG-842 | PXB-3568 |
 |---|---------|----------|
-| **What** | SST script version parsing | XtraBackup LZ4 buffer sizing |
+| **What** | SST script version parsing | XtraBackup LZ4 LTO assertion crash |
 | **Status** | Done (8.0.45) | **Open** (no fix version) |
 | **Priority** | Normal | **Urgent** |
 | **Component** | `wsrep_sst_xtrabackup-v2` (bash) | `ds_compress_lz4.cc` (C++) |
@@ -69,4 +69,4 @@ compress=zstd
 ```
 
 This uses the zstd compression code path (`ds_compress_zstd.cc`),
-which does not have the buffer sizing bug.
+which does not use `std::vector` and is not affected by the LTO assertion bug.
