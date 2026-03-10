@@ -1,5 +1,12 @@
 # LZ4 64KB Boundary Arithmetic
 
+> **Note:** This document was written during the initial investigation phase
+> when the root cause was hypothesized to be buffer undersizing near the 64KB
+> boundary. Upgrading LZ4 to 1.10.0 did NOT fix the crash. The actual root
+> cause is a GCC 11 LTO false-positive `_GLIBCXX_ASSERTIONS` assertion.
+> See `root-cause.md` for the final analysis. The arithmetic documented below
+> is accurate but describes a secondary bug, not the crash trigger.
+
 ## The Numbers
 
 XtraBackup's default `compress-chunk-size` is 64KB (65536 bytes).

@@ -31,11 +31,15 @@ code.
 
 ## PXB-3568: XtraBackup Signal 6 with LZ4 (Open)
 
-The actual crash. XtraBackup's LZ4 compression datasink has a buffer
-sizing bug where the output buffer is `chunk_size` bytes instead of
-`LZ4_compressBound(chunk_size)` bytes. When input data near 64KB is
-incompressible, the compressed output exceeds the buffer and
-`LZ4_compress_default` returns 0, triggering `abort()`.
+The actual crash. On EL9/aarch64, GCC 11 LTO generates incorrect code for
+`std::vector::operator[]` bounds checking when `_GLIBCXX_ASSERTIONS` is
+enabled (EL9 default). The bounds-check assertion fires on valid indices,
+causing `abort()` via Signal 6. The fix is to use `.data()` raw pointer
+access to bypass the corrupted assertion. See `analysis/root-cause.md`
+for the full root cause analysis.
+
+Additionally, the code has a secondary bug where `comp_buf_size` is
+never updated after `my_realloc`, causing unnecessary reallocations.
 
 **PXB-3568 is still Open and Unassigned.** Upgrading to PXC 8.0.45
 does not fix this crash. Both 8.0.42 and 8.0.45 ship XtraBackup

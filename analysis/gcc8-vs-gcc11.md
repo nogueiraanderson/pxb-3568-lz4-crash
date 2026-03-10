@@ -1,5 +1,12 @@
 # GCC 8 (EL8) vs GCC 11 (EL9): Why the Bug Surfaces on EL9
 
+> **Note:** This document was written during the initial investigation phase
+> when the root cause was hypothesized to be buffer undersizing. The actual
+> root cause is a GCC 11 LTO false-positive `_GLIBCXX_ASSERTIONS` assertion
+> in `std::vector::operator[]`. See `root-cause.md` for the final analysis.
+> The compiler and hardening flag differences documented below remain accurate
+> and relevant (especially `_GLIBCXX_ASSERTIONS` being EL9-default).
+
 ## Compiler Versions
 
 | Platform | Default GCC | Toolset Override |

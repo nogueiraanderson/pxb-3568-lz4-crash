@@ -141,23 +141,28 @@ The crash requires all three conditions:
 ```
 pxb-3568-lz4-crash/
 ├── README.md                             This file
+├── Justfile                              Task runner (just reproduce, just fix-a, etc.)
 ├── reproduce/
-│   └── docker-compose.yml                PXC 8.0.45 cluster with LZ4 config
+│   ├── docker-compose.yml                PXC 8.0.45 cluster with LZ4 config
+│   ├── my.cnf                            Reference MySQL config
+│   └── test-reproduce.sh                 Full 3-node SST crash reproduction
 ├── fixes/
 │   ├── ds_compress_lz4_fixed.cc          Complete fixed source file
 │   ├── test_fix_validation.cpp           Validates .data() bypasses assertion
-│   ├── patched-source/                   Buffer patch attempt (insufficient)
-│   └── lz4-upgrade/                      LZ4 1.10.0 upgrade (insufficient)
+│   ├── ld-preload-shim/                  Fix B: LD_PRELOAD workaround (insufficient)
+│   ├── lz4-upgrade/                      Fix A: LZ4 1.10.0 upgrade (insufficient)
+│   └── patched-source/                   Fix C: Source patch build (insufficient alone)
 ├── patch/
-│   ├── ds_compress_lz4.patch             Unified diff patch
+│   ├── ds_compress_lz4.patch             Unified diff (all 4 fixes)
 │   ├── PATCH-NOTES.md                    Detailed patch explanation
-│   └── apply-fix.sh                      Applies ds_compress_lz4.cc fixes
+│   └── apply-fix.sh                      Applies all fixes via sed
 ├── analysis/
-│   ├── root-cause.md                     Full root cause analysis
-│   ├── pkg842-vs-pxb3568.md             PKG-842 is not the fix
-│   └── lz4-boundary-math.md             64KB boundary arithmetic
-├── test-validate.sh                      Automated before/after test
-├── test_lz4_compress.c                   Standalone LZ4 test (library is fine)
+│   ├── root-cause.md                     Final root cause (LTO assertion bug)
+│   ├── gcc8-vs-gcc11.md                  Compiler differences (early hypothesis)
+│   ├── pkg842-vs-pxb3568.md              PKG-842 is not the fix
+│   └── lz4-boundary-math.md              64KB boundary arithmetic (early hypothesis)
+├── test-validate.sh                      Automated 3-way comparison test
+├── test_lz4_compress.c                   Standalone LZ4 library test
 └── evidence/                             Test outputs (gitignored)
 ```
 
