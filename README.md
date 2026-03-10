@@ -201,7 +201,6 @@ pxb-3568-lz4-crash/
 │   └── test-experiment.sh                Unified test runner for experiment images
 ├── fixes/
 │   ├── ds_compress_lz4_fixed.cc          Complete fixed source file
-│   ├── test_fix_validation.cpp           Validates .data() bypasses assertion
 │   ├── ld-preload-shim/                  Fix B: LD_PRELOAD workaround (insufficient)
 │   ├── lz4-upgrade/                      Fix A: LZ4 1.10.0 upgrade (inconclusive)
 │   └── patched-source/                   Fix C: Source patch build (insufficient alone)
@@ -214,7 +213,6 @@ pxb-3568-lz4-crash/
 │   ├── gcc8-vs-gcc11.md                  Compiler differences (early hypothesis)
 │   ├── pkg842-vs-pxb3568.md              PKG-842 is not the fix
 │   └── lz4-boundary-math.md              64KB boundary arithmetic (early hypothesis)
-├── test_lz4_compress.c                   Standalone LZ4 library test
 └── evidence/                             Test outputs and disassembly (gitignored)
 ```
 
