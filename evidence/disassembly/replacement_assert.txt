@@ -1,0 +1,41 @@
+
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup:     file format elf64-littleaarch64
+
+
+Disassembly of section .text:
+
+00000000007f1a00 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_12_Task_setterIS0_INS1_7_ResultIvEES3_EZNS1_11_Task_stateISt5_BindIFSt8functionIFvmEESt12_PlaceholderILi1EEEESaIiESD_E14_M_run_delayedEOmSt8weak_ptrINS1_13_State_baseV2EEEUlvE_vEEE9_M_invokeERKSt9_Any_data@@Base+0xac0>:
+  7f1a00:	91000694 	add	x20, x20, #0x1
+  7f1a04:	35ffff20 	cbnz	w0, 7f19e8 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_12_Task_setterIS0_INS1_7_ResultIvEES3_EZNS1_11_Task_stateISt5_BindIFSt8functionIFvmEESt12_PlaceholderILi1EEEESaIiESD_E14_M_run_delayedEOmSt8weak_ptrINS1_13_State_baseV2EEEUlvE_vEEE9_M_invokeERKSt9_Any_data@@Base+0xaa8>
+  7f1a08:	17ffffe0 	b	7f1988 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_12_Task_setterIS0_INS1_7_ResultIvEES3_EZNS1_11_Task_stateISt5_BindIFSt8functionIFvmEESt12_PlaceholderILi1EEEESaIiESD_E14_M_run_delayedEOmSt8weak_ptrINS1_13_State_baseV2EEEUlvE_vEEE9_M_invokeERKSt9_Any_data@@Base+0xa48>
+  7f1a0c:	52800000 	mov	w0, #0x0                   	// #0
+  7f1a10:	a94153f3 	ldp	x19, x20, [sp, #16]
+  7f1a14:	f94013f5 	ldr	x21, [sp, #32]
+  7f1a18:	a8c37bfd 	ldp	x29, x30, [sp], #48
+  7f1a1c:	d65f03c0 	ret
+  7f1a20:	39400a81 	ldrb	w1, [x20, #2]
+  7f1a24:	91000a94 	add	x20, x20, #0x2
+  7f1a28:	35fffa01 	cbnz	w1, 7f1968 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_12_Task_setterIS0_INS1_7_ResultIvEES3_EZNS1_11_Task_stateISt5_BindIFSt8functionIFvmEESt12_PlaceholderILi1EEEESaIiESD_E14_M_run_delayedEOmSt8weak_ptrINS1_13_State_baseV2EEEUlvE_vEEE9_M_invokeERKSt9_Any_data@@Base+0xa28>
+  7f1a2c:	17ffffd7 	b	7f1988 <_ZNSt17_Function_handlerIFSt10unique_ptrINSt13__future_base12_Result_baseENS2_8_DeleterEEvENS1_12_Task_setterIS0_INS1_7_ResultIvEES3_EZNS1_11_Task_stateISt5_BindIFSt8functionIFvmEESt12_PlaceholderILi1EEEESaIiESD_E14_M_run_delayedEOmSt8weak_ptrINS1_13_State_baseV2EEEUlvE_vEEE9_M_invokeERKSt9_Any_data@@Base+0xa48>
+
+00000000007f1a30 <_ZSt20__replacement_assertPKciS0_S0_@@Base>:
+  7f1a30:	2a0103e4 	mov	w4, w1
+  7f1a34:	aa0203e5 	mov	x5, x2
+  7f1a38:	a9bf7bfd 	stp	x29, x30, [sp, #-16]!
+  7f1a3c:	aa0003e1 	mov	x1, x0
+  7f1a40:	2a0403e2 	mov	w2, w4
+  7f1a44:	aa0303e4 	mov	x4, x3
+  7f1a48:	aa0503e3 	mov	x3, x5
+  7f1a4c:	910003fd 	mov	x29, sp
+  7f1a50:	90010c40 	adrp	x0, 2979000 <_ZTSN6icu_7322UCharCharacterIteratorE@@Base+0x2e20>
+  7f1a54:	91040000 	add	x0, x0, #0x100
+  7f1a58:	97ff0096 	bl	7b1cb0 <printf@plt>
+  7f1a5c:	97ff0121 	bl	7b1ee0 <abort@plt>
+  7f1a60:	a9bb7bfd 	stp	x29, x30, [sp, #-80]!
+  7f1a64:	910003fd 	mov	x29, sp
+  7f1a68:	a90153f3 	stp	x19, x20, [sp, #16]
+  7f1a6c:	aa0003f4 	mov	x20, x0
+  7f1a70:	a9025bf5 	stp	x21, x22, [sp, #32]
+  7f1a74:	aa0203f5 	mov	x21, x2
+  7f1a78:	52800016 	mov	w22, #0x0                   	// #0
+  7f1a7c:	a90363f7 	stp	x23, x24, [sp, #48]

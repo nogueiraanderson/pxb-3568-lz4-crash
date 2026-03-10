@@ -1,0 +1,51 @@
+2026-03-10T20:03:50.381760-00:00 0 [Note] [MY-011825] [Xtrabackup] recognized server arguments: --datadir=/var/lib/mysql --innodb_flush_log_at_trx_commit=2 --innodb_flush_method=O_DIRECT --innodb_file_per_table=1 
+2026-03-10T20:03:50.381938-00:00 0 [Note] [MY-011825] [Xtrabackup] recognized client arguments: --socket=/tmp/mysql.sock --backup=1 --user=root --password=* --compress=lz4 --compress-chunk-size=65534 --target-dir=/tmp/backup-lz4 --no-server-version-check=1 
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup version 8.0.35-35 based on MySQL server 8.0.35 Linux (aarch64) (revision id: be447639)
+Can't locate English.pm in @INC (you may need to install the English module) (@INC contains: /usr/local/lib64/perl5/5.32 /usr/local/share/perl5/5.32 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at - line 3.
+BEGIN failed--compilation aborted at - line 3.
+2026-03-10T20:03:50.394314-00:00 0 [Note] [MY-011825] [Xtrabackup] Connecting to MySQL server host: localhost, user: root, password: set, port: not set, socket: /tmp/mysql.sock
+2026-03-10T20:03:50.495743-00:00 0 [Note] [MY-011825] [Xtrabackup] Using server version 8.0.45-36.1
+2026-03-10T20:03:50.512628-00:00 0 [Note] [MY-011825] [Xtrabackup] Executing LOCK TABLES FOR BACKUP ...
+2026-03-10T20:03:50.536986-00:00 0 [Note] [MY-011825] [Xtrabackup] uses posix_fadvise().
+2026-03-10T20:03:50.537013-00:00 0 [Note] [MY-011825] [Xtrabackup] cd to /var/lib/mysql
+2026-03-10T20:03:50.537020-00:00 0 [Note] [MY-011825] [Xtrabackup] open files limit requested 0, set to 1048576
+2026-03-10T20:03:50.538352-00:00 0 [Note] [MY-011825] [Xtrabackup] using the following InnoDB configuration:
+2026-03-10T20:03:50.538474-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_data_home_dir = .
+2026-03-10T20:03:50.538491-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_data_file_path = ibdata1:12M:autoextend
+2026-03-10T20:03:50.538995-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_group_home_dir = ./
+2026-03-10T20:03:50.539023-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_files_in_group = 2
+2026-03-10T20:03:50.539033-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_file_size = 134217728
+2026-03-10T20:03:50.539044-00:00 0 [Note] [MY-011825] [Xtrabackup] using O_DIRECT
+2026-03-10T20:03:50.540348-00:00 0 [Note] [MY-011825] [Xtrabackup] inititialize_service_handles suceeded
+2026-03-10T20:03:50.660920-00:00 0 [Note] [MY-011825] [Xtrabackup] Connecting to MySQL server host: localhost, user: root, password: set, port: not set, socket: /tmp/mysql.sock
+2026-03-10T20:03:50.668476-00:00 0 [Note] [MY-011825] [Xtrabackup] Redo Log Archiving is not set up.
+2026-03-10T20:03:50.766361-00:00 0 [Note] [MY-011825] [Xtrabackup] Starting to parse redo log at lsn = 19095095
+2026-03-10T20:03:50.766860-00:00 0 [Note] [MY-012564] [InnoDB] Recovery parsing buffer extended to 4194304.
+2026-03-10T20:03:50.767328-00:00 0 [Note] [MY-012564] [InnoDB] Recovery parsing buffer extended to 8388608.
+2026-03-10T20:03:50Z UTC - mysqld got signal 6 ;
+Most likely, you have hit a bug, but this error can also be caused by malfunctioning hardware.
+BuildID[sha1]=
+Thread pointer: 0x0
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+stack_bottom = 0 thread_stack 0x100000
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(my_print_stacktrace(unsigned char const*, unsigned long)+0x48) [0x167c008]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(print_fatal_signal(int)+0x360) [0xcabeb0]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(handle_fatal_signal+0xa0) [0xcabf90]
+linux-vdso.so.1(__kernel_rt_sigreturn+0) [0xeae8330d68f8]
+/lib64/libc.so.6(+0x82a78) [0xeae83243fa78]
+/lib64/libc.so.6(raise+0x1c) [0xeae8323f7cfc]
+/lib64/libc.so.6(abort+0xe8) [0xeae8323e4274]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup() [0x7f1a60]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup() [0x7fa284]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(Redo_Log_Writer::write_buffer(unsigned char*, unsigned long)+0x164) [0x84e4c4]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(Redo_Log_Data_Manager::start()+0xf0) [0x85e9e0]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(xtrabackup_backup_func()+0x8c4) [0x81b104]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(main+0x199c) [0x7c1bbc]
+/lib64/libc.so.6(+0x27540) [0xeae8323e4540]
+/lib64/libc.so.6(__libc_start_main+0x98) [0xeae8323e4618]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(_start+0x30) [0x7ede30]
+
+Please report a bug at https://jira.percona.com/projects/PXB
+EXIT_STATUS=2

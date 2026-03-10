@@ -38,19 +38,57 @@ contexts.size() = 923            <-- i=1 < 923, assertion should PASS
 The assertion `1 < 923` should evaluate to **true** (pass), yet it fires.
 This confirms the assertion code itself is broken, not the data.
 
-### Assembly Analysis
+### Assembly Analysis (Definitive)
 
-LTO-generated code in `compress_write [clone .lto_priv.1]` uses:
+Full disassembly of the LTO-generated `compress_write` confirms the bug. The
+setup loop at `0x7f9d88-0x7f9ee0` uses register x22 as a byte offset into the
+contexts array, incremented each iteration:
 
 ```asm
-MOVZ X1, #0x9038    ; stride = 36920 bytes (WRONG)
-; should be: MOVZ X1, #0x28  ; stride = 40 bytes = sizeof(comp_thread_ctxt_t)
+; Loop increment (end of each iteration):
+0x7f9ecc:  add x20, x20, #0x1      ; i++
+0x7f9ed0:  mov x1, #0x9038          ; stride = 36920 (BUG: should be 40)
+0x7f9ed8:  add x22, x22, x1         ; byte_offset += 36920
+
+; Element access (start of each iteration):
+0x7f9dec:  add x3, x4, x22          ; element_ptr = contexts.data() + byte_offset
+0x7f9dfc:  str x2, [x4, x22]        ; store .from at element_ptr + 0
+0x7f9e10:  stp x1, x2, [x3, #8]     ; store .from_len and .to at +8, +16
+0x7f9e24:  str x21, [x3, #32]       ; store .to_size at +32
 ```
 
-The constant 0x9038 (36920) appears in the element address calculation.
-`sizeof(comp_thread_ctxt_t)` is 40 bytes (5 pointers/size_t fields at 8 bytes
-each on aarch64). The incorrect stride 36920 = 923 * 40, suggesting the LTO
-optimizer confused the vector size with the stride.
+The struct fields are accessed at offsets 0, 8, 16, 24, 32 (confirming 40-byte
+struct layout). But the **inter-element stride is 36920 instead of 40**.
+
+36920 = 923 x 40 = `n_chunks * sizeof(comp_thread_ctxt_t)`. The LTO optimizer
+confused the **total array byte size** with the **per-element stride**.
+
+The same wrong stride appears in the write loop:
+```asm
+0x7fa09c:  mov x0, #0x9038          ; same wrong stride
+0x7fa0a0:  add x26, x26, x0         ; byte_offset += 36920
+```
+
+And in the end-pointer computation:
+```asm
+0x7fa24c:  mov x1, #0x9038          ; 36920
+0x7fa250:  madd x1, x23, x1, x4     ; end = n_chunks * 36920 + base
+```
+
+### The Memory Corruption Chain
+
+The wrong stride explains the GDB-observed size mismatch (tasks=129 vs contexts=923):
+
+1. **Iteration 0** (i=0): byte_offset=0. Correctly accesses `contexts[0]`.
+2. **Iteration 1** (i=1): byte_offset=36920. A 923-element array occupies exactly
+   36920 bytes (923 x 40), so offset 36920 is ONE PAST the end. The write at this
+   offset corrupts whatever follows contexts in memory.
+3. If the tasks vector (`std::vector<std::future<void>>`) is stored adjacent to
+   contexts, its internal pointers (_M_start, _M_finish, _M_end_of_storage) get
+   overwritten, explaining why tasks.size() shows 129 (corrupted) while
+   contexts.size() shows 923 (not yet corrupted at time of check).
+4. The **tasks bounds check** at `0x7f9e3c-0x7f9e40` then fails because the
+   corrupted tasks.size() < i, triggering the assertion at `0x7fa284`.
 
 ## Why It Only Affects EL9/aarch64
 
@@ -58,15 +96,18 @@ Three conditions must all be present:
 
 | Condition | EL8 | EL9 |
 |-----------|-----|-----|
-| GCC version | 8.5 | **11.5.0** (generates LTO bug) |
+| GCC version | 8.5 | **11.5+ or 12** (generates LTO bug) |
 | `_GLIBCXX_ASSERTIONS` | Not default | **Default** (redhat-rpm-config) |
 | LTO build | Yes | **Yes** (confirmed by `.lto_priv.1` suffix) |
 
-- **GCC 11 LTO on aarch64** generates incorrect element stride in
-  `vector::operator[]` bounds check. GCC 8 does not have this bug.
+- **GCC 11 and GCC 12 LTO on aarch64** both generate incorrect element stride
+  in the compress_write function. Tested: GCC 11.5.0 (system) and GCC 12
+  (gcc-toolset-12) both produce binaries with the 0x9038 stride bug.
+  GCC 8 (EL8) does not have this bug.
 - **`_GLIBCXX_ASSERTIONS`** enables the bounds check in `operator[]`.
-  Without it, the assertion code is absent and the actual data access
-  uses correct pointer arithmetic.
+  Without it, the wrong stride still exists but does not trigger an abort.
+  Instead, the program silently reads/writes wrong memory locations, producing
+  a "successful" backup with **corrupted data**.
 - The bug is specific to the **full program LTO context**. Standalone
   programs compiled with the same flags do not reproduce it.
 

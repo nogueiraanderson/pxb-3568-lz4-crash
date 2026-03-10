@@ -45,7 +45,7 @@ Fixed source: [`fixes/ds_compress_lz4_fixed.cc`](fixes/ds_compress_lz4_fixed.cc)
 
 ## Validated Results
 
-Tested on PXC 8.0.45 Docker image (aarch64, OracleLinux 9, LZ4 1.9.3):
+### Reproduction Tests (PXC 8.0.45, aarch64, OracleLinux 9)
 
 | Test | Command | Result |
 |------|---------|--------|
@@ -54,7 +54,25 @@ Tested on PXC 8.0.45 Docker image (aarch64, OracleLinux 9, LZ4 1.9.3):
 | Stock + zstd | `xtrabackup --backup --compress=zstd` | **SUCCESS** |
 | Stock + no compression | `xtrabackup --backup` | **SUCCESS** |
 | LZ4 1.10.0 upgrade | System liblz4 upgraded | **CRASH (Signal 6)** |
-| `.data()` bypass test | Compiled with same flags on EL9 | **PASSES** |
+
+### Isolation Experiments (rebuilt XtraBackup from source)
+
+| Experiment | Compiler | LTO | Assertions | Result | Conclusion |
+|-----------|----------|-----|-----------|--------|------------|
+| Stock PXC 8.0.45 | GCC 11.5 (rpm) | ON | ON | **CRASH** | Baseline |
+| GCC 11 + LTO OFF | GCC 11.5 | **OFF** | ON | **SUCCESS** | LTO is the root cause |
+| GCC 11 + no assertions | GCC 11.5 | ON | **OFF** | **SUCCESS** | Assertions trigger the abort |
+| GCC 12 + LTO ON | GCC 12 (toolset) | ON | ON | **CRASH** | Not GCC-version-specific |
+
+Key findings:
+- **LTO is the root cause**: Disabling LTO eliminates the crash entirely
+  (with assertions still enabled, proving it is not a false-positive assertion)
+- **Disabling assertions masks the crash** (but the wrong stride still exists,
+  silently corrupting backup data via out-of-bounds memory access)
+- **GCC 12 reproduces the same bug**, ruling out a GCC 11-specific regression
+- Both GCC 11 and GCC 12 binaries contain the wrong stride constant 0x9038 (36920)
+  when built with LTO. The non-LTO binary uses the correct 0x28 (40) stride for
+  element access.
 
 The crash requires concurrent database writes (redo log activity) to trigger
 the LZ4 compression path through `Redo_Log_Writer::write_buffer`.

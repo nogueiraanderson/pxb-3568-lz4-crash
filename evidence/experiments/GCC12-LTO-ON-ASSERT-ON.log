@@ -1,0 +1,52 @@
+2026-03-10T20:03:18.706139-00:00 0 [Note] [MY-011825] [Xtrabackup] recognized server arguments: --datadir=/var/lib/mysql --innodb_flush_log_at_trx_commit=2 --innodb_flush_method=O_DIRECT --innodb_file_per_table=1 
+2026-03-10T20:03:18.706209-00:00 0 [Note] [MY-011825] [Xtrabackup] recognized client arguments: --socket=/tmp/mysql.sock --backup=1 --user=root --password=* --compress=lz4 --compress-chunk-size=65534 --target-dir=/tmp/backup-lz4 --no-server-version-check=1 
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup version 8.0.35-35 based on MySQL server 8.0.35 Linux (aarch64) (revision id: c9efec73)
+Can't locate English.pm in @INC (you may need to install the English module) (@INC contains: /usr/local/lib64/perl5/5.32 /usr/local/share/perl5/5.32 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at - line 3.
+BEGIN failed--compilation aborted at - line 3.
+2026-03-10T20:03:18.720282-00:00 0 [Note] [MY-011825] [Xtrabackup] Connecting to MySQL server host: localhost, user: root, password: set, port: not set, socket: /tmp/mysql.sock
+2026-03-10T20:03:18.858290-00:00 0 [Note] [MY-011825] [Xtrabackup] Using server version 8.0.45-36.1
+2026-03-10T20:03:18.867505-00:00 0 [Note] [MY-011825] [Xtrabackup] Executing LOCK TABLES FOR BACKUP ...
+2026-03-10T20:03:18.904491-00:00 0 [Note] [MY-011825] [Xtrabackup] uses posix_fadvise().
+2026-03-10T20:03:18.904520-00:00 0 [Note] [MY-011825] [Xtrabackup] cd to /var/lib/mysql
+2026-03-10T20:03:18.904526-00:00 0 [Note] [MY-011825] [Xtrabackup] open files limit requested 0, set to 1048576
+2026-03-10T20:03:18.906098-00:00 0 [Note] [MY-011825] [Xtrabackup] using the following InnoDB configuration:
+2026-03-10T20:03:18.906113-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_data_home_dir = .
+2026-03-10T20:03:18.906115-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_data_file_path = ibdata1:12M:autoextend
+2026-03-10T20:03:18.907206-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_group_home_dir = ./
+2026-03-10T20:03:18.907220-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_files_in_group = 2
+2026-03-10T20:03:18.907226-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_file_size = 134217728
+2026-03-10T20:03:18.907232-00:00 0 [Note] [MY-011825] [Xtrabackup] using O_DIRECT
+2026-03-10T20:03:18.909428-00:00 0 [Note] [MY-011825] [Xtrabackup] inititialize_service_handles suceeded
+2026-03-10T20:03:19.072829-00:00 0 [Note] [MY-011825] [Xtrabackup] Connecting to MySQL server host: localhost, user: root, password: set, port: not set, socket: /tmp/mysql.sock
+2026-03-10T20:03:19.081888-00:00 0 [Note] [MY-011825] [Xtrabackup] Redo Log Archiving is not set up.
+2026-03-10T20:03:19.182484-00:00 0 [Note] [MY-011825] [Xtrabackup] Starting to parse redo log at lsn = 19063830
+2026-03-10T20:03:19.192165-00:00 0 [Note] [MY-012564] [InnoDB] Recovery parsing buffer extended to 4194304.
+2026-03-10T20:03:19.201651-00:00 0 [Note] [MY-012564] [InnoDB] Recovery parsing buffer extended to 8388608.
+/opt/rh/gcc-toolset-12/root/usr/include/c++/12/bits/stl_vector.h:1123: std::vector<_Tp, _Alloc>::reference std::vector<_Tp, _Alloc>::operator[](size_type) [with _Tp = comp_thread_ctxt_t; _Alloc = std::allocator<comp_thread_ctxt_t>; reference = comp_thread_ctxt_t&; size_type = long unsigned int]: Assertion '__n < this->size()' failed.
+2026-03-10T20:03:19Z UTC - mysqld got signal 6 ;
+Most likely, you have hit a bug, but this error can also be caused by malfunctioning hardware.
+BuildID[sha1]=
+Thread pointer: 0x0
+Attempting backtrace. You can use the following information to find out
+where mysqld died. If you see no messages after this, something went
+terribly wrong...
+stack_bottom = 0 thread_stack 0x100000
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(my_print_stacktrace(unsigned char const*, unsigned long)+0x44) [0x165e1c4]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(print_fatal_signal(int)+0x390) [0xcaaff0]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(handle_fatal_signal+0x90) [0xcab1e0]
+linux-vdso.so.1(__kernel_rt_sigreturn+0) [0xe1becc1f78f8]
+/lib64/libc.so.6(+0x82a78) [0xe1becb530a78]
+/lib64/libc.so.6(raise+0x1c) [0xe1becb4e8cfc]
+/lib64/libc.so.6(abort+0xe8) [0xe1becb4d5274]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(std::__glibcxx_assert_fail(char const*, int, char const*, char const*)+0x44) [0x1c56484]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup() [0x7f96d8]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(Redo_Log_Writer::write_buffer(unsigned char*, unsigned long)+0x164) [0x84d2d4]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(Redo_Log_Data_Manager::start()+0xf0) [0x85d120]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(xtrabackup_backup_func()+0x884) [0x819a34]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(main+0x12c4) [0x7bffe4]
+/lib64/libc.so.6(+0x27540) [0xe1becb4d5540]
+/lib64/libc.so.6(__libc_start_main+0x98) [0xe1becb4d5618]
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup(_start+0x30) [0x7ed8f0]
+
+Please report a bug at https://jira.percona.com/projects/PXB
+EXIT_STATUS=2
