@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-# PXB-3568 Fix B: Test with LD_PRELOAD buffer size workaround
+# PXB-3568 Fix B: Test with LD_PRELOAD buffer size workaround (INSUFFICIENT)
 #
-# Uses an LD_PRELOAD shim that wraps LZ4_compress_default to handle
-# the undersized output buffer from the comp_buf_size bug.
+# NOTE: This approach was insufficient. The actual root cause is GCC LTO
+# stride corruption, not buffer undersizing. See analysis/root-cause.md.
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"

@@ -1,8 +1,11 @@
-# Fix B: Patch xtrabackup via LD_PRELOAD shim
+# Fix B: Patch xtrabackup via LD_PRELOAD shim (INSUFFICIENT)
 #
-# Since we cannot easily recompile xtrabackup in a container, this
-# uses an LD_PRELOAD shim that wraps LZ4_compress_default to handle
-# the undersized output buffer from the comp_buf_size bug.
+# NOTE: This approach was insufficient. The actual root cause is GCC LTO
+# generating an incorrect stride for std::vector traversal, not buffer
+# undersizing. See analysis/root-cause.md.
+#
+# This shim wraps LZ4_compress_default to handle the comp_buf_size bug
+# (a real secondary issue) but does not prevent the LTO stride corruption.
 ARG PXC_IMAGE=percona/percona-xtradb-cluster:8.0.45
 FROM ${PXC_IMAGE}
 

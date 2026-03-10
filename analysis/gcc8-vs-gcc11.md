@@ -52,17 +52,20 @@ folded, changing memory layout and timing.
 
 ## Combined Effect
 
+> **Note:** This section has been updated from the initial hypothesis.
+> See `root-cause.md` for the definitive analysis.
+
 The crash requires all of these conditions simultaneously:
 
-1. `comp_buf_size` bug leaves `to_size = chunk_size` (always true)
-2. Input data near 64KB that compresses poorly (data-dependent)
-3. LZ4 1.9.3 returns exactly the right size to overflow by 16 bytes
-   (library-version-dependent)
-4. The overflow is detected rather than silently corrupting
-   (glibc/hardening-dependent)
+1. GCC 11+ LTO on aarch64 generates incorrect element stride (36920
+   instead of 40) in the `compress_write()` vector traversal loop
+2. `_GLIBCXX_ASSERTIONS` is enabled (EL9 default), adding bounds
+   checks to `std::vector::operator[]`
+3. Concurrent database writes produce enough redo log data for
+   n_chunks > 1, triggering the wrong stride on iteration >= 1
 
-On EL8, condition 3 is not met (LZ4 1.8.3 has different arithmetic).
-On EL9, conditions 3 and 4 are both met, making the crash reliable.
+On EL8, GCC 8 does not have the LTO code generation bug, and
+`_GLIBCXX_ASSERTIONS` is not enabled by default.
 
 ## ASAN/UBSAN Verification
 
@@ -72,11 +75,12 @@ XtraBackup supports sanitizer builds:
 cmake -DWITH_ASAN=ON -DWITH_UBSAN=ON -DWITH_TSAN=ON ...
 ```
 
-Running LZ4-compressed backups under ASAN on EL9 would definitively
-show:
+Running LZ4-compressed backups under ASAN on EL9 would show:
 
-- Bug A as a heap-buffer-overflow (writing past the allocated buffer)
-- Bug B as a heap-use-after-free (if vector relocates during task)
+- The LTO stride corruption as a heap-buffer-overflow (writing past
+  the vector's allocated storage at iteration >= 1)
+- Any concurrency issues via TSAN (if `compress_write` is called
+  concurrently on the same file handle)
 
 ## Sources
 
