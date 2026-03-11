@@ -1,0 +1,26 @@
+2026-03-11T00:52:28.986015-00:00 0 [Note] [MY-011825] [Xtrabackup] recognized server arguments: --datadir=/var/lib/mysql --innodb_flush_log_at_trx_commit=2 --innodb_flush_method=O_DIRECT --innodb_file_per_table=1 
+2026-03-11T00:52:28.988833-00:00 0 [Note] [MY-011825] [Xtrabackup] recognized client arguments: --socket=/tmp/mysql.sock --backup=1 --user=root --password=* --compress=lz4 --compress-chunk-size=65534 --target-dir=/tmp/backup-lz4 --no-server-version-check=1 
+/usr/bin/pxc_extra/pxb-8.0/bin/xtrabackup version 8.0.35-35 based on MySQL server 8.0.35 Linux (x86_64) (revision id: c9efec73)
+Can't locate English.pm in @INC (you may need to install the English module) (@INC contains: /usr/local/lib64/perl5/5.32 /usr/local/share/perl5/5.32 /usr/lib64/perl5/vendor_perl /usr/share/perl5/vendor_perl /usr/lib64/perl5 /usr/share/perl5) at - line 3.
+BEGIN failed--compilation aborted at - line 3.
+2026-03-11T00:52:29.176898-00:00 0 [Note] [MY-011825] [Xtrabackup] Connecting to MySQL server host: localhost, user: root, password: set, port: not set, socket: /tmp/mysql.sock
+2026-03-11T00:52:29.259573-00:00 0 [Note] [MY-011825] [Xtrabackup] Using server version 8.0.45-36.1
+2026-03-11T00:52:29.329278-00:00 0 [Note] [MY-011825] [Xtrabackup] Executing LOCK TABLES FOR BACKUP ...
+2026-03-11T00:52:29.402814-00:00 0 [Note] [MY-011825] [Xtrabackup] uses posix_fadvise().
+2026-03-11T00:52:29.403098-00:00 0 [Note] [MY-011825] [Xtrabackup] cd to /var/lib/mysql
+2026-03-11T00:52:29.403464-00:00 0 [Note] [MY-011825] [Xtrabackup] open files limit requested 0, set to 1048576
+2026-03-11T00:52:29.411033-00:00 0 [Note] [MY-011825] [Xtrabackup] using the following InnoDB configuration:
+2026-03-11T00:52:29.411257-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_data_home_dir = .
+2026-03-11T00:52:29.411296-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_data_file_path = ibdata1:12M:autoextend
+2026-03-11T00:52:29.412840-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_group_home_dir = ./
+2026-03-11T00:52:29.413028-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_files_in_group = 2
+2026-03-11T00:52:29.413391-00:00 0 [Note] [MY-011825] [Xtrabackup] innodb_log_file_size = 134217728
+2026-03-11T00:52:29.413697-00:00 0 [Note] [MY-011825] [Xtrabackup] using O_DIRECT
+2026-03-11T00:52:29.430039-00:00 0 [Note] [MY-011825] [Xtrabackup] inititialize_service_handles suceeded
+2026-03-11T00:52:29.590169-00:00 0 [Note] [MY-011825] [Xtrabackup] Connecting to MySQL server host: localhost, user: root, password: set, port: not set, socket: /tmp/mysql.sock
+2026-03-11T00:52:29.624397-00:00 0 [Note] [MY-011825] [Xtrabackup] Redo Log Archiving is not set up.
+2026-03-11T00:52:29.820728-00:00 0 [Note] [MY-011825] [Xtrabackup] Starting to parse redo log at lsn = 20989471
+2026-03-11T00:52:29.836521-00:00 0 [Note] [MY-012564] [InnoDB] Recovery parsing buffer extended to 4194304.
+2026-03-11T00:52:29.849610-00:00 0 [Note] [MY-012564] [InnoDB] Recovery parsing buffer extended to 8388608.
+2026-03-11T00:52:32.473215-00:00 0 [ERROR] [MY-011825] [Xtrabackup] failed to execute query 'SELECT T2.PATH,        T2.NAME,        T1.SPACE_TYPE FROM   INFORMATION_SCHEMA.INNODB_TABLESPACES T1        JOIN INFORMATION_SCHEMA.INNODB_TABLESPACES_BRIEF T2 USING (SPACE) WHERE  T1.SPACE_TYPE = 'Single' && T1.ROW_FORMAT != 'Undo'UNION SELECT T2.PATH,        SUBSTRING_INDEX(SUBSTRING_INDEX(T2.PATH, '/', -1), '.', 1) NAME,        T1.SPACE_TYPE FROM   INFORMATION_SCHEMA .INNODB_TABLESPACES T1        JOIN INFORMATION_SCHEMA .INNODB_TABLESPACES_BRIEF T2 USING (SPACE) WHERE  T1.SPACE_TYPE = 'General' && T1.ROW_FORMAT != 'Undo'' : 1053 (08S01) Server shutdown in progress
+EXIT_STATUS=1
